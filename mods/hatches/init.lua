@@ -4,18 +4,18 @@ function hatches.register_hatch(name, desc, is_wooden)
 
 	local on_hatch_clicked = function(pos, node, puncher, itemstack)
 		if node.name == "hatches:"..name.."_hatch_opened_top" then
-			minetest.env:add_node(pos, {name = "hatches:"..name.."_hatch_closed", param2 = node.param2})
+			minetest.add_node(pos, {name = "hatches:"..name.."_hatch_closed", param2 = node.param2})
 		elseif (node.name == "hatches:"..name.."_hatch_opened_bottom") and 
-			(minetest.env:get_node({x = pos.x, y = pos.y  + 1, z = pos.z}).name == "air") then		
-			minetest.env:add_node({x = pos.x, y = pos.y + 1, z = pos.z}, {name = "hatches:"..name.."_hatch_closed", param2 = node.param2})
-			minetest.env:remove_node(pos)
+			(minetest.get_node({x = pos.x, y = pos.y  + 1, z = pos.z}).name == "air") then		
+			minetest.add_node({x = pos.x, y = pos.y + 1, z = pos.z}, {name = "hatches:"..name.."_hatch_closed", param2 = node.param2})
+			minetest.remove_node(pos)
 		elseif node.name == "hatches:"..name.."_hatch_closed" then
-			if (minetest.env:get_node({x = pos.x, y = pos.y - 1, z = pos.z}).name == "air") and (puncher:getpos().y + 1 >= pos.y) then
-					minetest.env:add_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "hatches:"..name.."_hatch_opened_bottom", 
+			if (minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z}).name == "air") and (puncher:getpos().y + 1 >= pos.y) then
+					minetest.add_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "hatches:"..name.."_hatch_opened_bottom", 
 						param2 = node.param2})
-					minetest.env:remove_node(pos)
+					minetest.remove_node(pos)
 			else
-				minetest.env:add_node(pos, {name = "hatches:"..name.."_hatch_opened_top", param2 = node.param2})
+				minetest.add_node(pos, {name = "hatches:"..name.."_hatch_opened_top", param2 = node.param2})
 			end
 		end
 	end

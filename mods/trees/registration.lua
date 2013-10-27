@@ -134,11 +134,11 @@ function realtest.register_tree(name, TreeDef)
 
 			local oldmetadata = nil
 			if def.after_dig_node then
-				oldmetadata = minetest.env:get_meta(pos):to_table()
+				oldmetadata = minetest.get_meta(pos):to_table()
 			end
 
 			-- Remove node and update
-			minetest.env:remove_node(pos)
+			minetest.remove_node(pos)
 			
 			-- Run callback
 			if def.after_dig_node then
@@ -290,8 +290,8 @@ function realtest.register_tree(name, TreeDef)
 		after_dig_node = function(pos, oldnode, oldmetadata, digger)
 			for i = 1,#tree.leaves do
 				local p = {x=pos.x+tree.leaves[i][1], y=pos.y+tree.leaves[i][2], z=pos.z+tree.leaves[i][3]}
-				if minetest.env:get_node(p).name == tree.name.."_leaves" then
-					minetest.env:dig_node(p)
+				if minetest.get_node(p).name == tree.name.."_leaves" then
+					minetest.dig_node(p)
 				end
 			end
 		end,
@@ -329,7 +329,7 @@ function realtest.register_tree(name, TreeDef)
 		},
 		on_place = function(itemstack, placer, pointed_thing)
 			if pointed_thing.type == "node" and
-				minetest.registered_nodes[minetest.env:get_node(pointed_thing.above).name].buildable_to == true then
+				minetest.registered_nodes[minetest.get_node(pointed_thing.above).name].buildable_to == true then
 				local param2 = nil
 				if pointed_thing.above.x < pointed_thing.under.x then
 					param2 = 1
@@ -341,7 +341,7 @@ function realtest.register_tree(name, TreeDef)
 					param2 = 2
 				end
 				if param2 then
-					minetest.env:set_node(pointed_thing.above,{name = tree.name.."_ladder", param2 = param2})
+					minetest.set_node(pointed_thing.above,{name = tree.name.."_ladder", param2 = param2})
 					if not minetest.setting_getbool("creative_mode") then
 						itemstack:take_item()
 					end
@@ -361,7 +361,7 @@ function realtest.register_tree(name, TreeDef)
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		sounds = default.node_sound_wood_defaults(),
 		on_construct = function(pos)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec",
 					"size[8,9]"..
 					"list[current_name;main;0,0;8,4;]"..
@@ -371,7 +371,7 @@ function realtest.register_tree(name, TreeDef)
 			inv:set_size("main", 8*4)
 		end,
 		can_dig = function(pos,player)
-			local meta = minetest.env:get_meta(pos);
+			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			return inv:is_empty("main")
 		end,
@@ -391,25 +391,25 @@ function realtest.register_tree(name, TreeDef)
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		sounds = default.node_sound_wood_defaults(),
 		after_place_node = function(pos, placer)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name() or "")
 			meta:set_string("infotext", tree.description.." Locked Chest (owned by "..
 					meta:get_string("owner")..")")
 		end,
 		on_construct = function(pos)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", tree.description.." Locked Chest")
 			meta:set_string("owner", "")
 			local inv = meta:get_inventory()
 			inv:set_size("main", 8*4)
 		end,
 		can_dig = function(pos,player)
-			local meta = minetest.env:get_meta(pos);
+			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			return inv:is_empty("main") and player:get_player_name() == meta:get_string("owner")
 		end,
 		allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			if not has_locked_chest_privilege(meta, player) then
 				minetest.log("action", player:get_player_name()..
 						" tried to access a locked chest belonging to "..
@@ -420,7 +420,7 @@ function realtest.register_tree(name, TreeDef)
 			return count
 		end,
 		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			if not has_locked_chest_privilege(meta, player) then
 				minetest.log("action", player:get_player_name()..
 						" tried to access a locked chest belonging to "..
@@ -431,7 +431,7 @@ function realtest.register_tree(name, TreeDef)
 			return stack:get_count()
 		end,
 		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			if not has_locked_chest_privilege(meta, player) then
 				minetest.log("action", player:get_player_name()..
 						" tried to access a locked chest belonging to "..
@@ -454,7 +454,7 @@ function realtest.register_tree(name, TreeDef)
 					" takes stuff from locked chest at "..minetest.pos_to_string(pos))
 			end,
 		on_rightclick = function(pos, node, clicker)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			if has_locked_chest_privilege(meta, clicker) then
 				local pos = pos.x .. "," .. pos.y .. "," ..pos.z
 				minetest.show_formspec(clicker:get_player_name(),
@@ -622,10 +622,10 @@ function realtest.register_tree(name, TreeDef)
 		interval = tree.grow_interval,
 		chance = tree.grow_chance,
 		action = function(pos, node)
-			if not minetest.env:get_node_light(pos) then
+			if not minetest.get_node_light(pos) then
 				return
 			end
-			if minetest.env:get_node_light(pos) >= tree.grow_light then
+			if minetest.get_node_light(pos) >= tree.grow_light then
 				trees.make_tree(pos, tree.name)
 			end
 		end,

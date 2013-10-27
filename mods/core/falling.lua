@@ -3,7 +3,7 @@ function minetest.register_node(name, nodedef)
 	if not nodedef.cause_drop then
 		nodedef.cause_drop = function(pos, node)
 			local b_pos = {x=pos.x,y=pos.y-1,z=pos.z}
-			local b_node = minetest.env:get_node(b_pos)
+			local b_node = minetest.get_node(b_pos)
 			if minetest.registered_nodes[b_node.name].falling_node_walkable == false or
 				minetest.registered_nodes[b_node.name].buildable_to then
 				return true
@@ -13,7 +13,7 @@ function minetest.register_node(name, nodedef)
 	if not nodedef.cause_fall then
 		nodedef.cause_fall = function(pos, node)
 			local b_pos = {x=pos.x,y=pos.y-1,z=pos.z}
-			local b_node = minetest.env:get_node(b_pos)
+			local b_node = minetest.get_node(b_pos)
 			if minetest.registered_nodes[b_node.name].falling_node_walkable == false or
 				minetest.registered_nodes[b_node.name].buildable_to then
 				return true
@@ -34,7 +34,7 @@ minetest.register_on_updatenode = realtest.register_on_updatenode
 
 function nodeupdate_single(pos)
 	for _, callback in ipairs(realtest.registered_on_updatenodes) do
-		local node = minetest.env:get_node(pos)
+		local node = minetest.get_node(pos)
 		callback(pos, node)
 	end
 end
@@ -53,14 +53,14 @@ end
 realtest.register_on_updatenode(function(pos, node)
 	if minetest.get_node_group(node.name, "dropping_node") ~= 0 then
 		if minetest.registered_nodes[node.name].cause_drop(pos, node) then
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			if minetest.registered_nodes[node.name].on_dropping then
 				minetest.registered_nodes[node.name].on_dropping(pos, node)
 			else
 				local drops = minetest.registered_nodes[node.name].drop_on_dropping or
 					minetest.registered_nodes[node.name].drop or node.name
 				if type(drops) == "string" then drops = {drops} end
-				minetest.env:remove_node(pos)
+				minetest.remove_node(pos)
 				minetest.handle_node_drops(pos, drops)
 			end
 			if minetest.registered_nodes[node.name].after_dig_node then
@@ -72,20 +72,20 @@ realtest.register_on_updatenode(function(pos, node)
 end)
 
 realtest.register_on_updatenode(function(pos, node)
-		local b_node = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z})
+		local b_node = minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z})
 		if minetest.get_node_group(node.name, "dropping_like_stone") ~= 0 and
 				(minetest.registered_nodes[b_node.name].walkable == false or
 					minetest.registered_nodes[b_node.name].buildable_to) then
 			local sides = {{x=-1,y=0,z=0}, {x=1,y=0,z=0}, {x=0,y=0,z=-1}, {x=0,y=0,z=1}, {x=0,y=-1,z=0}, {x=0,y=1,z=0}}
 			local drop = true
 			for _, s in ipairs(sides) do
-				if  minetest.get_node_group(minetest.env:get_node({x=pos.x+s.x,y=pos.y+s.y,z=pos.z+s.z}).name, "dropping_like_stone") ~= 0 then
+				if  minetest.get_node_group(minetest.get_node({x=pos.x+s.x,y=pos.y+s.y,z=pos.z+s.z}).name, "dropping_like_stone") ~= 0 then
 					drop = false
 					break
 				end
 			end
 			if drop then
-				minetest.env:remove_node({x=pos.x,y=pos.y,z=pos.z})
+				minetest.remove_node({x=pos.x,y=pos.y,z=pos.z})
 				minetest.handle_node_drops(pos, {node.name})
 				nodeupdate(pos)
 			end
@@ -98,7 +98,7 @@ realtest.register_on_updatenode(function(pos, node)
 			if minetest.registered_nodes[node.name].on_falling then
 				minetest.registered_nodes[node.name].on_falling(pos, node)
 			else
-				minetest.env:remove_node(pos)
+				minetest.remove_node(pos)
 				spawn_falling_node(pos, node.name)
 			end
 			nodeupdate(pos)
@@ -129,7 +129,7 @@ realtest.register_on_updatenode(function(pos, node)
 				d.y = -1
 			end
 			local p2 = {x=p.x+d.x, y=p.y+d.y, z=p.z+d.z}
-			local nn = minetest.env:get_node(p2).name
+			local nn = minetest.get_node(p2).name
 			local def2 = minetest.registered_nodes[nn]
 			if def2 and (not def2.walkable or def2.buildable_to) then
 				return false
@@ -137,7 +137,7 @@ realtest.register_on_updatenode(function(pos, node)
 			return true
 		end
 		if not check_attached_node(pos, node) then
-			minetest.env:remove_node(pos)
+			minetest.remove_node(pos)
 			minetest.handle_node_drops(pos, minetest.get_node_drops(node.name, nil))
 			nodeupdate(pos)
 		end
@@ -193,27 +193,27 @@ minetest.register_entity(":__builtin:falling_node", {
 		-- Turn to actual sand when collides to ground or just move
 		local pos = self.object:getpos()
 		local bcp = {x=pos.x, y=pos.y-0.7, z=pos.z} -- Position of bottom center point
-		local bcn = minetest.env:get_node(bcp)
+		local bcn = minetest.get_node(bcp)
 		-- Note: walkable is in the node definition, not in item groups
 		if minetest.registered_nodes[bcn.name] and
 				minetest.registered_nodes[bcn.name].falling_node_walkable then
 			if minetest.registered_nodes[bcn.name].buildable_to then
-				minetest.env:remove_node(bcp)
+				minetest.remove_node(bcp)
 				return
 			end
 			local np = {x=bcp.x, y=bcp.y+1, z=bcp.z}
 			-- Check what's here
-			local n2 = minetest.env:get_node(np)
+			local n2 = minetest.get_node(np)
 			-- If it's not air or liquid, remove node and replace it with
 			-- it's drops
 			if n2.name ~= "air" and (not minetest.registered_nodes[n2.name] or
 					minetest.registered_nodes[n2.name].liquidtype == "none") then
 				local drops = minetest.get_node_drops(n2.name, "")
-				minetest.env:remove_node(np)
+				minetest.remove_node(np)
 				-- Add dropped items
 				local _, dropped_item
 				for _, dropped_item in ipairs(drops) do
-					minetest.env:add_item(np, dropped_item)
+					minetest.add_item(np, dropped_item)
 				end
 				-- Run script hook
 				local _, callback
@@ -222,7 +222,7 @@ minetest.register_entity(":__builtin:falling_node", {
 				end
 			end
 			-- Create node and remove entity
-			minetest.env:add_node(np, {name=self.nodename})
+			minetest.add_node(np, {name=self.nodename})
 			self.object:remove()
 			nodeupdate(np)
 		else

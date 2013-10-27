@@ -1,14 +1,14 @@
 -- Event handlers
 local function scaffolding_update(pos)
-    local node_name = minetest.env:get_node(pos).name
+    local node_name = minetest.get_node(pos).name
     if minetest.get_node_group(node_name, "scaffolding") ~= 1 then
         return
     end
     local material = realtest.registered_trees_list[minetest.get_node_group(node_name, "material")]:remove_modname_prefix()
-    if minetest.get_node_group(minetest.env:get_node(mod_pos(pos, 0, 1, 0)).name, "scaffolding") == 1 then
-        minetest.env:add_node(pos, {name = "scaffolding:scaffolding_sub_"..material})
+    if minetest.get_node_group(minetest.get_node(mod_pos(pos, 0, 1, 0)).name, "scaffolding") == 1 then
+        minetest.add_node(pos, {name = "scaffolding:scaffolding_sub_"..material})
     else
-        minetest.env:add_node(pos, {name = "scaffolding:scaffolding_top_"..material})
+        minetest.add_node(pos, {name = "scaffolding:scaffolding_top_"..material})
     end
 end
 
@@ -57,7 +57,7 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
 	walkable = false,
 	cause_drop = function(pos, node)
 		local b_pos = {x=pos.x,y=pos.y-1,z=pos.z}
-		local b_node = minetest.env:get_node(b_pos)
+		local b_node = minetest.get_node(b_pos)
 		if minetest.get_node_group(b_node.name, "scaffolding") ~= 1 and minetest.registered_nodes[b_node.name].walkable == false then
 			return true
 		end

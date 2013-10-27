@@ -6,18 +6,18 @@ local directions = {
 }
 
 local function update_fence(pos)
-	if minetest.get_node_group(minetest.env:get_node(pos).name, "fence") ~= 1 then
+	if minetest.get_node_group(minetest.get_node(pos).name, "fence") ~= 1 then
 		return
 	end
 	local sum = 0
 	for i = 1, 4 do
-		local node = minetest.env:get_node({x = pos.x + directions[i].x, y = pos.y + directions[i].y, z = pos.z + directions[i].z})
+		local node = minetest.get_node({x = pos.x + directions[i].x, y = pos.y + directions[i].y, z = pos.z + directions[i].z})
 		if minetest.registered_nodes[node.name].walkable ~= false then
 			sum = sum + 2 ^ (i - 1)
 		end
 	end
-	local material = realtest.registered_trees_list[minetest.get_node_group(minetest.env:get_node(pos).name, "material")]:remove_modname_prefix()
-	minetest.env:add_node(pos, {name = "fences:"..material.."_fence_"..sum})
+	local material = realtest.registered_trees_list[minetest.get_node_group(minetest.get_node(pos).name, "material")]:remove_modname_prefix()
+	minetest.add_node(pos, {name = "fences:"..material.."_fence_"..sum})
 end
 
 local function update_nearby(pos)

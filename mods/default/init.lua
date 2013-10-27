@@ -316,13 +316,13 @@ minetest.register_abm({
 	interval = 60,
 	chance = 30,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not minetest.env:get_node_light(pos) or
-			minetest.env:get_node_light(pos) < 8 then
+		if not minetest.get_node_light(pos) or
+			minetest.get_node_light(pos) < 8 then
 			return
 		end
 		local h = 1
 		repeat
-			if minetest.env:get_node({x=pos.x,y=pos.y-h,z=pos.z}).name == node.name then
+			if minetest.get_node({x=pos.x,y=pos.y-h,z=pos.z}).name == node.name then
 				h = h + 1
 			else
 				break
@@ -339,9 +339,9 @@ minetest.register_abm({
 			"default:dirt_with_grass",
 			"default:dirt_with_grass_and_clay"
 		}
-		if  minetest.registered_nodes[minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z}).name].buildable_to
-			and table.contains(grounds, minetest.env:get_node({x=pos.x,y=pos.y-h,z=pos.z}).name) then
-			minetest.env:set_node({x=pos.x,y=pos.y+1,z=pos.z}, {name=node.name})
+		if  minetest.registered_nodes[minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name].buildable_to
+			and table.contains(grounds, minetest.get_node({x=pos.x,y=pos.y-h,z=pos.z}).name) then
+			minetest.set_node({x=pos.x,y=pos.y+1,z=pos.z}, {name=node.name})
 		end
 	end
 })
@@ -351,7 +351,7 @@ minetest.register_abm({
     interval = 0.5,
     chance = 1,
     action = function(pos, node, active_object_count, active_object_count_wider)
-    players = minetest.env:get_objects_inside_radius(pos, 1)
+    players = minetest.get_objects_inside_radius(pos, 1)
 	for i, player in ipairs(players) do
 		player:set_hp(player:get_hp() - 1)
 	end
@@ -372,7 +372,7 @@ minetest.register_node("default:papyrus", {
 	sounds = default.node_sound_leaves_defaults(),
 	cause_drop = function(pos, node)
 		local b_pos = {x=pos.x,y=pos.y-1,z=pos.z}
-		local b_node = minetest.env:get_node(b_pos)
+		local b_node = minetest.get_node(b_pos)
 		if b_node.name ~= node.name and minetest.registered_nodes[b_node.name].walkable == false then
 			return true
 		end
@@ -384,13 +384,13 @@ minetest.register_abm({
 	interval = 40,
 	chance = 20,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not minetest.env:get_node_light(pos) or
-			minetest.env:get_node_light(pos) < 8 then
+		if not minetest.get_node_light(pos) or
+			minetest.get_node_light(pos) < 8 then
 			return
 		end
 		local h = 1
 		repeat
-			if minetest.env:get_node({x=pos.x,y=pos.y-h,z=pos.z}).name == node.name then
+			if minetest.get_node({x=pos.x,y=pos.y-h,z=pos.z}).name == node.name then
 				h = h + 1
 			else
 				break
@@ -402,7 +402,7 @@ minetest.register_abm({
 		local sides = {{x=-1,y=-1,z=0},{x=1,y=-1,z=0},{x=0,y=-1,z=-1},{x=0,y=-1,z=1}}
 		local water = false
 		for _, side in ipairs(sides) do
-			if minetest.env:get_node({x=pos.x+side.x,y=pos.y+side.y-h+1,z=pos.z+side.z}).name == "default:water_source" then
+			if minetest.get_node({x=pos.x+side.x,y=pos.y+side.y-h+1,z=pos.z+side.z}).name == "default:water_source" then
 				water = true
 				break
 			end
@@ -415,9 +415,9 @@ minetest.register_abm({
 			"default:dirt_with_grass",
 			"default:dirt_with_grass_and_clay"
 		}
-		if water and minetest.registered_nodes[minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z}).name].buildable_to
-			and table.contains(grounds, minetest.env:get_node({x=pos.x,y=pos.y-h,z=pos.z}).name) then
-			minetest.env:set_node({x=pos.x,y=pos.y+1,z=pos.z}, {name=node.name})
+		if water and minetest.registered_nodes[minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name].buildable_to
+			and table.contains(grounds, minetest.get_node({x=pos.x,y=pos.y-h,z=pos.z}).name) then
+			minetest.set_node({x=pos.x,y=pos.y+1,z=pos.z}, {name=node.name})
 		end
 	end
 })
@@ -598,14 +598,14 @@ minetest.register_node("default:sign_wall", {
 	groups = {choppy=2,dig_immediate=2},
 	sounds = default.node_sound_defaults(),
 	on_construct = function(pos)
-		--local n = minetest.env:get_node(pos)
-		local meta = minetest.env:get_meta(pos)
+		--local n = minetest.get_node(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", "hack:sign_text_input")
 		meta:set_string("infotext", "\"\"")
 	end,
 	on_receive_fields = function(pos, formname, fields, sender)
 		--print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		fields.text = fields.text or ""
 		print((sender:get_player_name() or "").." wrote \""..fields.text..
 				"\" to sign at "..minetest.pos_to_string(pos))

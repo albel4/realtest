@@ -174,7 +174,7 @@ local function add_day()
 end
 
 minetest.after(0, function()
-	seasons.timer = math.floor(minetest.env:get_timeofday() * 1200)
+	seasons.timer = math.floor(minetest.get_timeofday() * 1200)
 	local delta = 0
 	minetest.register_globalstep(function(dtime)
 		delta = delta + dtime
@@ -203,7 +203,7 @@ minetest.register_chatcommand("time", {
 		if newtime == nil then
 			minetest.chat_send_player(name, "Invalid time")
 		else
-			minetest.env:set_timeofday((newtime % 24000) / 24000)
+			minetest.set_timeofday((newtime % 24000) / 24000)
 			seasons.timer = (newtime % 24000) / 20
 			minetest.chat_send_player(name, "Time of day changed.")
 			minetest.log("action", name .. " sets time " .. newtime)
@@ -217,8 +217,8 @@ minetest.register_chatcommand("calendar", {
 	privs = {server=true},
 	func = function(name, param)
 		minetest.chat_send_player(name, "Date: "..seasons.get_day_of_week().." "..seasons.get_day_of_month().." "..seasons.get_month().." "..seasons.get_year())
-		local h = math.floor(minetest.env:get_timeofday() * 24)
-		local m = math.floor((minetest.env:get_timeofday() * 24000 - h * 1000) * 0.06)
+		local h = math.floor(minetest.get_timeofday() * 24)
+		local m = math.floor((minetest.get_timeofday() * 24000 - h * 1000) * 0.06)
 		if m < 10 then
 			m = "0"..m
 		end

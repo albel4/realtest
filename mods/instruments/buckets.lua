@@ -112,13 +112,13 @@ function realtest.register_liquid(name, LiquidDef)
 						if pointed_thing.type ~= "node" then
 							return
 						end
-						n = minetest.env:get_node(pointed_thing.under)
+						n = minetest.get_node(pointed_thing.under)
 						if minetest.registered_nodes[n.name].buildable_to then
-							minetest.env:add_node(pointed_thing.under, {name=LiquidDef.source})
+							minetest.add_node(pointed_thing.under, {name=LiquidDef.source})
 						else
-							n = minetest.env:get_node(pointed_thing.above)
+							n = minetest.get_node(pointed_thing.above)
 							if minetest.registered_nodes[n.name].buildable_to then
-								minetest.env:add_node(pointed_thing.above, {name=LiquidDef.source})
+								minetest.add_node(pointed_thing.above, {name=LiquidDef.source})
 							else
 								return
 							end
@@ -147,14 +147,14 @@ for _, type in ipairs(buckets.types) do
 				if pointed_thing.type ~= "node" then
 					return
 				end
-				local n = minetest.env:get_node(pointed_thing.under)
+				local n = minetest.get_node(pointed_thing.under)
 				local liquiddef = realtest.registered_liquids[n.name]
 				if not liquiddef then
 					return
 				end
 				local full_name = empty_name.."_with_"..liquiddef.name
 				if liquiddef and n.name == liquiddef.source and minetest.registered_items[full_name] then
-					minetest.env:add_node(pointed_thing.under, {name="air"})
+					minetest.add_node(pointed_thing.under, {name="air"})
 					return {name=full_name}
 				end
 			end,

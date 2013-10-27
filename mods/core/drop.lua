@@ -19,7 +19,7 @@ else
 			local count = ItemStack(item):get_count()
 			local name = ItemStack(item):get_name()
 			for i=1,count do
-				local obj = minetest.env:add_item(pos, name)
+				local obj = minetest.add_item(pos, name)
 				if obj ~= nil then
 					obj:get_luaentity().collect = true
 					local k = 1
@@ -43,7 +43,7 @@ else
 				drop(item)
 			end
 		end
-		if ALWAYS_DROP_NODES_AS_ITEMS and minetest.get_node_group(minetest.env:get_node(pos).name, "drop_on_dig") == 1 then
+		if ALWAYS_DROP_NODES_AS_ITEMS and minetest.get_node_group(minetest.get_node(pos).name, "drop_on_dig") == 1 then
 			drop_all()
 		elseif digger and digger:get_inventory() then
 			for _, dropped_item in ipairs(drops) do

@@ -4,8 +4,8 @@ minetest.register_tool("sticks:sticks", {
 	on_use = function(item, user, pointed_thing)
 		local pos
 		if pointed_thing.type == "node" then	
-			if minetest.env:get_node(pointed_thing.under).name == "furnace:self" or minetest.env:get_node(pointed_thing.under).name == "bonfire:self" then
-				local meta = minetest.env:get_meta(pointed_thing.under)
+			if minetest.get_node(pointed_thing.under).name == "furnace:self" or minetest.get_node(pointed_thing.under).name == "bonfire:self" then
+				local meta = minetest.get_meta(pointed_thing.under)
 				meta:set_int("active", 1)
 				item:add_wear(65535/10)
 				return item
@@ -16,8 +16,8 @@ minetest.register_tool("sticks:sticks", {
 		else
 			return
 		end
-		if minetest.env:get_node(pos).name == "air" then
-			local objects = minetest.env:get_objects_inside_radius(pos, 0.5)
+		if minetest.get_node(pos).name == "air" then
+			local objects = minetest.get_objects_inside_radius(pos, 0.5)
 			local bonfireb = 0
 			local furnaceb = 0
 			local coals = {}
@@ -37,13 +37,13 @@ minetest.register_tool("sticks:sticks", {
 						end
 					end
 			end
-			if furnaceb >= 9 and math.random(6) == 1 and minetest.env:get_node(pos).name == "air" then
+			if furnaceb >= 9 and math.random(6) == 1 and minetest.get_node(pos).name == "air" then
 				if furnace.check_furnace_blocks(pos) then
 					for _, v in ipairs(coals) do
 						v:remove()
 					end
-					minetest.env:set_node(pos, {name = "furnace:self_active"})
-					local meta = minetest.env:get_meta(pos)
+					minetest.set_node(pos, {name = "furnace:self_active"})
+					local meta = minetest.get_meta(pos)
 					meta:set_int("active", 1)
 					meta:set_float("fuel_time", 0)
 					meta:set_float("fuel_totaltime", 30)
@@ -69,12 +69,12 @@ minetest.register_tool("sticks:sticks", {
 					end
 				end
 			end
-			if bonfireb >= 10 and math.random(2) == 1 and minetest.env:get_node(pos).name == "air" then
+			if bonfireb >= 10 and math.random(2) == 1 and minetest.get_node(pos).name == "air" then
 				for _, v in ipairs(sticks_and_leaves) do
 					v:remove()
 				end
-				minetest.env:set_node(pos, {name = "bonfire:self"})
-				local meta = minetest.env:get_meta(pos)
+				minetest.set_node(pos, {name = "bonfire:self"})
+				local meta = minetest.get_meta(pos)
 				meta:set_int("active", 1)
 				meta:set_float("fuel_time", 0)
 				meta:set_float("fuel_totaltime", 20)

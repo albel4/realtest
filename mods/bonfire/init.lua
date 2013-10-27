@@ -42,7 +42,7 @@ minetest.register_node("bonfire:self", {
 	drop = "",
 	groups = {crumbly=3, oddly_breakable_by_hand=1, not_in_creative_inventory=1},
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", bonfire.formspec)
 		meta:set_string("infotext", "Bonfire")
 		meta:set_int("active", 0)
@@ -52,7 +52,7 @@ minetest.register_node("bonfire:self", {
 		inv:set_size("dst", 2)
 	end,
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("fuel") and inv:is_empty("src") and inv:is_empty("dst") then
 			return true
@@ -83,7 +83,7 @@ minetest.register_node("bonfire:self_active", {
 	drop = "",
 	groups = {igniter=1,crumbly=3, not_in_creative_inventory=1,fires=1},
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", bonfire.formspec)
 		meta:set_string("infotext", "Bonfire")
 		meta:set_int("active", 0)
@@ -93,7 +93,7 @@ minetest.register_node("bonfire:self_active", {
 		inv:set_size("dst", 2)
 	end,
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("fuel") and inv:is_empty("src") and inv:is_empty("dst") then
 			return true
@@ -107,7 +107,7 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		for i, name in ipairs({
 				"fuel_totaltime",
 				"fuel_time",

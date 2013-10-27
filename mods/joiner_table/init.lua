@@ -43,12 +43,12 @@ for _, tree in pairs(realtest.registered_trees) do
 		paramtype = "light",
 		paramtype2 = "facedir",
 		can_dig = function(pos,player)
-			local meta = minetest.env:get_meta(pos);
+			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			return inv:is_empty("src1") and inv:is_empty("src2") and inv:is_empty("instruments") and inv:is_empty("output")
 		end,
 		on_construct = function(pos)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", "size[8,8]"..
 					"button[0.5,0.25;1.35,1;buttonCraft;Craft]"..
 					"button[1.6,0.25;0.9,1;buttonCraft10;x10]"..
@@ -66,7 +66,7 @@ for _, tree in pairs(realtest.registered_trees) do
 			inv:set_size("output", 1)
 		end,
 		on_receive_fields = function(pos, formname, fields, sender)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 	
 			local src1, src2 = inv:get_stack("src1", 1), inv:get_stack("src2", 1)

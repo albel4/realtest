@@ -84,14 +84,14 @@ instruments.spear.entity = {
 instruments.spear.entity.on_step = function(self, dtime)
 	self.timer=self.timer+dtime
 	local pos = self.object:getpos()
-	local node = minetest.env:get_node(pos)
+	local node = minetest.get_node(pos)
 
 	if self.timer > 0.2 and self.lastpos.x then
-		local objs = minetest.env:get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, 2)
+		local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, 2)
 		for k, obj in pairs(objs) do
 			obj:set_hp(obj:get_hp()-instruments.spear.damage)
 			if obj:get_entity_name() ~= "instruments:spear_entity" then
-				minetest.env:add_item(self.lastpos, "instruments:spear_"..self.object:get_luaentity().material)
+				minetest.add_item(self.lastpos, "instruments:spear_"..self.object:get_luaentity().material)
 				self.object:remove()
 				return
 			end
@@ -100,7 +100,7 @@ instruments.spear.entity.on_step = function(self, dtime)
 
 	if self.lastpos.x then
 		if node.name ~= "air" then
-			minetest.env:add_item(self.lastpos, "instruments:spear_"..self.object:get_luaentity().material)
+			minetest.add_item(self.lastpos, "instruments:spear_"..self.object:get_luaentity().material)
 			self.object:remove()
 		end
 	end
@@ -119,7 +119,7 @@ for i, material in ipairs(instruments.materials) do
 		inventory_image = "instruments_spear_"..material..".png",
 		on_use = function (item, player, pointed_thing)
 			local playerpos=player:getpos()
-			local obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.5,z=playerpos.z}, "instruments:spear_entity")
+			local obj=minetest.add_entity({x=playerpos.x,y=playerpos.y+1.5,z=playerpos.z}, "instruments:spear_entity")
 			local dir=player:get_look_dir()
 			obj:setvelocity({x=dir.x*instruments.spear.velocity, y=dir.y*instruments.spear.velocity, z=dir.z*instruments.spear.velocity})
 			obj:setacceleration({x=dir.x*-3, y=-instruments.spear.gravity, z=dir.z*-3})
@@ -137,9 +137,9 @@ for i, material in ipairs(instruments.materials) do
 				if pointed_thing.type ~= "node" then
 					return
 				end
-				local n = minetest.env:get_node(pointed_thing.under)
+				local n = minetest.get_node(pointed_thing.under)
 				if instruments.chisel_pairs[n.name] then
-					minetest.env:add_node(pointed_thing.under, {name=instruments.chisel_pairs[n.name], param2=n.param2})
+					minetest.add_node(pointed_thing.under, {name=instruments.chisel_pairs[n.name], param2=n.param2})
 					nodeupdate(pointed_thing.under)
 				end
 				item:add_wear(65535/instruments.durability[i]/4)

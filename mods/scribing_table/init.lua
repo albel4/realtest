@@ -127,7 +127,7 @@ realtest.register_instrument_plan("scribing_table:plan_hatch", {
 })
 
 local function check_recipe(pos)
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	for _, plan in pairs(realtest.registered_instrument_plans) do
 		local paperstack, res_craft = inv:get_stack("paper", 1)
@@ -180,7 +180,7 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
 		groups = {oddly_breakable_by_hand=3, dig_immediate=2},
 		sounds = default.node_sound_wood_defaults(),
 		on_construct = function(pos)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", 
 				"size[8,10]"..
 				"list[current_name;paper;6.5,0.5;1,1;]"..
@@ -205,7 +205,7 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
 			check_recipe(pos)
 		end,
 		can_dig = function(pos,player)
-			local meta = minetest.env:get_meta(pos)
+			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			if inv:is_empty("paper") and inv:is_empty("dye") and inv:is_empty("res") then
 				return true

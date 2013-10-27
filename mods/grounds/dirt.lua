@@ -86,7 +86,7 @@ function realtest.register_dirt(name, DirtRef)
 			groups = {crumbly=3,drop_on_dig=1, falling_node=1, dirt=1, farm=1},
 			sounds = default.node_sound_dirt_defaults(),
 			on_falling = function(pos, node)
-				minetest.env:set_node(pos, {name = farm_nofarm[node.name]})
+				minetest.set_node(pos, {name = farm_nofarm[node.name]})
 				nodeupdate_single(pos)
 			end,
 		})
@@ -114,7 +114,7 @@ function realtest.register_dirt(name, DirtRef)
 			groups = {crumbly=3,drop_on_dig=1, dirt=1, grass=1, farm=1},
 			sounds = default.node_sound_dirt_defaults(),
 			on_falling = function(pos, node)
-				minetest.env:set_node(pos, {name = farm_nofarm[node.name]})
+				minetest.set_node(pos, {name = farm_nofarm[node.name]})
 				nodeupdate_single(pos)
 			end,
 		})
@@ -129,7 +129,7 @@ function realtest.register_dirt(name, DirtRef)
 			drop = "grounds:clay_lump 4",
 			sounds = default.node_sound_dirt_defaults(),
 			on_falling = function(pos, node)
-				minetest.env:set_node(pos, {name = farm_nofarm[node.name]})
+				minetest.set_node(pos, {name = farm_nofarm[node.name]})
 				nodeupdate_single(pos)
 			end,
 		})
@@ -146,7 +146,7 @@ function realtest.register_dirt(name, DirtRef)
 				footstep = {name="default_grass_footstep", gain=0.4},
 			}),
 			on_falling = function(pos, node)
-				minetest.env:set_node(pos, {name = farm_nofarm[node.name]})
+				minetest.set_node(pos, {name = farm_nofarm[node.name]})
 				nodeupdate_single(pos)
 			end,
 		})
@@ -158,7 +158,7 @@ function realtest.register_dirt(name, DirtRef)
 		chance = 30,
 		action = function(pos, node)
 			pos.y = pos.y+1
-			local n = minetest.registered_nodes[minetest.env:get_node(pos).name]
+			local n = minetest.registered_nodes[minetest.get_node(pos).name]
 			if not n then
 				return
 			end
@@ -168,14 +168,14 @@ function realtest.register_dirt(name, DirtRef)
 			if n.liquidtype and n.liquidtype ~= "none" then
 				return
 			end
-			if not minetest.env:get_node_light(pos) then
+			if not minetest.get_node_light(pos) then
 				return
 			end
-			if minetest.env:get_node_light(pos) < 13 then
+			if minetest.get_node_light(pos) < 13 then
 				return
 			end
 			pos.y = pos.y-1
-			minetest.env:set_node(pos, {name=nograss_grass[node.name]})
+			minetest.set_node(pos, {name=nograss_grass[node.name]})
 		end
 	})
 	
@@ -185,13 +185,13 @@ function realtest.register_dirt(name, DirtRef)
 		chance = 30,
 		action = function(pos, node)
 			pos.y = pos.y+1
-			local n = minetest.registered_nodes[minetest.env:get_node(pos).name]
+			local n = minetest.registered_nodes[minetest.get_node(pos).name]
 			if not n then
 				return
 			end
 			if (n.liquidtype and n.liquidtype ~= "none") then
 				pos.y = pos.y-1
-				minetest.env:set_node(pos, {name=grass_nograss[node.name]})
+				minetest.set_node(pos, {name=grass_nograss[node.name]})
 				nodeupdate_single(pos)
 			end
 		end
@@ -203,15 +203,15 @@ function realtest.register_dirt(name, DirtRef)
 		chance = 2,
 		action = function(pos, node)
 			if node then
-				if not minetest.registered_nodes[minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z}).name].buildable_to then
-					minetest.env:set_node(pos, {name = farm_nofarm[node.name]})
+				if not minetest.registered_nodes[minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name].buildable_to then
+					minetest.set_node(pos, {name = farm_nofarm[node.name]})
 					return
 				end
 			end
-			local objs = minetest.env:get_objects_inside_radius({x=pos.x,y=pos.y+1,z=pos.z}, 1)
+			local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y+1,z=pos.z}, 1)
 			for k, obj in pairs(objs) do
 				if obj:is_player() then
-					minetest.env:set_node(pos, {name = farm_nofarm[node.name]})
+					minetest.set_node(pos, {name = farm_nofarm[node.name]})
 					return
 				end
 			end
@@ -223,11 +223,11 @@ function realtest.register_dirt(name, DirtRef)
 		interval = 17,
 		chance = 5,
 		action = function(pos, node)
-			local objs = minetest.env:get_objects_inside_radius({x=pos.x,y=pos.y+1,z=pos.z}, 1)
+			local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y+1,z=pos.z}, 1)
 			for k, obj in pairs(objs) do
 				if obj:is_player() then
-					if minetest.registered_nodes[minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z}).name].buildable_to then
-						minetest.env:set_node(pos, {name=grass_nograss[node.name]})
+					if minetest.registered_nodes[minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name].buildable_to then
+						minetest.set_node(pos, {name=grass_nograss[node.name]})
 						nodeupdate_single(pos)
 						return
 					end

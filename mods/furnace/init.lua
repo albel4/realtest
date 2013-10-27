@@ -4,8 +4,8 @@ function furnace.check_furnace_blocks(pos)
 	local furnace_blocks = {{x=1,y=0,z=-1}, {x=1,y=0,z=0}, {x=1,y=0,z=1}, {x=0,y=0,z=-1}, {x=0,y=0,z=1}, {x=-1,y=0,z=-1}, {x=-1,y=0,z=0}, {x=-1,y=0,z=1}, {x=0,y=-1,z=0}, {x=1,y=-1,z=-1}, {x=1,y=-1,z=0}, {x=1,y=-1,z=1}, {x=0,y=-1,z=-1}, {x=0,y=-1,z=1}, {x=-1,y=-1,z=-1}, {x=-1,y=-1,z=0}, {x=-1,y=-1,z=1}}
 	for n = 1,#furnace_blocks do
 		local v = furnace_blocks[n]
-			if minetest.env:get_node_or_nil({x=pos.x+v.x,y=pos.y+v.y,z=pos.z+v.z}) and 
-					minetest.get_node_group(minetest.env:get_node({x=pos.x+v.x,y=pos.y+v.y,z=pos.z+v.z}).name, "stone") ~= 1 then
+			if minetest.get_node_or_nil({x=pos.x+v.x,y=pos.y+v.y,z=pos.z+v.z}) and 
+					minetest.get_node_group(minetest.get_node({x=pos.x+v.x,y=pos.y+v.y,z=pos.z+v.z}).name, "stone") ~= 1 then
 				return false
 			end
 		end
@@ -50,7 +50,7 @@ minetest.register_node("furnace:self", {
 	groups = {crumbly=3, oddly_breakable_by_hand=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", furnace.formspec)
 		meta:set_string("infotext", "Furnace")
 		meta:set_int("active", 0)
@@ -62,7 +62,7 @@ minetest.register_node("furnace:self", {
 		inv:set_size("fuel", 1)
 	end,
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
+		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
 		for i = 1,5 do
 			if not inv:is_empty("src"..i) or not inv:is_empty("dst"..i) then
@@ -99,7 +99,7 @@ minetest.register_node("furnace:self_active", {
 	groups = {igniter=1,crumbly=3, not_in_creative_inventory=1},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = function(pos)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", furnace.formspec)
 		meta:set_string("infotext", "Furnace")
 		meta:set_int("active", 0)
@@ -111,7 +111,7 @@ minetest.register_node("furnace:self_active", {
 		inv:set_size("fuel", 1)
 	end,
 	can_dig = function(pos,player)
-		local meta = minetest.env:get_meta(pos);
+		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
 		for i = 1,5 do
 			if not inv:is_empty("src"..i) or not inv:is_empty("dst"..i) then
@@ -130,7 +130,7 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.env:get_meta(pos)
+		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		
 		if not furnace.check_furnace_blocks(pos) then
@@ -145,7 +145,7 @@ minetest.register_abm({
 				local name, size = v[1], v[2]
 				for n = 1,size do
 					if not inv:is_empty(name) then
-						minetest.env:add_item(pos, 
+						minetest.add_item(pos, 
 							{name=inv:get_stack(name, 1):get_name(),
 							 count=inv:get_stack(name, 1):get_count(),
 							 wear=inv:get_stack(name, 1):get_wear(),
@@ -153,7 +153,7 @@ minetest.register_abm({
 					end
 				end
 			end
-			minetest.env:remove_node(pos)
+			minetest.remove_node(pos)
 			return
 		end
 		
