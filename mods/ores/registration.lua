@@ -1,60 +1,72 @@
 realtest.registered_ores = {}
 realtest.registered_ores_list = {}
 local d_seed = 0
+local function copytable(t)
+	t2 = {}
+	for k,i in pairs(t) do
+		t2[k] = i
+	end
+	return t2
+end
+
 function realtest.register_ore(name, OreDef)
-	local ore = {
-		name = name,
-		description = OreDef.description or "Ore",
-		mineral = OreDef.mineral or "minerals:"..name:remove_modname_prefix(),
-		wherein = OreDef.wherein or {"default:stone"},
-		chunks_per_volume = OreDef.chunks_per_volume or 1/3/3/3/2,
-		chunk_size = OreDef.chunk_size or 3,
-		ore_per_chunk = OreDef.ore_per_chunk or 10,
-		height_min = OreDef.height_min or -30912,
-		height_max = OreDef.height_max or 30912,
-		noise_min = OreDef.noise_min or 0.6,
-		noise_max = OreDef.noise_max or nil,
-		generate = true,
-		delta_seed = OreDef.delta_seed or d_seed
-	}
-	d_seed = d_seed + 1
-	if OreDef.generate == false then
-		ore.generate = false
-	end
-	ore.particle_image = OreDef.particle_image or ore.mineral:gsub(":","_")..".png"
-	realtest.registered_ores[name] = ore
-	table.insert(realtest.registered_ores_list, name)
-	local name_ = name:gsub(":","_")
-	for i, wherein in ipairs(ore.wherein) do
-		local wherein_ = wherein:gsub(":","_")
-		local wherein_textures = {}
-		if minetest.registered_nodes[wherein].tiles or minetest.registered_nodes[wherein].tile_images then
-			for _, texture in ipairs(minetest.registered_nodes[wherein].tiles) do
-				table.insert(wherein_textures, texture.."^"..name_..".png")
-			end
-		else
-			wherein_textures = {name_..".png"}
-		end
-		minetest.register_node(":"..name.."_in_"..wherein_, {
-			description = ore.description .. " Ore",
-			tiles = wherein_textures,
-			particle_image = {ore.particle_image},
-			groups = {cracky=3,drop_on_dig=1,ore=1,dropping_like_stone=1},
-			drop = {
-				max_items = 1,
-				items = {
-					{
-						items = {ore.mineral.." 2"},
-						rarity = 2
-					},
-					{
-						items = {ore.mineral}
-					}
-				}
-			},
-			sounds = default.node_sound_stone_defaults()
-		})
-	end
+        local ore = {
+                name = name,
+                description = OreDef.description or "Ore",
+                mineral = OreDef.mineral or "minerals:"..name:remove_modname_prefix(),
+                wherein = OreDef.wherein or {"default:stone"},
+                clust_scarcity = 1/(OreDef.chunks_per_volume or 1/3/3/3/2),
+                clust_size = OreDef.chunk_size or 3,
+                clust_num_ores = OreDef.ore_per_chunk or 10,
+                height_min = OreDef.height_min or -30912,
+                height_max = OreDef.height_max or 30912,
+                noise_threshhold = OreDef.noise_min or 0.6,
+                noise_params = {offset=0, scale=1, spread={x=100, y=100, z=100}, octaves=3, persist=0.70, seed = OreDef.delta_seed or d_seed}
+        }
+        d_seed = d_seed + 1
+        if OreDef.generate == false then
+                ore.generate = false
+        end
+        ore.particle_image = OreDef.particle_image or ore.mineral:gsub(":","_")..".png"
+        realtest.registered_ores[name] = ore
+        table.insert(realtest.registered_ores_list, name)
+        local name_ = name:gsub(":","_")
+        for i, wherein in ipairs(ore.wherein) do
+                local wherein_ = wherein:gsub(":","_")
+                local wherein_textures = {}
+                if minetest.registered_nodes[wherein].tiles or minetest.registered_nodes[wherein].tile_images then
+                        for _, texture in ipairs(minetest.registered_nodes[wherein].tiles) do
+                                table.insert(wherein_textures, texture.."^"..name_..".png")
+                        end
+                else
+                        wherein_textures = {name_..".png"}
+                end
+                minetest.register_node(":"..name.."_in_"..wherein_, {
+                        description = ore.description .. " Ore",
+                        tiles = wherein_textures,
+                        particle_image = {ore.particle_image},
+                        groups = {cracky=3,drop_on_dig=1,ore=1,dropping_like_stone=1},
+                        drop = {
+                                max_items = 1,
+                                items = {
+                                        {
+                                                items = {ore.mineral.." 2"},
+                                                rarity = 2
+                                        },
+                                        {
+                                                items = {ore.mineral}
+                                        }
+                                }
+                        },
+                        sounds = default.node_sound_stone_defaults()
+                })
+                if ore.generate then
+                	local oredef = copytable(ore)
+                	oredef.name = name.."_in_"..wherein_
+                	oredef.wherein = wherein
+        		minetest.register_ore(oredef)
+        	end
+        end
 end
 
 ores.list = {
