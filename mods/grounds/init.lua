@@ -22,7 +22,7 @@ minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "grounds:clay",
 	wherein        = "default:sand",
-	clust_scarcity = 16*16*16,
+	clust_scarcity = 25*25*25,
 	clust_num_ores = 343,
 	clust_size     = 7,
 	height_min     = -31000,
