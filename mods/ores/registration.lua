@@ -133,7 +133,7 @@ ores.desc_list = {
 	'Jet',
 	'Kaolinite',
 	'Kimberlite',
-	'Olovine',
+	'Olivine',
 	'Petrified wood',
 -- 	'Pitchblende',
 	'Saltpeter',
