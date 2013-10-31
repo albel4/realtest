@@ -20,8 +20,9 @@ function realtest.register_ore(name, OreDef)
                 clust_num_ores = OreDef.ore_per_chunk or 10,
                 height_min = OreDef.height_min or -30912,
                 height_max = OreDef.height_max or 30912,
-                noise_threshhold = OreDef.noise_min or 0.6,
-                noise_params = {offset=0, scale=1, spread={x=100, y=100, z=100}, octaves=3, persist=0.70, seed = OreDef.delta_seed or d_seed}
+                noise_threshhold = OreDef.noise_min or 1,
+                noise_params = {offset=0, scale=1, spread={x=100, y=100, z=100}, octaves=3, persist=0.70, seed = OreDef.delta_seed or d_seed},
+                generate = true
         }
         d_seed = d_seed + 1
         if OreDef.generate == false then
@@ -62,7 +63,8 @@ function realtest.register_ore(name, OreDef)
                 })
                 if ore.generate then
                 	local oredef = copytable(ore)
-                	oredef.name = name.."_in_"..wherein_
+                	oredef.ore = name.."_in_"..wherein_
+                	oredef.ore_type = "scatter"
                 	oredef.wherein = wherein
         		minetest.register_ore(oredef)
         	end
