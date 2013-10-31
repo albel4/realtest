@@ -21,7 +21,7 @@ function realtest.register_anvil_recipe(RecipeDef)
 	if recipe.level < 0 then
 		recipe.level = 0
 	end
-	if recipe.output ~= "" and recipe.item1 ~= "" and (recipe.type == "forge" or recipe.type == "weld") then
+	if recipe.output ~= "" and recipe.item1 ~= "" and recipe.type == "forge" then
 		table.insert(realtest.registered_anvil_recipes, recipe)
 	end
 end
@@ -57,14 +57,13 @@ for i, metal in ipairs(metals.list) do
 		instrument = "chisel"
 	})
 	realtest.register_anvil_recipe({
-		type = "weld",
+		
 		item1 = "metals:"..metal.."_ingot",
 		item2 = "metals:"..metal.."_ingot",
 		output = "metals:"..metal.."_doubleingot",
 		level = metals.levels[i] - 1,
 	})
 	realtest.register_anvil_recipe({
-		type = "weld",
 		item1 = "metals:"..metal.."_sheet",
 		item2 = "metals:"..metal.."_sheet",
 		output = "metals:"..metal.."_doublesheet",
@@ -200,16 +199,15 @@ for _, anvil in ipairs(anvils) do
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", "size[8,7]"..
-					"button[0.5,0.25;1.35,1;buttonForge;Forge]"..
-					"button[1.6,0.25;0.9,1;buttonForge10;x10]"..
+			        "image[6,0;2,2;anvil_"..anvil[1].."_side.png]"..
+					"button[0.5,0.25;1.35,0.5;buttonForge;Forge]"..
+					"button[1.6,0.25;0.9,0.5;buttonForge10;x10]"..
 					"list[current_name;src1;2.9,0.25;1,1;]"..
 					"image[3.69,0.22;0.54,1.5;anvil_arrow.png]"..
 					"list[current_name;src2;4.1,0.25;1,1;]"..
-					"button[5.5,0.25;1.35,1;buttonWeld;Weld]"..
-					"button[6.6,0.25;0.9,1;buttonWeld10;x10]"..
-					"list[current_name;hammer;1,1.5;1,1;]"..
+					"list[current_name;hammer;0.5,1;1,1;]"..
 					"list[current_name;output;3.5,1.5;1,1;]"..
-					"list[current_name;flux;6,1.5;1,1;]"..
+					"list[current_name;flux;1.5,1;1,1;]"..
 					"list[current_player;main;0,3;8,4;]")
 			meta:set_string("infotext", anvil[2].." Anvil")
 			local inv = meta:get_inventory()
@@ -294,3 +292,4 @@ for _, anvil in ipairs(anvils) do
 		end,
 	})
 end
+

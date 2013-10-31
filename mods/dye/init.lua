@@ -137,4 +137,46 @@ minetest.register_craft({
 	recipe = {"default:cactus"},
 })
 
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:black 4",
+	recipe = {"minerals:charcoal"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:yellow 4",
+	recipe = {"flowers:dandelion_yellow"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:white 4",
+	recipe = {"flowers:dandelion_white"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:blue 4",
+	recipe = {"flowers:geranium"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:red 4",
+	recipe = {"flowers:rose"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:orange 4",
+	recipe = {"flowers:tulip"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "dye:violet 4",
+	recipe = {"flowers:viola"},
+})
+
 -- EOF
