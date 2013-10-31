@@ -15,16 +15,17 @@
 -- You should have received a copy of the GNU Lesser General Public
 -- License along with this program.  If not, see
 -- <http://www.gnu.org/licenses/>
-
-minetest.register_on_joinplayer(function(player)
-	player:get_inventory():set_width("craft", 2)
-	player:get_inventory():set_size("craft", 2*2)
-	player:set_inventory_formspec("size[8,7.5]"
-		.."list[current_player;main;0,3.5;8,4;]"
-		.."list[current_player;craft;3,0.5;2,2;]"
-		.."image[5,1;1,1;workbench_craftarrow.png]"
-		.."list[current_player;craftpreview;6,1;1,1;]")
-end)
+if not minetest.setting_getbool("creative_mode") then
+  minetest.register_on_joinplayer(function(player)
+	  player:get_inventory():set_width("craft", 2)
+	  player:get_inventory():set_size("craft", 2*2)
+	  player:set_inventory_formspec("size[8,7.5]"
+		  .."list[current_player;main;0,3.5;8,4;]"
+		  .."list[current_player;craft;3,0.5;2,2;]"
+		  .."image[5,1;1,1;workbench_craftarrow.png]"
+		  .."list[current_player;craftpreview;6,1;1,1;]")
+  end)
+end
 
 --
 --Helper Functions

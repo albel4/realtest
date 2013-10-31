@@ -72,8 +72,7 @@ creative_inventory.set_creative_formspec = function(player, start_i, pagenum)
 	local pagemax = math.floor((creative_inventory.creative_inventory_size-1) / (6*4) + 1)
 	player:set_inventory_formspec("size[13,7.5]"..
 			"list[current_player;main;5,3.5;8,4;]"..
-			"list[current_player;craft;7,0;3,3;]"..
-			"list[current_player;craftpreview;11,1;1,1;]"..
+			"image[8,0;6,3;rt_logo.png]"..
 			"list[detached:creative;main;0.3,0.5;4,6;"..tostring(start_i).."]"..
 			"label[2.0,6.55;"..tostring(pagenum).."/"..tostring(pagemax).."]"..
 			"button[0.3,6.5;1.6,1;creative_prev;<<]"..
@@ -88,6 +87,7 @@ minetest.register_on_joinplayer(function(player)
 	end
 	creative_inventory.set_creative_formspec(player, 0, 1)
 end)
+
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if not minetest.setting_getbool("creative_mode") then
 		return
