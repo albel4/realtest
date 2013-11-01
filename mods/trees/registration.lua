@@ -398,8 +398,11 @@ function realtest.register_tree(name, TreeDef)
 		end,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
+			meta:set_string("formspec",
+					"size[8,9]"..
+					"list[current_name;main;0,0;8,4;]"..
+					"list[current_player;main;0,5;8,4;]")
 			meta:set_string("infotext", tree.description.." Locked Chest")
-			meta:set_string("owner", "")
 			local inv = meta:get_inventory()
 			inv:set_size("main", 8*4)
 		end,
@@ -453,17 +456,6 @@ function realtest.register_tree(name, TreeDef)
 			minetest.log("action", player:get_player_name()..
 					" takes stuff from locked chest at "..minetest.pos_to_string(pos))
 			end,
-		on_rightclick = function(pos, node, clicker)
-			local meta = minetest.get_meta(pos)
-			if has_locked_chest_privilege(meta, clicker) then
-				local pos = pos.x .. "," .. pos.y .. "," ..pos.z
-				minetest.show_formspec(clicker:get_player_name(),
-					"trees:locked_chest",
-					"size[8,9]"..
-					"list[nodemeta:".. pos .. ";main;0,0;8,4;]"..
-					"list[current_player;main;0,5;8,4;]")
-			end
-		end,
 	})
 	
 	minetest.register_craft({
