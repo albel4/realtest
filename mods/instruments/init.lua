@@ -181,6 +181,7 @@ for i, material in ipairs(instruments.materials) do
 					max_drop_level=1,
 					groupcaps=instruments.groupcaps[j][i],
 				},
+				damage_groups = {fleshy=material_level=instruments.levels[i]},
 				groups = {material_level=instruments.levels[i], durability=instruments.durability[i], [instrument] = 1},
 			})
 		end
