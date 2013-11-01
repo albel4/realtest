@@ -316,7 +316,7 @@ for _, mineral in ipairs(decor_minerals) do
 				},
 			},
 		tiles = {
-			{name="decorations_"..mineral[1].."_coals.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},"decorations_"..mineral[1].."_coals.png", "decorations_"..mineral[1]..".png"
+			{name="decorations_"..mineral[1].."_coals.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},"decorations_"..mineral[1]..".png"
 		},
 		groups = {cracky=3, oddly_breakable_by_hand = 2},
 		sounds = default.node_sound_stone_defaults(),
