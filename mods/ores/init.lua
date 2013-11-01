@@ -14,7 +14,7 @@ minetest.register_ore({
 
 minetest.register_abm({
 	nodenames = {"default:stone"},
-	nodenames = {"default:lava_source"},
+	neighbours = {"default:lava_source"},
 	interval = 10,
 	chance = 100,
 	action = function(pos, node)
