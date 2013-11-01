@@ -20,7 +20,7 @@ function realtest.register_ore(name, OreDef)
                 clust_num_ores = OreDef.ore_per_chunk or 10,
                 height_min = OreDef.height_min or -30912,
                 height_max = OreDef.height_max or 30912,
-                noise_threshhold = OreDef.noise_min or 1.4,
+                noise_threshhold = OreDef.noise_min or 1.2,
                 noise_params = {offset=0, scale=1, spread={x=100, y=100, z=100}, octaves=3, persist=0.70, seed = OreDef.delta_seed or d_seed},
                 generate = true
         }
@@ -192,16 +192,10 @@ realtest.register_ore("ores:graphite", {
 
 minetest.register_node("ores:sulfur", {
 	description = "Sulfur Ore",
-	drawtype = "signlike",
-	tile_images = {"ores_sulfur.png"},
+	tile_images = {"default_stone.png^ores_sulfur.png"},
 	particle_image = {"minerals_sulfur.png"},
 	paramtype = "light",
-	paramtype2 = "wallmounted",
-	walkable = false,
-	selection_box = {
-		type = "wallmounted",
-	},
-	groups = {cracky=3,drop_on_dig=1,dig_immediate=2,attached_node=1},
+	groups = {cracky=3,drop_on_dig=1,dig_immediate=2},
 	drop = {
 		max_items = 1,
 		items = {

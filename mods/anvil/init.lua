@@ -191,7 +191,7 @@ for _, anvil in ipairs(anvils) do
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			if inv:is_empty("src1") and inv:is_empty("src2") and inv:is_empty("hammer")
-				and inv:is_empty("output") and inv:is_empty("flux") then
+				and inv:is_empty("output") then
 				return true
 			end
 			return false
@@ -205,9 +205,8 @@ for _, anvil in ipairs(anvils) do
 					"list[current_name;src1;2.9,0.25;1,1;]"..
 					"image[3.69,0.22;0.54,1.5;anvil_arrow.png]"..
 					"list[current_name;src2;4.1,0.25;1,1;]"..
-					"list[current_name;hammer;0.5,1;1,1;]"..
+					"list[current_name;hammer;1,1;1,1;]"..
 					"list[current_name;output;3.5,1.5;1,1;]"..
-					"list[current_name;flux;1.5,1;1,1;]"..
 					"list[current_player;main;0,3;8,4;]")
 			meta:set_string("infotext", anvil[2].." Anvil")
 			local inv = meta:get_inventory()
@@ -248,45 +247,11 @@ for _, anvil in ipairs(anvils) do
 					end
 				end
 			end
-			local weld = function()
-				if flux:get_name() == "minerals:flux" then
-					for _, recipe in ipairs(realtest.registered_anvil_recipes) do
-						if recipe.type == "weld" and recipe.item1 == src1:get_name() and recipe.item2 == src2:get_name() and
-							anvil[3] >= recipe.level and
-							minetest.get_item_group(instrument:get_name(),  recipe.instrument) == 1 and
-							minetest.get_item_group(instrument:get_name(), "material_level") >= recipe.level then
-							if inv:room_for_item("output", recipe.output) then
-								if recipe.rmitem1 then
-									src1:take_item()
-									inv:set_stack("src1", 1, src1)
-								end
-								if recipe.item2 ~= "" and recipe.rmitem2 then
-									src2:take_item()
-									inv:set_stack("src2", 1, src2)
-								end
-								output:add_item(recipe.output)
-								inv:set_stack("output", 1, output)
-								flux:take_item()
-								inv:set_stack("flux", 1, flux)
-								instrument:add_wear(65535/minetest.get_item_group(instrument:get_name(), "durability")/2)
-								inv:set_stack("hammer", 1, instrument)
-							end
-							return
-						end
-					end 
-				end
-			end
 			if fields["buttonForge"] then
 				forge()
 			elseif fields["buttonForge10"] then
 				for i = 0, 9 do
 					forge()
-				end
-			elseif fields["buttonWeld"] then
-				weld()
-			elseif fields["buttonWeld10"] then
-				for i = 0, 9 do
-					weld()
 				end
 			end
 		end,
