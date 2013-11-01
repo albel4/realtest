@@ -12,14 +12,4 @@ minetest.register_ore({
 	height_max     = 0,
 })
 
-minetest.register_abm({
-	nodenames = {"default:stone"},
-	neighbours = {"default:lava_source"},
-	interval = 10,
-	chance = 100,
-	action = function(pos, node)
-	      minetest.add_node(pos, {name="ores:sulfur"})
-	end
-})
-
 dofile(minetest.get_modpath("ores").."/registration.lua")

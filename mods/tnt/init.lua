@@ -233,7 +233,7 @@ minetest.register_craft({
 	output = "tnt:tnt",
 	recipe = {
 		{"trees:birch_plank","minerals:saltpeter","trees:birch_plank"},
-		{"trees:birch_plank","minerals:sulfur","trees:birch_plank"},
+		{"trees:birch_plank","minerals:charcoal","trees:birch_plank"},
 		{"trees:birch_plank","minerals:saltpeter","trees:birch_plank"},
 	}
 })
