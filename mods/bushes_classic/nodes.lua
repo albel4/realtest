@@ -76,7 +76,7 @@ plantlife_bushes.after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		-- the amount of sticks may vary
 		amount    = math.random( 4, 20 );
 		-- return some sticks
-		harvested = "default:stick "..amount;
+		harvested = "trees:maple_stick "..amount;
 
 	-- nothing known - destroy the plant
 	else

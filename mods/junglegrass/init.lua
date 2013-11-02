@@ -116,4 +116,23 @@ for i in ipairs(grasses_list) do
 	})
 end
 
+minetest.register_node(":default:junglegrass", {
+	description = "Jungle Grass",
+	drawtype = "plantlike",
+	visual_scale = 1.3,
+	tiles = {"default_junglegrass.png"},
+	inventory_image = "default_junglegrass.png",
+	wield_image = "default_junglegrass.png",
+	paramtype = "light",
+	walkable = false,
+	buildable_to = true,
+	is_ground_content = true,
+	groups = {snappy=3,flammable=2,flora=1,attached_node=1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+	},
+})
+
 print("[Junglegrass] Loaded.")
