@@ -228,13 +228,41 @@ minetest.register_abm({
 end,
 })	
 
-for _, tree in pairs(realtest.registered_trees) do
+minetest.register_craftitem("tnt:gunpowder", {
+    description = "Gunpowder",
+	inventory_image = "tnt_gunpowder.png",
+	wield_image = "tnt_gunpowder.png",
+})
+
+local tree = {}
+
+tree.types = {
+	{"ash"},
+	{"aspen"},
+	{"birch"},
+	{"maple"},
+	{"chestnut"},
+	{"pine"},
+	{"spruce"}
+}
+
+for _, row in ipairs(tree.types) do
+	local name = row[1]
+    minetest.register_craft({
+	    output = "tnt:tnt",
+	    recipe = {
+		    {"trees:"..name.."_plank",    "trees:"..name.."_plank",    "trees:"..name.."_plank"},
+		    {"trees:"..name.."_plank",    "tnt:gunpowder",             "trees:"..name.."_plank"},
+		    {"trees:"..name.."_plank",    "trees:"..name.."_plank",    "trees:"..name.."_plank"},
+	    }
+    })
+end
+
 minetest.register_craft({
-	output = "tnt:tnt",
+	output = "tnt:gunpowder",
 	recipe = {
-		{"trees:birch_plank","minerals:saltpeter","trees:birch_plank"},
-		{"trees:birch_plank","minerals:charcoal","trees:birch_plank"},
-		{"trees:birch_plank","minerals:saltpeter","trees:birch_plank"},
+		{"minerals:charcoal","minerals:saltpeter","minerals:charcoal"},
+		{"minerals:saltpeter","minerals:sulfur","minerals:saltpeter"},
+		{"minerals:charcoal","minerals:saltpeter","minerals:charcoal"},
 	}
 })
-end

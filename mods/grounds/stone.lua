@@ -169,6 +169,10 @@ minetest.register_node(":default:stone", {
 				rarity = 50,
 			},
 			{
+				items = {"default:stone_small_rock", "minerals:sulfur"},
+				rarity = 250,
+			},
+			{
 				items = {"default:stone_small_rock", "default:stone_small_rock", "default:stone_small_rock"},
 				rarity = 5
 			},
