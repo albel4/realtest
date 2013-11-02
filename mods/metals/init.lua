@@ -183,6 +183,7 @@ for i=1, #metals.list do
 		type = "cooking",
 		output = "metals:"..metals.list[i].."_unshaped",
 		recipe = "metals:ceramic_mold_"..metals.list[i],
+		cooktime = 30,
 	})
 end
 
@@ -236,6 +237,7 @@ minetest.register_craft({
 	type = "cooking",
 	output = "metals:ceramic_mold",
 	recipe = "metals:clay_mold",
+	cooktime = 5,
 })
 
 minetest.register_craft({

@@ -611,6 +611,7 @@ function realtest.register_tree(name, TreeDef)
 		type="cooking",
 		output="minerals:charcoal",
 		recipe=tree.name.."_log",
+		cooktime = 10,
 	})
 	
 	minetest.register_craft({

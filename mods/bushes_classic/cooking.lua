@@ -29,7 +29,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	minetest.register_craftitem(":bushes:"..berry.."_pie_raw", {
 		description = "Raw "..desc.." pie",
 		inventory_image = "bushes_"..berry.."_pie_raw.png",
-		on_use = minetest.item_eat(3),
+		on_use = minetest.item_eat(8),
 	})
 
 	if berry ~= "mixed_berry" then
@@ -37,7 +37,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 			description = desc,
 			inventory_image = "bushes_"..berry..".png",
 			groups = {berry = 1},
-			on_use = minetest.item_eat(3),
+			on_use = minetest.item_eat(1),
 		})
 
 		minetest.register_craft({
@@ -54,7 +54,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	minetest.register_craftitem(":bushes:"..berry.."_pie_cooked", {
 		description = "Cooked "..desc.." pie",
 		inventory_image = "bushes_"..berry.."_pie_cooked.png",
-		on_use = minetest.item_eat(4),
+		on_use = minetest.item_eat(16),
 	})
 
 	minetest.register_craft({
@@ -69,7 +69,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	minetest.register_craftitem(":bushes:"..berry.."_pie_slice", {
 		description = "Slice of "..desc.." pie",
 		inventory_image = "bushes_"..berry.."_pie_slice.png",
-		on_use = minetest.item_eat(1),
+		on_use = minetest.item_eat(4),
 	})
 
 	minetest.register_craft({
