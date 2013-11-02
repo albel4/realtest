@@ -1,3 +1,5 @@
+minetest.register_alias("default:stick", "trees:maple_stick")
+
 realtest.registered_trees = {}
 realtest.registered_trees_list = {}
 function realtest.register_tree(name, TreeDef)

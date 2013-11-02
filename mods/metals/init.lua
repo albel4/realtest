@@ -183,7 +183,7 @@ for i=1, #metals.list do
 		type = "cooking",
 		output = "metals:"..metals.list[i].."_unshaped",
 		recipe = "metals:ceramic_mold_"..metals.list[i],
-		cooktime = 30,
+		cooktime = 10,
 	})
 end
 
