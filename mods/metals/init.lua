@@ -326,6 +326,7 @@ for i, mineral in ipairs(minerals.list) do
 		type = "cooking",
 		output = "metals:"..minerals.metals_list[i].."_unshaped",
 		recipe = "metals:ceramic_mold_"..mineral,
+		cooktime = 5,
 	})
 end
 

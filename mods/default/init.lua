@@ -683,6 +683,12 @@ minetest.register_craft({
 		{"default:clay_brick","default:clay_brick"},
 	},
 })
+minetest.register_craft({
+	type = "cooking",
+	output = "default:stone",
+	recipe = "default:stone_macadam",
+	cooktime = 8,
+	})
 
 --
 -- Global callbacks
