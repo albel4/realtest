@@ -100,8 +100,8 @@ minetest.register_node("farming:seed_spelt", {
 
 minetest.register_abm({
 	nodenames = {"farming:seed_flax"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_1"})
@@ -111,8 +111,8 @@ minetest.register_abm({
 
 minetest.register_abm({
 	nodenames = {"farming:seed_spelt"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_1"})
@@ -127,8 +127,8 @@ minetest.register_abm({
 --Flax
 minetest.register_abm({
 	nodenames = {"farming:flax_1"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_2"})
@@ -137,8 +137,8 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:flax_2"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_3"})
@@ -147,8 +147,8 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:flax_3"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_4"})
@@ -159,8 +159,8 @@ minetest.register_abm({
 --Spelt
 minetest.register_abm({
 	nodenames = {"farming:spelt_1"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_2"})
@@ -169,8 +169,8 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:spelt_2"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_3"})
@@ -179,8 +179,8 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:spelt_3"},
-	interval = 500,
-	chnace = 20,
+	interval = 200,
+	chance = 10,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_4"})
