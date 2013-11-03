@@ -38,6 +38,7 @@ minetest.register_node("farming:seed_flax", {
 	groups = {snappy=3},
 	paramtype = "light",
 	sunlight_propagates = true,
+	walkable = false,
 	selection_box = {
     type = "fixed",
 	fixed = {
@@ -86,6 +87,7 @@ minetest.register_node("farming:seed_spelt", {
 	groups = {snappy=3},
 	paramtype = "light",
 	sunlight_propagates = true,
+	walkable = false,
 	selection_box = {
     type = "fixed",
 	fixed = {
