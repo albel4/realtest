@@ -5,12 +5,12 @@
 for i=1,4 do
 	local drop = {
 		items = {
-			{items = {'farming:string'},rarity=9-i},
-			{items = {'farming:string'},rarity=18-i*2},
-			{items = {'farming:string'},rarity=27-i*3},
-			{items = {'farming:seed_flax'},rarity=9-i},
-			{items = {'farming:seed_flax'},rarity=18-i*2},
-			{items = {'farming:seed_flax'},rarity=27-i*3},
+			{items = {'farming:string'},rarity=5-i},
+			{items = {'farming:string'},rarity=5-i*2},
+			{items = {'farming:string'},rarity=5-i*3},
+			{items = {'farming:seed_flax'},rarity=5-i},
+			{items = {'farming:seed_flax'},rarity=5-i*2},
+			{items = {'farming:seed_flax'},rarity=5-i*3},
 		}
 	}
 	minetest.register_node("farming:flax_"..i, {
@@ -53,12 +53,12 @@ minetest.register_node("farming:seed_flax", {
 for i=1,4 do
 	local drop = {
 		items = {
-			{items = {'farming:wheat'},rarity=9-i},
-			{items = {'farming:wheat'},rarity=18-i*2},
-			{items = {'farming:wheat'},rarity=27-i*3},
-			{items = {'farming:seed_spelt'},rarity=9-i},
-			{items = {'farming:seed_spelt'},rarity=18-i*2},
-			{items = {'farming:seed_spelt'},rarity=27-i*3},
+			{items = {'farming:wheat'},rarity=5-i},
+			{items = {'farming:wheat'},rarity=5-i*2},
+			{items = {'farming:wheat'},rarity=5-i*3},
+			{items = {'farming:seed_spelt'},rarity=5-i},
+			{items = {'farming:seed_spelt'},rarity=5-i*2},
+			{items = {'farming:seed_spelt'},rarity=5-i*3},
 		}
 	}
 	minetest.register_node("farming:spelt_"..i, {
@@ -100,7 +100,7 @@ minetest.register_node("farming:seed_spelt", {
 
 minetest.register_abm({
 	nodenames = {"farming:seed_flax"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -111,7 +111,7 @@ minetest.register_abm({
 
 minetest.register_abm({
 	nodenames = {"farming:seed_spelt"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -127,7 +127,7 @@ minetest.register_abm({
 --Flax
 minetest.register_abm({
 	nodenames = {"farming:flax_1"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -137,7 +137,7 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:flax_2"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -147,7 +147,7 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:flax_3"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -159,7 +159,7 @@ minetest.register_abm({
 --Spelt
 minetest.register_abm({
 	nodenames = {"farming:spelt_1"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -169,7 +169,7 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:spelt_2"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
@@ -179,7 +179,7 @@ minetest.register_abm({
 })
 minetest.register_abm({
 	nodenames = {"farming:spelt_3"},
-	interval = 120,
+	interval = 500,
 	chnace = 20,
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
