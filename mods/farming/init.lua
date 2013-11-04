@@ -6,11 +6,11 @@ for i=1,4 do
 	local drop = {
 		items = {
 			{items = {'farming:string'},rarity=5-i},
-			{items = {'farming:string'},rarity=5-i*2},
-			{items = {'farming:string'},rarity=5-i*3},
+			{items = {'farming:string'},rarity=6-i*2},
+			{items = {'farming:string'},rarity=7-i*3},
 			{items = {'farming:seed_flax'},rarity=5-i},
-			{items = {'farming:seed_flax'},rarity=5-i*2},
-			{items = {'farming:seed_flax'},rarity=5-i*3},
+			{items = {'farming:seed_flax'},rarity=6-i*2},
+			{items = {'farming:seed_flax'},rarity=7-i*3},
 		}
 	}
 	minetest.register_node("farming:flax_"..i, {
@@ -35,7 +35,7 @@ minetest.register_node("farming:seed_flax", {
 	description = "Flax Seeds",
 	tiles = {"farming_seed_placed.png"},
 	inventory_image = "farming_flax_seed.png",
-	groups = {snappy=3},
+	groups = {snappy=3, plant=1},
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
@@ -55,11 +55,11 @@ for i=1,4 do
 	local drop = {
 		items = {
 			{items = {'farming:wheat'},rarity=5-i},
-			{items = {'farming:wheat'},rarity=5-i*2},
-			{items = {'farming:wheat'},rarity=5-i*3},
+			{items = {'farming:wheat'},rarity=6-i*2},
+			{items = {'farming:wheat'},rarity=7-i*3},
 			{items = {'farming:seed_spelt'},rarity=5-i},
-			{items = {'farming:seed_spelt'},rarity=5-i*2},
-			{items = {'farming:seed_spelt'},rarity=5-i*3},
+			{items = {'farming:seed_spelt'},rarity=6-i*2},
+			{items = {'farming:seed_spelt'},rarity=7-i*3},
 		}
 	}
 	minetest.register_node("farming:spelt_"..i, {
@@ -84,7 +84,7 @@ minetest.register_node("farming:seed_spelt", {
 	description = "Spelt (Wheat) Seeds",
 	tiles = {"farming_seed_placed.png"},
 	inventory_image = "farming_spelt_seed.png",
-	groups = {snappy=3},
+	groups = {snappy=3, plant=1},
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
@@ -287,12 +287,11 @@ minetest.register_abm({
 	interval = 30,
 	chance = 3,
 	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name == "air"  then
+	    if minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name == "group:plant"  then
 	        minetest.add_node({x=pos.x,y=pos.y-1,z=pos.z}, {name="default:dirt"})
 	    end
 	end
 })
-
 --
 --Hoe functions
 --
@@ -355,9 +354,12 @@ minetest.register_node("farming:nest", {
 	node_box = {
     type = "fixed",
 	fixed = {
-		{-3/16,-8/16,-3/16,3/16,-6/16,3/16},
-		{-5/16,-6/16,-5/16,5/16,-4/16,5/16},
-		{-6/16,-4/16,-6/16,6/16,-0/16,6/16},
+		{-3/16,-8/16,-3/16,3/16,-6/16,3/16}, --Base
+		{-5/16,-6/16,-5/16,5/16,-4/16,5/16}, --Middle
+		{-6/16,-4/16,-6/16,-4/16,-0/16,6/16}, --Top Section
+		{4/16,-4/16,-6/16,6/16,-0/16,6/16}, --Top Section
+		{-6/16,-4/16,-6/16,6/16,-0/16,-4/16}, --Top Section
+		{-6/16,-4/16,4/16,6/16,-0/16,6/16}, --Top Section
 	    },
     },
 		drop = {
@@ -369,6 +371,18 @@ minetest.register_node("farming:nest", {
 				},
 				{
 					items = {"farming:seed_spelt"},
+					rarity = 3,
+				},
+				{
+					items = {"farming:seed_flax"},
+					rarity = 6,
+				},
+				{
+					items = {"farming:seed_spelt"},
+					rarity = 6,
+				},
+				{
+					items = {"default:stick"},
 					rarity = 3,
 				},
 			}
