@@ -73,7 +73,7 @@ function realtest.register_tree(name, TreeDef)
 	minetest.register_node(tree.name.."_writing_table", {
 		description = tree.description.." Writing Table",
 		drawtype = "nodebox",
-		tiles = {tree.textures.planks, tree.textures.planks, tree.textures.planks.."^decorations_bookshelf.png",  tree.textures.planks.."^decorations_bookshelf.png",tree.textures.planks.."^decorations_bookshelf_half.png",  tree.textures.planks.."^decorations_bookshelf_half.png"},
+		tiles = {tree.textures.planks, tree.textures.planks, tree.textures.planks,  tree.textures.planks, tree.textures.planks,  tree.textures.planks.."^decorations_bookshelf_half.png"},
 		inventory_image = "trees_writing_table.png",
 		wield_image = "trees_writing_table.png",
 		paramtype = "light",
@@ -83,15 +83,15 @@ function realtest.register_tree(name, TreeDef)
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-8/16,7/16,-8/16,8/16,8/16,8/16}, --Middle
-				{-16/16,-8/16,-8/16,-8/16,8/16,8/16}, --Sides
-				{8/16,-8/16,-8/16,16/16,8/16,8/16}, --Sides
+				{-19/16,7/16,-8/16,8/16,8/16,8/16}, --Top
+				{8/16,-8/16,-8/16,16/16,8/16,8/16}, --Bookshelf
+				{-17/16,-8/16,-1/16,-15/16,7/16,1/16}, --Leg
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{-16/16,-8/16,-8/16,16/16,8/16,8/16},
+				{-19/16,-8/16,-8/16,16/16,8/16,8/16},
 			},
 		},
 		on_construct = function(pos)
