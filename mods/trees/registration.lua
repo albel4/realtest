@@ -73,7 +73,7 @@ function realtest.register_tree(name, TreeDef)
 	minetest.register_node(tree.name.."_writing_table", {
 		description = tree.description.." Writing Table",
 		drawtype = "nodebox",
-		tiles = {tree.textures.planks, tree.textures.planks, tree.textures.planks,  tree.textures.planks, tree.textures.planks,  tree.textures.planks.."^decorations_bookshelf_half.png"},
+		tiles = {tree.textures.planks, tree.textures.planks, tree.textures.planks,  tree.textures.planks, tree.textures.planks.."^decorations_bookshelf_half.png"},
 		inventory_image = "trees_writing_table.png",
 		wield_image = "trees_writing_table.png",
 		paramtype = "light",
@@ -105,6 +105,36 @@ function realtest.register_tree(name, TreeDef)
 			local inv = meta:get_inventory()
 			inv:set_size("main", 8*4)
 		end,
+	})
+		minetest.register_node(tree.name.."_chair", {
+		description = tree.description.." Chair",
+		drawtype = "nodebox",
+		tiles = {tree.textures.planks},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {choppy=2,flammable=2,oddly_breakable_by_hand=2},
+		sounds = default.node_sound_wood_defaults(),
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-6/16, -8/16, -6/16, -4/16, 12/16, -4/16}, --Leg
+				{4/16, -8/16, -6/16, 6/16, 12/16, -4/16}, --Leg
+				{-6/16, -8/16, 4/16, -4/16, 4/16, 6/16}, --Leg
+				{4/16, -8/16, 4/16, 6/16, 4/16, 6/16}, --Leg
+				{-6/16, -1/16, -6/16, 6/16, 0/16, 6/16}, --Seat
+				{-6/16, 9/16, -6/16, 6/16, 11/16, -5/16}, --Back Rest
+				{-6/16, 5/16, -6/16, 6/16, 7/16, -5/16}, --Back Rest
+				{-6/16, 1/16, -6/16, 6/16, 3/16, -5/16}, --Back Rest
+				{-6/16, 4/16, -6/16, -4/16, 6/16, 6/16}, --Arm Rest
+				{4/16, 4/16, -6/16, 6/16, 6/16, 6/16}, --Arm Rest
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-6/16,-8/16,-6/16,6/16,12/16,6/16},
+			},
+		},
 	})
 	
 	minetest.register_craftitem(tree.name.."_plank", {
@@ -589,6 +619,15 @@ function realtest.register_tree(name, TreeDef)
 		output = tree.name.."_writing_table",
 		recipe = {
 			{tree.name.."_fence",tree.name.."_planks_slab", "decorations:bookshelf_"..tree.name:remove_modname_prefix()},
+		}
+	})
+	
+	minetest.register_craft({
+		output = tree.name.."_chair 2",
+		recipe = {
+			{tree.name.."_fence", ""},
+			{tree.name.."_planks_slab", tree.name.."_planks_slab"},
+			{tree.name.."_fence",tree.name.."_fence"},
 		}
 	})
 	
