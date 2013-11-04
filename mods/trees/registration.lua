@@ -70,6 +70,83 @@ function realtest.register_tree(name, TreeDef)
 		sounds = default.node_sound_defaults()
 	})
 	
+	minetest.register_node(tree.name.."_writing_table", {
+		description = tree.description.." Writing Table (MUST have a space either side of place location!)",
+		drawtype = "nodebox",
+		tiles = {tree.textures.planks},
+		inventory_image = "trees_writing_table.png",
+		wield_image = "trees_writing_table.png",
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {choppy=2,flammable=2,oddly_breakable_by_hand=2},
+		sounds = default.node_sound_wood_defaults(),
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-8/16,6/16,-8/16,8/16,8/16,8/16},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-24/16,-8/16,-8/16,24/16,8/16,8/16},
+			},
+		},
+		on_construct = function(pos)
+			local meta = minetest.get_meta(pos)
+			meta:set_string("formspec",
+					"size[8,9]"..
+					"list[current_name;main;0,0;8,4;]"..
+					"list[current_player;main;0,5;8,4;]")
+			meta:set_string("infotext", tree.description.." Writing Table")
+			local inv = meta:get_inventory()
+			inv:set_size("main", 8*4)
+		end,
+		can_dig = function(pos,player)
+			local meta = minetest.get_meta(pos);
+			local inv = meta:get_inventory()
+			return inv:is_empty("main")
+		end,
+        after_place_node = function(pos,placer,itemstack)
+	        local param2 = minetest.get_node(pos).param2
+		        if param2 == 0 then
+		        minetest.add_node({x=pos.x-1,y=pos.y,z=pos.z},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		        minetest.add_node({x=pos.x+1,y=pos.y,z=pos.z},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		    end
+		        if param2 == 1 then
+		        minetest.add_node({x=pos.x,y=pos.y,z=pos.z-1},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		        minetest.add_node({x=pos.x,y=pos.y,z=pos.z+1},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		    end
+		        if param2 == 2 then
+		        minetest.add_node({x=pos.x-1,y=pos.y,z=pos.z},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		        minetest.add_node({x=pos.x+1,y=pos.y,z=pos.z},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		    end
+		        if param2 == 3 then
+		        minetest.add_node({x=pos.x,y=pos.y,z=pos.z-1},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		        minetest.add_node({x=pos.x,y=pos.y,z=pos.z+1},{name="decorations:bookshelf_"..tree.name:remove_modname_prefix()})
+		    end
+	    end,
+        on_destruct = function(pos,placer,itemstack)
+	        local param2 = minetest.get_node(pos).param2
+		    if param2 == 0 then
+		        minetest.remove_node({x=pos.x-1,y=pos.y,z=pos.z},node)
+		        minetest.remove_node({x=pos.x+1,y=pos.y,z=pos.z},node)
+		    end
+		    if param2 == 1 then
+		        minetest.remove_node({x=pos.x,y=pos.y,z=pos.z-1},node)
+		        minetest.remove_node({x=pos.x,y=pos.y,z=pos.z+1},node)
+		    end
+		    if param2 == 2 then
+		        minetest.remove_node({x=pos.x-1,y=pos.y,z=pos.z},node)
+		        minetest.remove_node({x=pos.x+1,y=pos.y,z=pos.z},node)
+		    end
+		    if param2 == 3 then
+		        minetest.remove_node({x=pos.x,y=pos.y,z=pos.z-1},node)
+		        minetest.remove_node({x=pos.x,y=pos.y,z=pos.z+1},node)
+		    end
+	    end,
+	})
+	
 	minetest.register_craftitem(tree.name.."_plank", {
 		description = tree.description.." Plank",
 		inventory_image = tree.textures.plank,
@@ -546,6 +623,13 @@ function realtest.register_tree(name, TreeDef)
 	minetest.register_craft({
 		output = tree.name.."_plank 4",
 		recipe = {{tree.name.."_planks"}}
+	})
+	
+	minetest.register_craft({
+		output = tree.name.."_writing_table",
+		recipe = {
+			{"decorations:bookshelf_"..tree.name:remove_modname_prefix(),tree.name.."_planks_slab","decorations:bookshelf_"..tree.name:remove_modname_prefix()},
+		}
 	})
 	
 	minetest.register_craft({
