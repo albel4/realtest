@@ -388,3 +388,42 @@ minetest.register_node("farming:nest", {
 			}
 		}
 })
+
+--
+--Rope
+--
+
+minetest.register_node("farming:rope",{
+	description = "Rope",
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	tiles = {"farming_rope.png"},
+	inventory_image = "farming_rope.png",
+	wield_image = "farming_rope.png",
+	groups = {choppy=3,snappy=3,oddly_breakable_by_hand=3,flammable=1},
+	paramtype = "light",
+	climbable = true,
+	walkable = false,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-1/16, -8/16, -1/16, 1/16, 8/16, 1/16}, 
+		},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-1/16, -8/16, -1/16, 1/16, 8/16, 1/16},
+		},
+	},
+})
+
+minetest.register_craft({
+	output = "farming:rope",
+	recipe = {
+	    {"farming:string"},
+		{"farming:string"},
+		{"farming:string"},
+	}
+})
+
