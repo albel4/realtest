@@ -224,11 +224,57 @@ minetest.register_craftitem("farming:flour", {
 	wield_image = "farming_flour.png",
 })
 
-minetest.register_craftitem("farming:bread", {
-	description = "Loaf of Bread",
-	inventory_image = "farming_bread.png",
-	wield_image = "farming_bread.png",
-	on_use=minetest.item_eat(8)
+--
+--Cake
+--
+
+local cakebox = {}
+local detail = 16
+local sehne
+for i = 1, detail-1 do
+	sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
+	cakebox[i]={(i/detail)-0.5, -0.5, -sehne, (i/detail)+(1/detail)-0.5, 0.0, sehne}
+end
+
+minetest.register_node("farming:cake", {
+    drawtype = "nodebox",
+	description = "CAKE!!!",
+	tiles = {"farming_cake_top.png","farming_cake_base.png","farming_cake_side.png"},
+	groups = {crumbly=3},
+	paramtype = "light",
+	drop = "farming:cake",
+	on_use=minetest.item_eat(16),
+	node_box = {
+		type = "fixed",
+		fixed = cakebox,
+	},
+	selection_box = {
+        type = "fixed",
+	    fixed = {
+		    {-8/16,-8/16,-8/16,8/16,0/16,8/16},
+	    },
+    },
+})
+
+minetest.register_craftitem("farming:dough", {
+	description = "Cake Mixture",
+	inventory_image = "farming_cakedough.png",
+	wield_image = "farming_cakedough.png",
+})
+
+minetest.register_craft({
+	output = "farming:dough",
+	recipe = {
+		{"bushes:sugar","bushes:sugar"},
+		{"farming:flour","farming:flour"},
+	}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "farming:cake",
+	recipe = "farming:dough",
+	cooktime = 30,
 })
 
 --
@@ -240,13 +286,6 @@ minetest.register_craft({
 		{"farming:wheat","farming:wheat"},
 		{"farming:wheat","farming:wheat"},
 	}
-})
-
-minetest.register_craft({
-	type = "cooking",
-	output = "farming:bread",
-	recipe = "farming:flour",
-	cooktime = 30,
 })
 
 minetest.register_craft({
@@ -398,8 +437,8 @@ minetest.register_node("farming:rope",{
 	drawtype = "nodebox",
 	sunlight_propagates = true,
 	tiles = {"farming_rope.png"},
-	inventory_image = "farming_rope.png",
-	wield_image = "farming_rope.png",
+	inventory_image = "farming_rope_inv.png",
+	wield_image = "farming_rope_inv.png",
 	groups = {choppy=3,snappy=3,oddly_breakable_by_hand=3,flammable=1},
 	paramtype = "light",
 	climbable = true,
