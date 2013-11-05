@@ -152,20 +152,8 @@ function realtest.register_tree(name, TreeDef)
 		sounds = default.node_sound_wood_defaults(),
 		drop = tree.name.."_plank 4",
 		drop_on_dropping = tree.name.."_log",
-		drawtype = "nodebox",
+		drawtype = "normal",
 		paramtype = "light",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4,-0.5,-0.4,0.4,0.5,0.4},
-			},
-		},
-		selection_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4,-0.5,-0.4,0.4,0.5,0.4},
-			},
-		},
 		on_dig = function(pos, node, digger)
 			minetest.debug("node_dig")
 
@@ -321,20 +309,8 @@ function realtest.register_tree(name, TreeDef)
 		groups = {tree=1,snappy=1,choppy=2,flammable=2,dropping_node=1,drop_on_dig=1},
 		sounds = default.node_sound_wood_defaults(),
 		drop = tree.name.."_log",
-		drawtype = "nodebox",
+		drawtype = "normal",
 		paramtype = "light",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4,-0.5,-0.4,0.4,0.5,0.4},
-			},
-		},
-		selection_box = {
-			type = "fixed",
-			fixed = {
-				{-0.4,-0.5,-0.4,0.4,0.5,0.4},
-			},
-		},
 	})
 	
 	minetest.register_node(tree.name.."_trunk_top", {
