@@ -594,16 +594,16 @@ function realtest.register_tree(name, TreeDef)
 	minetest.register_craft({
 		output = tree.name.."_writing_table",
 		recipe = {
-			{tree.name.."_fence",tree.name.."_planks_slab", "decorations:bookshelf_"..tree.name:remove_modname_prefix()},
+			{"fences:"..tree.name:remove_modname_prefix().."_fence",tree.name.."_planks_slab", "decorations:bookshelf_"..tree.name:remove_modname_prefix()},
 		}
 	})
 	
 	minetest.register_craft({
 		output = tree.name.."_chair 2",
 		recipe = {
-			{tree.name.."_fence", ""},
+			{"fences:"..tree.name:remove_modname_prefix().."_fence", ""},
 			{tree.name.."_planks_slab", tree.name.."_planks_slab"},
-			{tree.name.."_fence",tree.name.."_fence"},
+			{"fences:"..tree.name:remove_modname_prefix().."_fence","fences:"..tree.name:remove_modname_prefix().."_fence"},
 		}
 	})
 	
