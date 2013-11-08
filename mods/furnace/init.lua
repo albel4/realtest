@@ -13,20 +13,25 @@ function furnace.check_furnace_blocks(pos)
 end
 
 furnace.formspec = 
-	"size[8,10]"..
-	"list[current_name;src1;1.5,0;1,1;]"..
-	"list[current_name;dst1;1.5,1;1,1;]"..
-	"list[current_name;src2;2.5,1;1,1;]"..
-	"list[current_name;dst2;2.5,2;1,1;]"..
-	"list[current_name;src3;3.5,2;1,1;]"..
-	"list[current_name;dst3;3.5,3;1,1;]"..
-	"list[current_name;src4;4.5,1;1,1;]"..
-	"list[current_name;dst4;4.5,2;1,1;]"..
-	"list[current_name;src5;5.5,0;1,1;]"..
-	"list[current_name;dst5;5.5,1;1,1;]"..
-	"image[3.5,4;1,1;default_furnace_fire_bg.png]"..
-	"list[current_name;fuel;3.5,5;1,1;]"..
-	"list[current_player;main;0,6;8,4;]"
+	"size[8,8]"..
+	"list[current_name;src1;0,0;1,1;]"..
+	"image[0,1;1,1;furnace_arrow.png]"..
+	"list[current_name;dst1;0,2;1,1;]"..
+	"list[current_name;src2;1,0;1,1;]"..
+	"image[1,1;1,1;furnace_arrow.png]"..
+	"list[current_name;dst2;1,2;1,1;]"..
+	"list[current_name;src3;2,0;1,1;]"..
+	"image[2,1;1,1;furnace_arrow.png]"..
+	"list[current_name;dst3;2,2;1,1;]"..
+	"list[current_name;src4;3,0;1,1;]"..
+	"image[3,1;1,1;furnace_arrow.png]"..
+	"list[current_name;dst4;3,2;1,1;]"..
+	"list[current_name;src5;4,0;1,1;]"..
+	"image[4,1;1,1;furnace_arrow.png]"..
+	"list[current_name;dst5;4,2;1,1;]"..
+	"image[6.5,0.5;1,1;default_furnace_fire_bg.png]"..
+	"list[current_name;fuel;6.5,1.5;1,1;]"..
+	"list[current_player;main;0,4;8,4;]"
 	
 minetest.register_node("furnace:self", {
 	description = "Furnace",
@@ -221,21 +226,30 @@ minetest.register_abm({
 				meta:set_string("infotext","Furnace active: "..percent.."%")
 				hacky_swap_node(pos,"furnace:self_active")
 				meta:set_string("formspec",
-					"size[8,10]"..
-					"list[current_name;src1;1.5,0;1,1;]"..
-					"list[current_name;dst1;1.5,1;1,1;]"..
-					"list[current_name;src2;2.5,1;1,1;]"..
-					"list[current_name;dst2;2.5,2;1,1;]"..
-					"list[current_name;src3;3.5,2;1,1;]"..
-					"list[current_name;dst3;3.5,3;1,1;]"..
-					"list[current_name;src4;4.5,1;1,1;]"..
-					"list[current_name;dst4;4.5,2;1,1;]"..
-					"list[current_name;src5;5.5,0;1,1;]"..
-					"list[current_name;dst5;5.5,1;1,1;]"..
-					"image[3.5,4;1,1;default_furnace_fire_bg.png^[lowpart:"..
-						(100-percent)..":default_furnace_fire_fg.png]"..
-					"list[current_name;fuel;3.5,5;1,1;]"..
-					"list[current_player;main;0,6;8,4;]")
+					"size[8,8]"..
+	                "size[8,8]"..
+	                "list[current_name;src1;0,0;1,1;]"..
+	                "image[0,1;1,1;furnace_arrow.png]"..
+	                "list[current_name;dst1;0,2;1,1;]"..
+	                "list[current_name;src2;1,0;1,1;]"..
+	                "image[1,1;1,1;furnace_arrow.png]"..
+	                "list[current_name;dst2;1,2;1,1;]"..
+	                "list[current_name;src3;2,0;1,1;]"..
+	                "image[2,1;1,1;furnace_arrow.png]"..
+	                "list[current_name;dst3;2,2;1,1;]"..
+	                "list[current_name;src4;3,0;1,1;]"..
+	                "image[3,1;1,1;furnace_arrow.png]"..
+	                "list[current_name;dst4;3,2;1,1;]"..
+	                "list[current_name;src5;4,0;1,1;]"..
+	                "image[4,1;1,1;furnace_arrow.png]"..
+	                "list[current_name;dst5;4,2;1,1;]"..
+	                "image[6.5,0.5;1,1;default_furnace_fire_bg.png]"..
+	                "list[current_name;fuel;6.5,1.5;1,1;]"..
+	                "list[current_player;main;0,4;8,4;]"..
+		            "image[6.5,0.5;1,1;furnace_fire_bg.png^[lowpart:"..
+		            (100-percent)..":furnace_fire_fg.png]"..
+					"list[current_name;fuel;6.5,1.5;1,1;]"..
+					"list[current_player;main;0,4;8,4;]")
 				return
 			end
 
