@@ -15,6 +15,13 @@ end
 
 mf_skins_table = mf_skins_table or {}
 
+local save_skins = function()
+	print(dump(mf_skins_table))
+	local file = io.open(textures_config, "w")
+		file:write(minetest.serialize(mf_skins_table))
+	io.close()
+end
+
 minetest.register_on_joinplayer(
 	function(player)
 		local pn = player:get_player_name()
@@ -49,6 +56,7 @@ minetest.register_chatcommand("skin", {
 
 				mf_skins_table["skin_"..username] = gender
 				minetest.chat_send_player(name, "Set skin for "..username.." to "..gender)
+				save_skins()
 			else
 				minetest.chat_send_player(name, "That player does not exist.")
 			end
@@ -57,11 +65,4 @@ minetest.register_chatcommand("skin", {
 		end
     end
 })
-
-minetest.register_on_shutdown(function()
-	print(dump(mf_skins_table))
-	local file = io.open(textures_config, "w")
-		file:write(minetest.serialize(mf_skins_table))
-	io.close()
-end)
 
