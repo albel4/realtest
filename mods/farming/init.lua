@@ -529,7 +529,7 @@ minetest.register_node("farming:nest", {
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "default:anthill",
-	wherein        = "ground:dirt",
+	wherein        = "default:dirt,default:dirt_with_grass",
 	clust_scarcity = 10*10*10,
 	clust_num_ores = 1,
 	clust_size     = 1,
