@@ -79,11 +79,42 @@ for i=1,4 do
 	})
 end
 
-minetest.register_node("farming:seed_spelt", {
+---
+--Soy registry
+--
+for i=1,4 do
+	local drop = {
+		items = {
+			{items = {'farming:wheat'},rarity=5-i},
+			{items = {'farming:wheat'},rarity=6-i*2},
+			{items = {'farming:wheat'},rarity=7-i*3},
+			{items = {'farming:seed_soy'},rarity=5-i},
+			{items = {'farming:seed_soy'},rarity=6-i*2},
+			{items = {'farming:seed_soy'},rarity=7-i*3},
+		}
+	}
+	minetest.register_node("farming:soy_"..i, {
+		drawtype = "plantlike",
+		tiles = {"farming_soy_"..i..".png"},
+		paramtype = "light",
+		walkable = false,
+		buildable_to = true,
+		is_ground_content = true,
+		drop = drop,
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+		},
+		groups = {snappy=3,flammable=2,plant=1,flax=i,not_in_creative_inventory=1,attached_node=1},
+		sounds = default.node_sound_leaves_defaults(),
+	})
+end
+
+minetest.register_node("farming:seed_soy", {
 	drawtype = "raillike",
-	description = "Spelt (Wheat) Seeds",
+	description = "Soy Bean Seeds",
 	tiles = {"farming_seed_placed.png"},
-	inventory_image = "farming_spelt_seed.png",
+	inventory_image = "farming_soy_seed.png",
 	groups = {snappy=3, plant=1},
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -118,6 +149,17 @@ minetest.register_abm({
 	action = function(pos, node)
 	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
 	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_1"})
+	    end
+	end
+})
+
+minetest.register_abm({
+	nodenames = {"farming:seed_soy"},
+	interval = 200,
+	chance = 10,
+	action = function(pos, node)
+	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_1"})
 	    end
 	end
 })
@@ -190,6 +232,37 @@ minetest.register_abm({
 	end
 })
 
+--Soy
+minetest.register_abm({
+	nodenames = {"farming:soy_1"},
+	interval = 200,
+	chance = 10,
+	action = function(pos, node)
+	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_2"})
+	    end
+	end
+})
+minetest.register_abm({
+	nodenames = {"farming:soy_2"},
+	interval = 200,
+	chance = 10,
+	action = function(pos, node)
+	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_3"})
+	    end
+	end
+})
+minetest.register_abm({
+	nodenames = {"farming:soy_3"},
+	interval = 200,
+	chance = 10,
+	action = function(pos, node)
+	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_4"})
+	    end
+	end
+})
 --
 --Farming Soil registry
 --
@@ -222,6 +295,12 @@ minetest.register_craftitem("farming:flour", {
 	description = "Pile of Flour",
 	inventory_image = "farming_flour.png",
 	wield_image = "farming_flour.png",
+})
+
+minetest.register_craftitem("farming:soy", {
+	description = "Soy Beans",
+	inventory_image = "farming_soy.png",
+	wield_image = "farming_soy.png",
 })
 
 --
@@ -428,6 +507,50 @@ minetest.register_node("farming:nest", {
 		}
 })
 
+--AntHills
+minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "default:anthill",
+	wherein        = "ground:dirt",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 1,
+	clust_size     = 1,
+	height_min     = -10,
+	height_max     = 200,
+})
+
+minetest.register_node("farming:anthill", {
+	description = "Ant Colony",
+	tiles = {"farming_birdnest.png"}, --placeholder texture
+	groups = {snappy=3},
+	paramtype = "light",
+	sunlight_propagates = true,
+		drop = {
+			max_items = 2,
+			items = {
+				{
+					items = {"farming:seed_soy"},
+					rarity = 3,
+				},
+				{
+					items = {"farming:seed_spelt"},
+					rarity = 3,
+				},
+				{
+					items = {"farming:seed_flax"},
+					rarity = 6,
+				},
+				{
+					items = {"farming:seed_soy"},
+					rarity = 6,
+				},
+				{
+					items = {"default:dirt"},
+					rarity = 3,
+				},
+			}
+		}
+})
 --
 --Rope
 --
