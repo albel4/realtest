@@ -79,6 +79,24 @@ for i=1,4 do
 	})
 end
 
+minetest.register_node("farming:seed_spelt", {
+	drawtype = "raillike",
+	description = "Spelt Seeds",
+	tiles = {"farming_seed_placed.png"},
+	inventory_image = "farming_spelt_seed.png",
+	groups = {snappy=3, plant=1},
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+    type = "fixed",
+	fixed = {
+		{-0.500000,-0.500000,-0.500000,0.500000,-0.3,0.500000},
+	    },
+    },
+    drop = "",
+})
+
 ---
 --Soy registry
 --
