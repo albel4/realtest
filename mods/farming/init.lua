@@ -85,9 +85,9 @@ end
 for i=1,4 do
 	local drop = {
 		items = {
-			{items = {'farming:wheat'},rarity=5-i},
-			{items = {'farming:wheat'},rarity=6-i*2},
-			{items = {'farming:wheat'},rarity=7-i*3},
+			{items = {'farming:soy'},rarity=5-i},
+			{items = {'farming:soy'},rarity=6-i*2},
+			{items = {'farming:soy'},rarity=7-i*3},
 			{items = {'farming:seed_soy'},rarity=5-i},
 			{items = {'farming:seed_soy'},rarity=6-i*2},
 			{items = {'farming:seed_soy'},rarity=7-i*3},
