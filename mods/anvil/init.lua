@@ -129,6 +129,7 @@ end
 
 local anvils = {
 	{'stone', 'Stone', 0, 61*2.3},
+	{'desert_stone', 'Desert Stone', 0, 61*2.3},
 	{'copper', 'Copper', 1, 411*2.3},
 	{'rose_gold', 'Rose Gold', 2, 521*2.3},
 	{'bismuth_bronze', 'Bismuth Bronze', 2, 581*2.3},
@@ -145,6 +146,15 @@ minetest.register_craft({
 		{'default:stone','default:stone','default:stone'},
 		{'','default:stone',''},
 		{'default:stone','default:stone','default:stone'},
+	}
+})
+
+minetest.register_craft({
+	output = 'anvil:anvil_desert_stone',
+	recipe = {
+		{'default:desert_stone','default:desert_stone','default:desert_stone'},
+		{'','default:desert_stone',''},
+		{'default:desert_stone','default:desert_stone','default:desert_stone'},
 	}
 })
 

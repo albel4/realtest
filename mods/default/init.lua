@@ -116,6 +116,19 @@ minetest.register_craft({
 	recipe = "default:desert_sand",
 })
 
+minetest.register_craft({
+	type = "cooking",
+	output = "default:stone",
+	recipe = "default:stone_macadam",
+	cooktime = 5,
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "default:desert_stone",
+	recipe = "default:desert_stone_macadam",
+	cooktime = 5,
+})
 --
 -- Fuels
 --

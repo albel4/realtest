@@ -1,19 +1,18 @@
 seasons = {}
 
 seasons.months = {
-	"Unuber",
-	"Duober",
-	"Treber",
-	"Quattuorber",
-	"Quinber",
-	"Sexber",
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
 	"September",
 	"October",
 	"November",
 	"December",
-	"Undecimber",
-	"Duodecimber",
-	"Tredecimber"
 }
 
 seasons.week = {
