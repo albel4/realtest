@@ -9,19 +9,19 @@ minetest.register_node("fire:basic_flame", {
 	}},
 	inventory_image = "fire_basic_flame.png",
 	light_source = 14,
-	groups = {igniter=2,dig_immediate=3},
+	groups = {igniter=2,dig_immediate=3,hot=3},
 	drop = '',
 	walkable = false,
+	buildable_to = true,
 	damage_per_second = 4,
 	
 	after_place_node = function(pos, placer)
 		fire.on_flame_add_at(pos)
 	end,
 	
-	after_destruct = function(pos, oldnode)
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		fire.on_flame_remove_at(pos)
 	end,
-	buildable_to=true,
 })
 
 fire = {}
@@ -95,6 +95,7 @@ function fire.find_pos_for_flame_around(pos)
 end
 
 function fire.flame_should_extinguish(pos)
+	if minetest.setting_getbool("disable_fire") then return true end
 	--return minetest.find_node_near(pos, 1, {"group:puts_out_fire"})
 	local p0 = {x=pos.x-2, y=pos.y, z=pos.z-2}
 	local p1 = {x=pos.x+2, y=pos.y, z=pos.z+2}
