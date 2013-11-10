@@ -317,6 +317,7 @@ minetest.register_craftitem("farming:flour", {
 
 minetest.register_craftitem("farming:soy", {
 	description = "Soy Beans",
+	on_use=minetest.item_eat(2),
 	inventory_image = "farming_soy.png",
 	wield_image = "farming_soy.png",
 })
