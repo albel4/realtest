@@ -326,14 +326,6 @@ minetest.register_craftitem("farming:soy", {
 --Cake
 --
 
-local cakebox = {}
-local detail = 16
-local sehne
-for i = 1, detail-1 do
-	sehne = math.sqrt(0.25 - (((i/detail)-0.5)^2))
-	cakebox[i]={(i/detail)-0.5, -0.5, -sehne, (i/detail)+(1/detail)-0.5, 0.0, sehne}
-end
-
 minetest.register_node("farming:cake", {
     drawtype = "nodebox",
 	description = "CAKE!!!",
@@ -343,8 +335,13 @@ minetest.register_node("farming:cake", {
 	drop = "farming:cake",
 	on_use=minetest.item_eat(16),
 	node_box = {
-		type = "fixed",
-		fixed = cakebox,
+	    type = "fixed",
+		fixed = {
+			{-8/16,-8/16,-4/16,8/16,8/16,4/16},
+			{-4/16,-8/16,-8/16,4/16,8/16,8/16},
+			{-7/16,-8/16,-6/16,7/16,8/16,6/16},
+			{-6/16,-8/16,-7/16,6/16,8/16,7/16},
+		},
 	},
 	selection_box = {
         type = "fixed",
