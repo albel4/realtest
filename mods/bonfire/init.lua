@@ -3,11 +3,17 @@ local null = {x=0, y=0, z=0}
 
 local function add_fire(pos)
         pos.y = pos.y-0.2
-        minetest.add_particle(pos, null, null, 4,
-                                           6, true,  "bonfire_fire"..tostring(math.random(1,2)) ..".png")
+        minetest.add_particle(pos, null, null, 5,
+                                           5, true,  "bonfire_fire"..tostring(math.random(1,8)) ..".png")
         pos.y = pos.y-0.2
-        minetest.add_particle(pos, null, null, 4,
-                                           6, true, "bonfire_fire"..tostring(math.random(1,2)) ..".png")
+        minetest.add_particle(pos, null, null, 5,
+                                           5, true, "bonfire_fire"..tostring(math.random(1,8)) ..".png")
+        pos.y = pos.y-0.2
+        minetest.add_particle(pos, null, null, 5,
+                                           5, true, "bonfire_fire"..tostring(math.random(1,8)) ..".png")
+        pos.y = pos.y-0.2
+        minetest.add_particle(pos, null, null, 5,
+                                           5, true, "bonfire_fire"..tostring(math.random(1,8)) ..".png")
 end
 
 
@@ -87,6 +93,7 @@ minetest.register_node("bonfire:self_active", {
 	particle_image = {"bonfire_bottom.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
+	damage_per_second = 6,
 	node_box = {
 		type = "fixed",
 		fixed = {
