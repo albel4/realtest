@@ -465,109 +465,6 @@ minetest.register_node(":default:dirt_with_grass", {
 })
 
 --
---Bird Nest
---
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "farming:nest",
-	wherein        = "group:leaves",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 1,
-	clust_size     = 1,
-	height_min     = -10,
-	height_max     = 200,
-})
-
-minetest.register_node("farming:nest", {
-	drawtype = "nodebox",
-	description = "Bird's Nest",
-	tiles = {"farming_birdnest.png"},
-	groups = {snappy=3},
-	paramtype = "light",
-	sunlight_propagates = true,
-	node_box = {
-    type = "fixed",
-	fixed = {
-		{-3/16,-8/16,-3/16,3/16,-6/16,3/16}, --Base
-		{-5/16,-6/16,-5/16,5/16,-4/16,5/16}, --Middle
-		{-6/16,-4/16,-6/16,-4/16,-0/16,6/16}, --Top Section
-		{4/16,-4/16,-6/16,6/16,-0/16,6/16}, --Top Section
-		{-6/16,-4/16,-6/16,6/16,-0/16,-4/16}, --Top Section
-		{-6/16,-4/16,4/16,6/16,-0/16,6/16}, --Top Section
-	    },
-    },
-		drop = {
-			max_items = 2,
-			items = {
-				{
-					items = {"farming:seed_flax"},
-					rarity = 3,
-				},
-				{
-					items = {"farming:seed_spelt"},
-					rarity = 3,
-				},
-				{
-					items = {"farming:seed_flax"},
-					rarity = 6,
-				},
-				{
-					items = {"farming:seed_spelt"},
-					rarity = 6,
-				},
-				{
-					items = {"default:stick"},
-					rarity = 3,
-				},
-			}
-		}
-})
-
---AntHills
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "default:anthill",
-	wherein        = "default:dirt,default:dirt_with_grass",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 1,
-	clust_size     = 1,
-	height_min     = -10,
-	height_max     = 200,
-})
-
-minetest.register_node("farming:anthill", {
-	description = "Ant Colony",
-	tiles = {"farming_birdnest.png"}, --placeholder texture
-	groups = {snappy=3},
-	paramtype = "light",
-	sunlight_propagates = true,
-		drop = {
-			max_items = 2,
-			items = {
-				{
-					items = {"farming:seed_soy"},
-					rarity = 3,
-				},
-				{
-					items = {"farming:seed_spelt"},
-					rarity = 3,
-				},
-				{
-					items = {"farming:seed_flax"},
-					rarity = 6,
-				},
-				{
-					items = {"farming:seed_soy"},
-					rarity = 6,
-				},
-				{
-					items = {"default:dirt"},
-					rarity = 3,
-				},
-			}
-		}
-})
---
 --Rope
 --
 
@@ -603,5 +500,70 @@ minetest.register_craft({
 		{"farming:string"},
 		{"farming:string"},
 	}
+})
+
+--
+--Anthill
+--
+local SPAWN_DELAY = 1000
+local SPAWN_CHANCE = 200
+local anthill_seed_diff = 339
+
+plantslib:spawn_on_surfaces({
+	spawn_delay = SPAWN_DELAY,
+	spawn_plants = {"farming:anthill"},
+	avoid_radius = 25,
+	spawn_chance = SPAWN_CHANCE/10,
+	spawn_surfaces = {"default:dirt_with_grass"},
+	avoid_nodes = {"group:poisonivy", "group:flower", "group:flora"},
+	seed_diff = anthill_seed_diff,
+	light_min = 1,
+})
+
+minetest.register_node("farming:anthill",{
+	description = "Ant Hill",
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	tiles = {"farming_anthill.png"},
+	groups = {oddly_breakable_by_hand=3,not_in_creative_inventory=1},
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, -7/16, 8/16},
+			{-7/16, -7/16, -7/16, 7/16, -6/16, 7/16},
+			{-6/16, -6/16, -6/16, 6/16, -5/16, 6/16},
+			{-5/16, -5/16, -5/16, 5/16, -4/16, 5/16},
+			{-4/16, -4/16, -4/16, 4/16, -3/16, 4/16},
+			{-3/16, -3/16, -3/16, 3/16, -2/16, 3/16},
+			{-2/16, -2/16, -2/16, 2/16, -1/16, 2/16},
+			{-1/16, -1/16, -1/16, 1/16, 0/16, 1/16},
+		},
+	},
+		drop = {
+			max_items = 2,
+			items = {
+				{
+					items = {"farming:seed_soy"},
+					rarity = 3,
+				},
+				{
+					items = {"farming:seed_spelt"},
+					rarity = 3,
+				},
+				{
+					items = {"farming:seed_flax"},
+					rarity = 6,
+				},
+				{
+					items = {"farming:seed_soy"},
+					rarity = 6,
+				},
+				{
+					items = {"default:dirt"},
+					rarity = 3,
+				},
+			}
+		}
 })
 
