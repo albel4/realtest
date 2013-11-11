@@ -27,6 +27,7 @@ minetest.register_node("bonfire:self", {
 	particle_image = {"bonfire_bottom.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
+	walkable = false,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -66,20 +67,21 @@ minetest.register_node("bonfire:self_active", {
 	tiles = {"bonfire_top_active.png", 
 	         "bonfire_bottom.png", 
 	         {name="bonfire_flame.png",
-		     animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1.5}},
+		     animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1.8}},
 	},
 	particle_image = {"bonfire_bottom.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
 	damage_per_second = 6,
+	walkable = false,
 	node_box = {
 		type = "fixed",
 		fixed = {
 			{-0.5,-0.45001,-0.5,0.5,-0.45,0.5},--Base
-			{-5/16, -8/16, -3/16, 5/16, 4/16, -3/16},--Fire
-			{-5/16, -8/16, 3/16, 5/16, 4/16, 3/16},--Fire
-			{-3/16, -8/16, -5/16, -3/16, 4/16, 5/16},--Fire
-			{3/16, -8/16, -5/16, 3/16, 4/16, 5/16},--Fire
+			{-5/16, -8/16, -3/16, 5/16, 8/16, -3/16},--Fire
+			{-5/16, -8/16, 3/16, 5/16, 8/16, 3/16},--Fire
+			{-3/16, -8/16, -5/16, -3/16, 8/16, 5/16},--Fire
+			{3/16, -8/16, -5/16, 3/16, 8/16, 5/16},--Fire
 		},
 	},
 	selection_box = {
