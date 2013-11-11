@@ -1,30 +1,4 @@
 bonfire = {}
-local null = {x=0, y=0, z=0}
-
-local function add_fire(pos)
-        pos.y = pos.y-0.2
-        minetest.add_particle(pos, null, null, 5,
-                                           5, true,  "bonfire_fire"..tostring(math.random(1,8)) ..".png")
-        pos.y = pos.y-0.2
-        minetest.add_particle(pos, null, null, 5,
-                                           5, true, "bonfire_fire"..tostring(math.random(1,8)) ..".png")
-        pos.y = pos.y-0.2
-        minetest.add_particle(pos, null, null, 5,
-                                           5, true, "bonfire_fire"..tostring(math.random(1,8)) ..".png")
-        pos.y = pos.y-0.2
-        minetest.add_particle(pos, null, null, 5,
-                                           5, true, "bonfire_fire"..tostring(math.random(1,8)) ..".png")
-end
-
-
-minetest.register_abm({
-        nodenames = {"bonfire:self_active"},
-        interval = 1,
-        chance = 1,
-        action = function(pos)        
-                add_fire(pos)
-        end
-})
 
 bonfire.formspec =
 	"size[8,9]"..
@@ -89,7 +63,11 @@ minetest.register_node("bonfire:self", {
 
 minetest.register_node("bonfire:self_active", {
 	description = "Bonfire",
-	tiles = {"bonfire_top_active.png", "bonfire_bottom.png", "bonfire_side_active.png"},
+	tiles = {"bonfire_top_active.png", 
+	         "bonfire_bottom.png", 
+	         {name="fire_basic_flame_animated.png",
+		     animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1}},
+	},
 	particle_image = {"bonfire_bottom.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -97,7 +75,11 @@ minetest.register_node("bonfire:self_active", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-0.5,-0.5,-0.5,0.5,-0.45,0.5},
+			{-0.5,-0.45001,-0.5,0.5,-0.45,0.5},--Base
+			{-5/16, -8/16, -3/16, 5/16, 4/16, -3/16},--Fire
+			{-5/16, -8/16, 3/16, 5/16, 4/16, 3/16},--Fire
+			{-3/16, -8/16, -5/16, -3/16, 4/16, 5/16},--Fire
+			{3/16, -8/16, -5/16, 3/16, 4/16, 5/16},--Fire
 		},
 	},
 	selection_box = {
