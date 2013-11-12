@@ -511,7 +511,7 @@ local anthill_seed_diff = 339
 plantslib:spawn_on_surfaces({
 	spawn_delay = SPAWN_DELAY,
 	spawn_plants = {"farming:anthill"},
-	avoid_radius = 25,
+	avoid_radius = 10,
 	spawn_chance = SPAWN_CHANCE/10,
 	spawn_surfaces = {"default:dirt_with_grass"},
 	avoid_nodes = {"group:poisonivy", "group:flower", "group:flora"},
