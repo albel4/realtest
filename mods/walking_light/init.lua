@@ -105,6 +105,7 @@ minetest.register_node("walking_light:light", {
 	walkable = false,
 	is_ground_content = true,
 	sunlight_propagates = true,
+	buildable_to = true,
 	light_source = 14,
 	pointable = false,
 	groups = {not_in_creative_inventory=1},
