@@ -508,18 +508,20 @@ local SPAWN_DELAY = 1000
 local SPAWN_CHANCE = 200
 local anthill_seed_diff = 339
 
+minetest.register_alias("farming:anthill", "air") -- to get rid of the old ones.
+
 plantslib:spawn_on_surfaces({
 	spawn_delay = SPAWN_DELAY,
-	spawn_plants = {"farming:anthill"},
+	spawn_plants = {"farming:ant_hill"},
 	avoid_radius = 10,
 	spawn_chance = SPAWN_CHANCE/10,
 	spawn_surfaces = {"default:dirt_with_grass"},
-	avoid_nodes = {"group:poisonivy", "group:flower", "group:flora"},
+	avoid_nodes = {"farming:ant_hill"},
 	seed_diff = anthill_seed_diff,
 	light_min = 1,
 })
 
-minetest.register_node("farming:anthill",{
+minetest.register_node("farming:ant_hill",{
 	description = "Ant Hill",
 	drawtype = "nodebox",
 	sunlight_propagates = true,
