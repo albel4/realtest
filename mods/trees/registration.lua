@@ -228,7 +228,7 @@ function realtest.register_tree(name, TreeDef)
 	minetest.register_node(tree.name.."_leaves", {
 		description = tree.description.." Leaves",
 		drawtype = "plantlike",
-		visual_scale = 1.3,
+		visual_scale = 1.189,
 		tiles = {tree.textures.leaves},
 		paramtype = "light",
 		groups = {snappy=3, leafdecay=3, flammable=2,drop_on_dig=1,leaves=1},
