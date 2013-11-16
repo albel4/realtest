@@ -38,15 +38,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "concrete:concrete_stripe",
-	recipe = {
-		{"default:stone", "metals:steel_ingot", "default:stone"},
-		{"metals:steel_ingot","default:stone","metals:steel_ingot"},
-		{"default:stone","metals:steel_ingot","default:stone"},
-	}
-})
-
-minetest.register_craft({
 	type = 'shapeless',
     output = 'concrete:concrete_stripe',
     recipe = {'dye:yellow', 'dye:black', 'concrete:concrete_block'},
