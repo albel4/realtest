@@ -19,23 +19,3 @@ minetest.register_chatcommand("heal", {
 		minetest.get_player_by_name(name):set_hp(20);
 	end,
 })
-
-message = {}
-
-minetest.register_chatcommand("a", {
-        params = "<message>",
-        description = "Ask server to announce something in chat, eg: We need to shut down for maintenance.",
-        privs = {server=true},
-        func = function(name, param)
-        message = param
-		if message == "" then
-			minetest.chat_send_player(name, "Message Required")
-			return
-		end
-		if message ~= "" then
-            message = string.match(param, "^([^ ]+)$")
-                    minetest.chat_send_all("-!- Server Announcement -!-")
-                    minetest.chat_send_all("- "..message.." -")
-        end
-    end
-})
