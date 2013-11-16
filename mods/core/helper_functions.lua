@@ -87,7 +87,7 @@ end
 minetest.register_abm({
 	nodenames = {"default:papyrus"},
 	neighbors = {"default:dirt", "default:dirt_with_grass"},
-	interval = 50,
+	interval = 100,
 	chance = 20,
 	action = function(pos, node)
 		pos.y = pos.y-1
@@ -110,3 +110,30 @@ minetest.register_abm({
 		end
 	end,
 })
+
+--Cactus Growth
+
+minetest.register_abm({
+	nodenames = {"default:cactus"},
+	neighbors = {"default:sand", "default:desert_sand"},
+	interval = 100,
+	chance = 20,
+	action = function(pos, node)
+		pos.y = pos.y-1
+		local name = minetest.get_node(pos).name
+		if name == "default:sand" or name == "default:desert_sand" then
+			pos.y = pos.y+1
+			local height = 0
+			while minetest.get_node(pos).name == "default:cactus" and height < 4 do
+				height = height+1
+				pos.y = pos.y+1
+			end
+			if height < 4 then
+				if minetest.get_node(pos).name == "air" then
+					minetest.set_node(pos, {name="default:cactus"})
+				end
+			end
+		end
+	end,
+})
+
