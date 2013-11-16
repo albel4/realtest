@@ -105,8 +105,8 @@ awards.register_achievement("award_lumberjack_spruce",{
 
 -- Placed a stone anvil
 awards.register_achievement("award_anvil_stone",{
-	title = "Place a Stone Anvil",
-	description = "Smithery!",
+	title = "Smithery",
+	description = "Place a Stone Anvil",
 	icon = "anvil.png",
 	background = "bg_default.png",
 	trigger={
@@ -116,8 +116,8 @@ awards.register_achievement("award_anvil_stone",{
 	},
 })
 awards.register_achievement("award_anvil_dstone",{
-	title = "Place a Desert Stone Anvil",
-	description = "Smithery!",
+	title = "Smithery",
+	description = "Place a Desert Stone Anvil",
 	icon = "anvil.png",
 	background = "bg_default.png",
 	trigger={
