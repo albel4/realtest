@@ -1,286 +1,106 @@
---
---Flax Registry
---
+local plant = {}
 
+plant.types = {
+	{"flax", "Flax", "farming_flax", "farming:string"},
+	{"spelt", "Spelt", "farming_spelt", "farming:wheat"},
+	{"soy", "Soy", "farming_soy", "farming:soy"},
+}
+
+for _, row in ipairs(plant.types) do
+	local name = row[1]
+	local desc = row[2]
+	local tile = row[3]
+	local dropitem = row[4]
 for i=1,4 do
+--Define what each plant drops
 	local drop = {
 		items = {
-			{items = {'farming:string'},rarity=5-i},
-			{items = {'farming:string'},rarity=6-i*2},
-			{items = {'farming:string'},rarity=7-i*3},
-			{items = {'farming:seed_flax'},rarity=5-i},
-			{items = {'farming:seed_flax'},rarity=6-i*2},
-			{items = {'farming:seed_flax'},rarity=7-i*3},
+			{items = {dropitem},rarity=5-i},
+			{items = {dropitem},rarity=7-i*2},
+			{items = {dropitem},rarity=9-i*3},
+			{items = {'farming:seed_'..name},rarity=5-i},
+			{items = {'farming:seed_'..name},rarity=7-i*2},
+			{items = {'farming:seed_'..name},rarity=9-i*3},
 		}
 	}
-	minetest.register_node("farming:flax_"..i, {
+--Register the plant nodes for each growth stage
+	minetest.register_node("farming:"..name.."_"..i, {
+	    description = desc.." Stage "..i,
 		drawtype = "plantlike",
-		tiles = {"farming_flax_"..i..".png"},
+		tiles = {"farming_"..name.."_"..i..".png"},
 		paramtype = "light",
 		walkable = false,
 		buildable_to = true,
-		is_ground_content = true,
 		drop = drop,
 		selection_box = {
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
 		},
-		groups = {snappy=3,flammable=2,plant=1,flax=i,not_in_creative_inventory=1,attached_node=1},
+		groups = {snappy=3,flammable=2,plant=1,name=i,not_in_creative_inventory=1,attached_node=1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
+--Register the seeds for each plant
+    minetest.register_node("farming:seed_"..name, {
+	    drawtype = "raillike",
+	    description = desc.." Seeds",
+	    tiles = {"farming_seed_placed.png"},
+	    inventory_image = "farming_"..name.."_seed.png",
+	    groups = {snappy=3, plant=1, attached_node=1},
+	    paramtype = "light",
+	    sunlight_propagates = true,
+	    walkable = false,
+	    selection_box = {
+        type = "fixed",
+	    fixed = {
+		    {-0.500000,-0.500000,-0.500000,0.500000,-0.3,0.500000},
+	        },
+        },
+        drop = "",
+    })
+--And finally, the abms to control growth
+    minetest.register_abm({
+	    nodenames = {"farming:seed_"..name},
+	    interval = 200,
+	    chance = 10,
+	    action = function(pos, node)
+	        if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	            minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:"..name.."_1"})
+	        end
+	    end
+    })
+    minetest.register_abm({
+	    nodenames = {"farming:"..name.."_1"},
+	    interval = 200,
+	    chance = 10,
+	    action = function(pos, node)
+	        if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	            minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:"..name.."_2"})
+	        end
+	    end
+    })
+    minetest.register_abm({
+	    nodenames = {"farming:"..name.."_2"},
+	    interval = 200,
+	    chance = 10,
+	    action = function(pos, node)
+	        if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	            minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:"..name.."_3"})
+	        end
+	    end
+    })
+    minetest.register_abm({
+	    nodenames = {"farming:"..name.."_3"},
+	    interval = 200,
+	    chance = 10,
+	    action = function(pos, node)
+	        if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
+	            minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:"..name.."_4"})
+	        end
+	    end
+    })
+end
 end
 
-minetest.register_node("farming:seed_flax", {
-	drawtype = "raillike",
-	description = "Flax Seeds",
-	tiles = {"farming_seed_placed.png"},
-	inventory_image = "farming_flax_seed.png",
-	groups = {snappy=3, plant=1},
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	selection_box = {
-    type = "fixed",
-	fixed = {
-		{-0.500000,-0.500000,-0.500000,0.500000,-0.3,0.500000},
-	    },
-    },
-    drop = "",
-})
-
---
---Spelt registry
---
-for i=1,4 do
-	local drop = {
-		items = {
-			{items = {'farming:wheat'},rarity=5-i},
-			{items = {'farming:wheat'},rarity=6-i*2},
-			{items = {'farming:wheat'},rarity=7-i*3},
-			{items = {'farming:seed_spelt'},rarity=5-i},
-			{items = {'farming:seed_spelt'},rarity=6-i*2},
-			{items = {'farming:seed_spelt'},rarity=7-i*3},
-		}
-	}
-	minetest.register_node("farming:spelt_"..i, {
-		drawtype = "plantlike",
-		tiles = {"farming_spelt_"..i..".png"},
-		paramtype = "light",
-		walkable = false,
-		buildable_to = true,
-		is_ground_content = true,
-		drop = drop,
-		selection_box = {
-			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
-		},
-		groups = {snappy=3,flammable=2,plant=1,flax=i,not_in_creative_inventory=1,attached_node=1},
-		sounds = default.node_sound_leaves_defaults(),
-	})
-end
-
-minetest.register_node("farming:seed_spelt", {
-	drawtype = "raillike",
-	description = "Spelt Seeds",
-	tiles = {"farming_seed_placed.png"},
-	inventory_image = "farming_spelt_seed.png",
-	groups = {snappy=3, plant=1},
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	selection_box = {
-    type = "fixed",
-	fixed = {
-		{-0.500000,-0.500000,-0.500000,0.500000,-0.3,0.500000},
-	    },
-    },
-    drop = "",
-})
-
----
---Soy registry
---
-for i=1,4 do
-	local drop = {
-		items = {
-			{items = {'farming:soy'},rarity=5-i},
-			{items = {'farming:soy'},rarity=6-i*2},
-			{items = {'farming:soy'},rarity=7-i*3},
-			{items = {'farming:seed_soy'},rarity=5-i},
-			{items = {'farming:seed_soy'},rarity=6-i*2},
-			{items = {'farming:seed_soy'},rarity=7-i*3},
-		}
-	}
-	minetest.register_node("farming:soy_"..i, {
-		drawtype = "plantlike",
-		tiles = {"farming_soy_"..i..".png"},
-		paramtype = "light",
-		walkable = false,
-		buildable_to = true,
-		is_ground_content = true,
-		drop = drop,
-		selection_box = {
-			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
-		},
-		groups = {snappy=3,flammable=2,plant=1,flax=i,not_in_creative_inventory=1,attached_node=1},
-		sounds = default.node_sound_leaves_defaults(),
-	})
-end
-
-minetest.register_node("farming:seed_soy", {
-	drawtype = "raillike",
-	description = "Soy Bean Seeds",
-	tiles = {"farming_seed_placed.png"},
-	inventory_image = "farming_soy_seed.png",
-	groups = {snappy=3, plant=1},
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	selection_box = {
-    type = "fixed",
-	fixed = {
-		{-0.500000,-0.500000,-0.500000,0.500000,-0.3,0.500000},
-	    },
-    },
-    drop = "",
-})
-
---
---Seed Growing ABMs
-
-minetest.register_abm({
-	nodenames = {"farming:seed_flax"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_1"})
-	    end
-	end
-})
-
-minetest.register_abm({
-	nodenames = {"farming:seed_spelt"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_1"})
-	    end
-	end
-})
-
-minetest.register_abm({
-	nodenames = {"farming:seed_soy"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_1"})
-	    end
-	end
-})
-
---
---Plant Growing ABMs
---
-
---Flax
-minetest.register_abm({
-	nodenames = {"farming:flax_1"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_2"})
-	    end
-	end
-})
-minetest.register_abm({
-	nodenames = {"farming:flax_2"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_3"})
-	    end
-	end
-})
-minetest.register_abm({
-	nodenames = {"farming:flax_3"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:flax_4"})
-	    end
-	end
-})
-
---Spelt
-minetest.register_abm({
-	nodenames = {"farming:spelt_1"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_2"})
-	    end
-	end
-})
-minetest.register_abm({
-	nodenames = {"farming:spelt_2"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_3"})
-	    end
-	end
-})
-minetest.register_abm({
-	nodenames = {"farming:spelt_3"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:spelt_4"})
-	    end
-	end
-})
-
---Soy
-minetest.register_abm({
-	nodenames = {"farming:soy_1"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_2"})
-	    end
-	end
-})
-minetest.register_abm({
-	nodenames = {"farming:soy_2"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_3"})
-	    end
-	end
-})
-minetest.register_abm({
-	nodenames = {"farming:soy_3"},
-	interval = 200,
-	chance = 10,
-	action = function(pos, node)
-	    if minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name == "farming:soil"  then
-	        minetest.add_node({x=pos.x,y=pos.y,z=pos.z}, {name="farming:soy_4"})
-	    end
-	end
-})
 --
 --Farming Soil registry
 --
@@ -315,11 +135,23 @@ minetest.register_craftitem("farming:flour", {
 	wield_image = "farming_flour.png",
 })
 
+minetest.register_craftitem("farming:jar", {
+	description = "Glass Jar",
+	inventory_image = "farming_jar.png",
+	wield_image = "farming_jar.png",
+})
+
 minetest.register_craftitem("farming:soy", {
 	description = "Soy Beans",
 	on_use=minetest.item_eat(2),
 	inventory_image = "farming_soy.png",
 	wield_image = "farming_soy.png",
+})
+minetest.register_craftitem("farming:soy_milk", {
+	description = "Soy Milk",
+	on_use=minetest.item_eat(8),
+	inventory_image = "farming_soy_milk.png",
+	wield_image = "farming_soy_milk.png",
 })
 
 --
@@ -356,21 +188,6 @@ minetest.register_craftitem("farming:dough", {
 	wield_image = "farming_cakedough.png",
 })
 
-minetest.register_craft({
-	output = "farming:dough",
-	recipe = {
-		{"bushes:sugar","bushes:sugar"},
-		{"farming:flour","farming:flour"},
-	}
-})
-
-minetest.register_craft({
-	type = "cooking",
-	output = "farming:cake",
-	recipe = "farming:dough",
-	cooktime = 30,
-})
-
 --
 --Crafting
 --
@@ -397,6 +214,40 @@ minetest.register_craft({
 		{"group:stick"},
 	}
 })
+
+
+minetest.register_craft({
+	output = "farming:dough",
+	recipe = {
+		{"bushes:sugar","bushes:sugar"},
+		{"farming:flour","farming:flour"},
+	}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "farming:cake",
+	recipe = "farming:dough",
+	cooktime = 30,
+})
+
+minetest.register_craft({
+	output = "farming:soy_milk",
+	recipe = {
+		{"farming:soy"},
+		{"farming:jar"},
+	}
+})
+
+minetest.register_craft({
+	output = "farming:jar 12",
+	recipe = {
+		{"default:glass","","default:glass"},
+		{"default:glass","","default:glass"},
+		{"default:glass","default:glass","default:glass"},
+	}
+})
+
 
 --
 --The hoe (only stone for now)
