@@ -32,7 +32,7 @@ minetest.register_on_joinplayer(
 		if mf_skins_table[skin_name] == "f" then
 			skin_gender = { "player_female.png" }
 		end
-		elseif mf_skins_table[skin_name] == "nyan" then
+		if mf_skins_table[skin_name] == "nyan" then
 			skin_gender = { "player_nyan.png" }
 		end
 
