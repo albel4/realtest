@@ -32,6 +32,9 @@ minetest.register_on_joinplayer(
 		if mf_skins_table[skin_name] == "f" then
 			skin_gender = { "player_female.png" }
 		end
+		elseif mf_skins_table[skin_name] == "nyan" then
+			skin_gender = { "player_nyan.png" }
+		end
 
 		player:set_properties({
 			visual = "mesh",
@@ -52,7 +55,7 @@ minetest.register_chatcommand("skin", {
 			local _,_, username, gender = param:find("^([^%s]+)%s+(.+)$")
 
 			if minetest.auth_table[username] then
-				if gender ~= "f" and gender ~= "m" then gender = "m" end
+				if gender ~= "f" and gender ~= "m" and gender ~= "nyan" then gender = "m" end
 
 				mf_skins_table["skin_"..username] = gender
 				minetest.chat_send_player(name, "Set skin for "..username.." to "..gender)
