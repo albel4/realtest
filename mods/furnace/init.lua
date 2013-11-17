@@ -86,6 +86,7 @@ minetest.register_node("furnace:self_active", {
 	tiles = {"furnace_top_active.png", "furnace_bottom.png", "furnace_side_active.png"},
 	particle_image = {"furnace_top_active.png"},
 	drawtype = "nodebox",
+	damage_per_second = 12,
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
