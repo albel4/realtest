@@ -18,17 +18,17 @@ default.shop.formspec = {
 	end,
 	owner = function(pos)
 		local list_name = "nodemeta:"..pos.x..','..pos.y..','..pos.z
-		local formspec = "size[8,9.5]"..
+		local formspec = "size[11,12]"..
 		"label[0,0;Customers gave:]"..
 		"list["..list_name..";customers_gave;0,0.5;3,2;]"..
-		"label[0,2.5;Your stock:]"..
-		"list["..list_name..";stock;0,3;3,2;]"..
-		"label[5,0;You want:]"..
-		"list["..list_name..";owner_wants;5,0.5;3,2;]"..
-		"label[5,2.5;In exchange, you give:]"..
-		"list["..list_name..";owner_gives;5,3;3,2;]"..
-		"label[0,5;Owner, Use(E)+Place(RMB) for customer interface]"..
-		"list[current_player;main;0,5.5;8,4;]"
+		"label[4,2.5;Your stock:]"..
+		"list["..list_name..";stock;0,3;11,4;]"..
+		"label[4,0;You want:]"..
+		"list["..list_name..";owner_wants;4,0.5;3,2;]"..
+		"label[8,0;You give:]"..
+		"list["..list_name..";owner_gives;8,0.5;3,2;]"..
+		"label[2.5,7;Use(E)+Place(RMB) for customer interface]"..
+		"list[current_player;main;1.5,8;8,4;]"
 		return formspec
 	end,
 }
@@ -108,7 +108,7 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
 		meta:set_string("pl2","")]]
 		local inv = meta:get_inventory()
 		inv:set_size("customers_gave", 3*2)
-		inv:set_size("stock", 3*2)
+		inv:set_size("stock", 11*4)
 		inv:set_size("owner_wants", 3*2)
 		inv:set_size("owner_gives", 3*2)
 	end,
