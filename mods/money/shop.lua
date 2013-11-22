@@ -150,7 +150,7 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
     minetest.register_craft({
         output = "money:shop_"..tree.name:remove_modname_prefix(),
         recipe = {
-            {tree.name.."_plank",tree.name.."_plank",tree.name.."_plank"},
+            {tree.name.."_plank","default:sign_wall",tree.name.."_plank"},
             {tree.name.."_plank",tree.name.."_chest_locked",tree.name.."_plank"},
             {tree.name.."_plank",tree.name.."_plank",tree.name.."_plank"},
         }
