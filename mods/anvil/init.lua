@@ -92,6 +92,12 @@ for i, metal in ipairs(metals.list) do
 		item1 = "minerals:sylvite",
 		output = "minerals:flux 4"
 	})
+	realtest.register_anvil_recipe({
+		item1 = "metals:gold_sheet",
+		output = "money:coin 15",
+		level = metals.levels[i],
+		instrument = "chisel"
+	})
 end
 --Pig iron --> Wrought iron
 realtest.register_anvil_recipe({
