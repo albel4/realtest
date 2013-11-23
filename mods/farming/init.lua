@@ -219,7 +219,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "farming:dough",
 	recipe = {
-		{"bushes:sugar",,"farming:soy_milk", "bushes:sugar"},
+		{"bushes:sugar","farming:soy_milk", "bushes:sugar"},
 		{"farming:flour","farming:flour","farming:flour"},
 	}
 })
