@@ -421,14 +421,6 @@ for _, mineral in ipairs(decor_minerals) do
 	minetest.register_craft({
 		output = "decorations:"..mineral[1].."_bowl_with_coals",
 		recipe = {
-			{"minerals:charcoal"},
-			{"decorations:"..mineral[1].."_bowl"},
-		}
-	})
-	
-	minetest.register_craft({
-		output = "decorations:"..mineral[1].."_bowl_with_coals",
-		recipe = {
 			{"minerals:bituminous_coal"},
 			{"decorations:"..mineral[1].."_bowl"},
 		}
