@@ -280,7 +280,7 @@ for i=1, #metals.list do
 		inventory_image = "metals_"..metals.list[i].."_block.png^doors_grey.png",
 		groups = {snappy=1,cracky=2},
 		tiles_bottom = {"metals_"..metals.list[i].."_block.png"},
-		tiles_top = {"hatches_"..metals.list[i].."_hatch.png"},
+		tiles_top = {"metals_"..metals.list[i].."_block.png"},
 	})
 	minetest.register_craft({
 		output = "doors:door_"..metals.list[i],

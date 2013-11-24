@@ -331,88 +331,125 @@ for i, mineral in ipairs(minerals.list) do
 end
 
 --
--- Alloys
+-- Alloys (needs smelter)
 --
 
 
-
-
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:oroide_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:tin_unshaped", "metals:zinc_unshaped"},
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:tin_unshaped","metals:zinc_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:tumbaga_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:gold_unshaped", "metals:gold_unshaped"},
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:gold_unshaped","metals:gold_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:monel_unshaped 4",
-	recipe = {"metals:nickel_unshaped", "metals:nickel_unshaped", "metals:nickel_unshaped", "metals:copper_unshaped"},
+	recipe = {
+    {"metals:nickel_unshaped","metals:nickel_unshaped"},
+    {"metals:nickel_unshaped","metals:copper_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:german_silver_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:copper_unshaped", "metals:nickel_unshaped"},
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:copper_unshaped","metals:nickel_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:albata_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:nickel_unshaped", "metals:zinc_unshaped", "metals:zinc_unshaped"},
+	recipe = {
+    {"metals:copper_unshaped","metals:nickel_unshaped"},
+    {"metals:zinc_unshaped","metals:zinc_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:steel_unshaped 4",
-	recipe = {"metals:wrought_iron_unshaped", "metals:wrought_iron_unshaped", "metals:wrought_iron_unshaped", "metals:pig_iron_unshaped"},
+	recipe = {
+    {"metals:wrought_iron_unshaped","metals:wrought_iron_unshaped"},
+    {"metals:wrought_iron_unshaped","metals:pig_iron_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:brass_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:copper_unshaped", "metals:zinc_unshaped"},
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:copper_unshaped","metals:zinc_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:sterling_silver_unshaped 4",
-	recipe = {"metals:silver_unshaped", "metals:silver_unshaped", "metals:silver_unshaped", "metals:copper_unshaped"},
+	recipe = {
+    {"metals:silver_unshaped","metals:silver_unshaped"},
+    {"metals:silver_unshaped","metals:copper_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:rose_gold_unshaped 4",
-	recipe = {"metals:gold_unshaped", "metals:gold_unshaped", "metals:gold_unshaped", "metals:brass_unshaped"},
+	recipe = {
+    {"metals:gold_unshaped","metals:gold_unshaped"},
+    {"metals:gold_unshaped","metals:brass_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:black_bronze_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:gold_unshaped", "metals:silver_unshaped"},
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:gold_unshaped","metals:silver_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:bismuth_bronze_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:bismuth_unshaped", "metals:tin_unshaped"}
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:bismuth_unshaped","metals:tin_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:bronze_unshaped 4",
-	recipe = {"metals:copper_unshaped", "metals:copper_unshaped", "metals:copper_unshaped", "metals:tin_unshaped"}
+	recipe = {
+    {"metals:copper_unshaped","metals:copper_unshaped"},
+    {"metals:copper_unshaped","metals:tin_unshaped"}
+  }
 })
 
-minetest.register_craft({
-	type = "shapeless",
+crafter.register_craft({
+	type = "smelting",
 	output = "metals:black_steel_unshaped 4",
-	recipe = {"metals:steel_unshaped", "metals:steel_unshaped", "metals:nickel_unshaped", "metals:black_bronze_unshaped"}
+	recipe = {
+    {"metals:steel_unshaped","metals:steel_unshaped"},
+    {"metals:nickel_unshaped","metals:black_bronze_unshaped"}
+  }
 })
 
 --
