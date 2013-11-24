@@ -272,3 +272,22 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
 	})
 	realtest.add_bonfire_fuel("doors:door_"..tree_name:remove_modname_prefix())
 end
+
+for i=1, #metals.list do
+	-- Node Definition
+	doors:register_door("doors:door_"..metals.list[i], {
+		description = metals.desc_list[i],
+		inventory_image = "metals_"..metals.list[i].."_block.png^doors_grey.png",
+		groups = {snappy=1,cracky=2},
+		tiles_bottom = {"metals_"..metals.list[i].."_block.png"},
+		tiles_top = {"hatches_"..metals.list[i].."_hatch.png"},
+	})
+	minetest.register_craft({
+		output = "doors:door_"..metals.list[i],
+		recipe = {
+			{"metals:"..metals.list[i].."_doubleingot","metals:"..metals.list[i].."_doubleingot"},
+			{"metals:"..metals.list[i].."_doubleingot","metals:"..metals.list[i].."_doubleingot"},
+			{"metals:"..metals.list[i].."_doubleingot","metals:"..metals.list[i].."_doubleingot"}
+		}
+	})
+end
