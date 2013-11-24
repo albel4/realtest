@@ -158,11 +158,12 @@ for i, tree_name in ipairs(realtest.registered_trees_list) do
 end
 
 minetest.register_on_player_receive_fields(function(sender, formname, fields)
-	if formname == "money:shop_formspec" then
+	if formname == "currency:shop_formspec" and fields.exchange ~= nil and fields.exchange ~= "" then
 		local name = sender:get_player_name()
 		local pos = default.shop.current_shop[name]
 		local meta = minetest.env:get_meta(pos)
 		if meta:get_string("owner") == name then
+			minetest.chat_send_player(name,"This is your own shop, you can't exchange to yourself !")
 		else
 			local minv = meta:get_inventory()
 			local pinv = sender:get_inventory()
