@@ -176,13 +176,15 @@ minetest.register_abm({
 			return
 		end
 
-		meta:set_string("fuel_totaltime", fuel.time)
-		meta:set_string("fuel_time", 0)
-		if consume then
-		  local stack = inv:get_stack("fuel", 1)
-		  stack:take_item()
-		  inv:set_stack("fuel", 1, stack)
-    end
+		if fuel and fuel.time then
+			meta:set_string("fuel_totaltime", fuel.time)
+			meta:set_string("fuel_time", 0)
+			if consume then
+			  local stack = inv:get_stack("fuel", 1)
+			  stack:take_item()
+			  inv:set_stack("fuel", 1, stack)
+			end
+		end
 	end,
 })
 
