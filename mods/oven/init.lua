@@ -252,14 +252,14 @@ minetest.register_abm({
 			fuel, afterfuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
 		end
 
-		if fuel.time <= 0 then
+		if fuel and fuel.time <= 0 then
 			meta:set_string("infotext","Oven out of fuel")
 			hacky_swap_node(pos,"oven:oven")
 			meta:set_string("formspec", default.oven_inactive_formspec)
 			return
 		end
 
-		if cooked.item:is_empty() then
+		if cooked and cooked.item and cooked.item:is_empty() then
 			if was_active then
 				meta:set_string("infotext","Oven is empty")
 				hacky_swap_node(pos,"oven:oven")
@@ -267,11 +267,12 @@ minetest.register_abm({
 			end
 			return
 		end
-
-		meta:set_string("fuel_totaltime", fuel.time)
-		meta:set_string("fuel_time", 0)
+		if fuel and fuel.time then
+			meta:set_string("fuel_totaltime", fuel.time)
+			meta:set_string("fuel_time", 0)
 		
-		inv:set_stack("fuel", 1, afterfuel.items[1])
+			inv:set_stack("fuel", 1, afterfuel.items[1])
+		end
 	end,
 })
 
