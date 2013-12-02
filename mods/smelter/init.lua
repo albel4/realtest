@@ -160,7 +160,7 @@ minetest.register_abm({
 			fuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
 		end
 
-		if fuel.time <= 0 then
+		if fuel and fuel.time <= 0 then
 			meta:set_string("infotext","Smelter out of fuel")
 			hacky_swap_node(pos,"smelter:smelter")
 			meta:set_string("formspec", smelter.smelter_formspec)
