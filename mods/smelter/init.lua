@@ -167,7 +167,7 @@ minetest.register_abm({
 			return
 		end
 
-		if cooked.item:is_empty() then
+		if cooked and cooked.item and cooked.item:is_empty() then
 			if was_active then
 				meta:set_string("infotext","Smelter is empty")
 				hacky_swap_node(pos,"smelter:smelter")
