@@ -1,3 +1,13 @@
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if (minetest.get_modpath("intllib")) then
+  dofile(minetest.get_modpath("intllib").."/intllib.lua")
+  S = intllib.Getter(minetest.get_current_modname())
+else
+  S = function ( s ) return s end
+end
+
+
 -- Basket
 
 minetest.register_craft({
@@ -11,9 +21,10 @@ minetest.register_craft({
 -- Sugar
 
 minetest.register_craftitem(":bushes:sugar", {
-    description = "Sugar",
+    description = S("Sugar"),
     inventory_image = "bushes_sugar.png",
     on_use = minetest.item_eat(1),
+	groups = {food_sugar=1}
 })
 
 minetest.register_craft({
@@ -27,42 +38,45 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	local desc = bushes_classic.bushes_descriptions[i]
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_raw", {
-		description = "Raw "..desc.." pie",
+		description = S("Raw "..desc.." pie"),
 		inventory_image = "bushes_"..berry.."_pie_raw.png",
 		on_use = minetest.item_eat(4),
 	})
 
 	if berry ~= "mixed_berry" then
-		minetest.register_craftitem(":bushes:"..berry, {
-			description = desc,
-			inventory_image = "bushes_"..berry..".png",
-			groups = {berry = 1, [berry] = 1},
-			on_use = minetest.item_eat(1),
-		})
 
-		if minetest.registered_nodes["farming:soil"] then
-			minetest.register_craft({
-				output = "bushes:"..berry.."_pie_raw 1",
-				recipe = {
-				{ "bushes:sugar", "farming:flour", "bushes:sugar" },
-				{ "group:"..berry, "group:"..berry, "group:"..berry },
-				},
+		if berry == "strawberry" and minetest.registered_nodes["farming_plus:strawberry"] then
+			-- Special case for strawberries, when farming_plus is in use. Use
+			-- the item from that mod, but redefine it so it has the right
+			-- groups and does't look so ugly!
+			minetest.register_craftitem(":farming_plus:strawberry_item", {
+				description = S("Strawberry"),
+				inventory_image = "bushes_"..berry..".png",
+				on_use = minetest.item_eat(2),
+				groups = {berry=1, strawberry=1}
 			})
+			minetest.register_alias("bushes:strawberry", "farming_plus:strawberry_item")
 		else
-			minetest.register_craft({
-				output = "bushes:"..berry.."_pie_raw 1",
-				recipe = {
-				{ "bushes:sugar", "group:junglegrass", "bushes:sugar" },
-				{ "group:"..berry, "group:"..berry, "group:"..berry },
-				},
+			minetest.register_craftitem(":bushes:"..berry, {
+				description = desc,
+				inventory_image = "bushes_"..berry..".png",
+				groups = {berry = 1, [berry] = 1},
+				on_use = minetest.item_eat(1),
 			})
 		end
+		minetest.register_craft({
+			output = "bushes:"..berry.."_pie_raw 1",
+			recipe = {
+			{ "group:food_sugar", "farming:flour", "group:food_sugar" },
+			{ "group:"..berry, "group:"..berry, "group:"..berry },
+			},
+		})
 	end
 
 	-- Cooked pie
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_cooked", {
-		description = "Cooked "..desc.." pie",
+		description = S("Cooked "..desc.." pie"),
 		inventory_image = "bushes_"..berry.."_pie_cooked.png",
 		on_use = minetest.item_eat(6),
 	})
@@ -77,7 +91,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	-- slice of pie
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_slice", {
-		description = "Slice of "..desc.." pie",
+		description = S("Slice of "..desc.." pie"),
 		inventory_image = "bushes_"..berry.."_pie_slice.png",
 		on_use = minetest.item_eat(1),
 	})
@@ -100,32 +114,13 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	})
 end
 
-if minetest.registered_nodes["farming_plus:strawberry"] then
-	minetest.register_craftitem(":farming_plus:strawberry_item", {
-		description = "Strawberry",
-		inventory_image = "farming_strawberry.png",
-		on_use = minetest.item_eat(2),
-		groups = {berry=1, strawberry=1}
-	})
-end
+minetest.register_craft({
+	output = "bushes:mixed_berry_pie_raw 2",
+	recipe = {
+	{ "group:food_sugar", "farming:flour", "group:food_sugar" },
+	{ "group:berry", "group:berry", "group:berry" },
+	{ "group:berry", "group:berry", "group:berry" },
+	},
+})
 
-if minetest.registered_nodes["farming:soil"] then
-	minetest.register_craft({
-		output = "bushes:mixed_berry_pie_raw 2",
-		recipe = {
-		{ "bushes:sugar", "farming:flour", "bushes:sugar" },
-		{ "group:berry", "group:berry", "group:berry" },
-		{ "group:berry", "group:berry", "group:berry" },
-		},
-	})
-else
-	minetest.register_craft({
-		output = "bushes:mixed_berry_pie_raw 2",
-		recipe = {
-		{ "bushes:sugar", "group:junglegrass", "bushes:sugar" },
-		{ "group:berry", "group:berry", "group:berry" },
-		{ "group:berry", "group:berry", "group:berry" },
-		},
-	})
-end
 

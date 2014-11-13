@@ -1,3 +1,12 @@
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if (minetest.get_modpath("intllib")) then
+  dofile(minetest.get_modpath("intllib").."/intllib.lua")
+  S = intllib.Getter(minetest.get_current_modname())
+else
+  S = function ( s ) return s end
+end
+
 -- This file supplies a few additional plants and some related crafts
 -- for the plantlife modpack.  Last revision:  2013-04-24
 
@@ -36,7 +45,7 @@ for i in ipairs(lilies_list) do
 	end
 
 	minetest.register_node(":flowers:waterlily"..deg1, {
-		description = "Waterlily",
+		description = S("Waterlily"),
 		drawtype = "nodebox",
 		tiles = { 
 			"flowers_waterlily"..deg2..".png",
@@ -85,12 +94,12 @@ for i in ipairs(lilies_list) do
 				place_pos = pt.above
 			end
 
-			if not plantslib:node_is_owned(place_pos, placer) then
+			if place_pos and not minetest.is_protected(place_pos, placer:get_player_name()) then
 
 			local nodename = "default:cobble" -- if this block appears, something went....wrong :-)
 
 				if not keys["sneak"] then
-					local node = minetest.env:get_node(pt.under)
+					local node = minetest.get_node(pt.under)
 					local waterlily = math.random(1,8)
 					if waterlily == 1 then
 						nodename = "flowers:waterlily"
@@ -109,10 +118,10 @@ for i in ipairs(lilies_list) do
 					elseif waterlily == 8 then
 						nodename = "flowers:waterlily_s4"
 					end
-					minetest.add_node(place_pos, {name = nodename, param2 = math.random(0,3) })
+					minetest.set_node(place_pos, {name = nodename, param2 = math.random(0,3) })
 				else
 					local fdir = minetest.dir_to_facedir(placer:get_look_dir())
-					minetest.add_node(place_pos, {name = "flowers:waterlily", param2 = fdir})
+					minetest.set_node(place_pos, {name = "flowers:waterlily", param2 = fdir})
 				end
 
 				if not plantslib.expect_infinite_stacks then
@@ -136,7 +145,7 @@ for i in ipairs(algae_list) do
 	end
 	
 	minetest.register_node(":flowers:seaweed"..num, {
-		description = "Seaweed",
+		description = S("Seaweed"),
 		drawtype = "nodebox",
 		tiles = { 
 			"flowers_seaweed"..num..".png",
@@ -185,12 +194,12 @@ for i in ipairs(algae_list) do
 				place_pos = pt.above
 			end
 
-			if not plantslib:node_is_owned(place_pos, placer) then
+			if not minetest.is_protected(place_pos, placer:get_player_name()) then
 
 			local nodename = "default:cobble" -- :D
 
 				if not keys["sneak"] then
-					--local node = minetest.env:get_node(pt.under)
+					--local node = minetest.get_node(pt.under)
 					local seaweed = math.random(1,4)
 					if seaweed == 1 then
 						nodename = "flowers:seaweed"
@@ -201,10 +210,10 @@ for i in ipairs(algae_list) do
 					elseif seaweed == 4 then
 						nodename = "flowers:seaweed_4"
 					end
-					minetest.add_node(place_pos, {name = nodename, param2 = math.random(0,3) })
+					minetest.set_node(place_pos, {name = nodename, param2 = math.random(0,3) })
 				else
 					local fdir = minetest.dir_to_facedir(placer:get_look_dir())
-					minetest.add_node(place_pos, {name = "flowers:seaweed", param2 = fdir})
+					minetest.set_node(place_pos, {name = "flowers:seaweed", param2 = fdir})
 				end
 
 				if not plantslib.expect_infinite_stacks then
@@ -217,22 +226,26 @@ for i in ipairs(algae_list) do
 end
 
 -- register all potted plant nodes, crafts, and most backward-compat aliases
+-- Description, base node name, item to craft flowerpot with
 
 local flowers_list = {
-	{ "Rose",		"rose"},
-	{ "Tulip",		"tulip"},
-	{ "Yellow Dandelion",	"dandelion_yellow"},
-	{ "White Dandelion",	"dandelion_white"},
-	{ "Blue Geranium",	"geranium"},
-	{ "Viola",		"viola"},
+	{ "Rose",				"rose", 			"flowers:rose" },
+	{ "Tulip",				"tulip", 			"flowers:tulip" },
+	{ "Yellow Dandelion",	"dandelion_yellow",	"flowers:dandelion_yellow" },
+	{ "White Dandelion",	"dandelion_white",	"flowers:dandelion_white" },
+	{ "Blue Geranium",		"geranium",			"flowers:geranium" },
+	{ "Viola",				"viola",			"flowers:viola" },
+	{ "Cactus",				"cactus",			"default:cactus" },
+	{ "Bonsai",				"bonsai",			"default:sapling" }
 }
 
 for i in ipairs(flowers_list) do
-	local flowerdesc = flowers_list[i][1]
-	local flower     = flowers_list[i][2]
+	local flowerdesc	= flowers_list[i][1]
+	local flower		= flowers_list[i][2]
+	local craftwith		= flowers_list[i][3]
 	
 	minetest.register_node(":flowers:potted_"..flower, {
-		description = "Potted "..flowerdesc,
+		description = S("Potted "..flowerdesc),
 		drawtype = "plantlike",
 		tiles = { "flowers_potted_"..flower..".png" },
 		inventory_image = "flowers_potted_"..flower..".png",
@@ -252,8 +265,8 @@ for i in ipairs(flowers_list) do
 		type = "shapeless",
 		output = "flowers:potted_"..flower,
 		recipe = {
-			"flowers:flower_pot",
-			"flowers:"..flower
+			craftwith,
+			"flowers:flower_pot"
 		}
 	})
 
@@ -269,7 +282,7 @@ local extra_aliases = {
 }
 
 for i in ipairs(extra_aliases) do
-	flower = extra_aliases[i]
+	local flower = extra_aliases[i]
 	minetest.register_alias("flowers:flower_"..flower, "flowers:"..flower)
 end
 
@@ -298,15 +311,15 @@ flowers_plus.grow_waterlily = function(pos)
 		end
 	
 		if chance == num then
-			minetest.add_node(right_here, {name="flowers:waterlily"..ext, param2=math.random(0,3)})
+			minetest.set_node(right_here, {name="flowers:waterlily"..ext, param2=math.random(0,3)})
 		end
 	end
 end
 
 plantslib:register_generate_plant({
     surface = {"default:water_source"},
-    max_count = lilypads_max_count,
-    rarity = lilypads_rarity,
+    max_count = lilies_max_count,
+    rarity = lilies_rarity,
     min_elevation = 1,
 	max_elevation = 40,
 	near_nodes = {"default:dirt_with_grass"},
@@ -317,12 +330,12 @@ plantslib:register_generate_plant({
 	temp_max = -0.22,
     temp_min = 0.22,
   },
-  "flowers_plus.grow_waterlily"
+  flowers_plus.grow_waterlily
 )
 
 flowers_plus.grow_seaweed = function(pos)
 	local right_here = {x=pos.x, y=pos.y+1, z=pos.z}
-	minetest.add_node(right_here, {name="along_shore:seaweed_"..math.random(1,4), param2=math.random(1,3)})
+	minetest.set_node(right_here, {name="along_shore:seaweed_"..math.random(1,4), param2=math.random(1,3)})
 end
 
 plantslib:register_generate_plant({
@@ -337,7 +350,7 @@ plantslib:register_generate_plant({
 	near_nodes_count = 1,
     plantlife_limit = -0.9,
   },
-  "flowers_plus.grow_seaweed"
+  flowers_plus.grow_seaweed
 )
 
 -- seaweed at beaches
@@ -356,7 +369,7 @@ plantslib:register_generate_plant({
 	temp_max = -0.64, -- MM: more or less random values, just to make sure it's not everywhere
     temp_min = -0.22, -- MM: more or less random values, just to make sure it's not everywhere
   },
-  "flowers_plus.grow_seaweed"
+  flowers_plus.grow_seaweed
 )
 plantslib:register_generate_plant({
     surface = {"default:sand"},
@@ -372,7 +385,7 @@ plantslib:register_generate_plant({
 	temp_max = -0.64, -- MM: more or less random values, just to make sure it's not everywhere
     temp_min = -0.22, -- MM: more or less random values, just to make sure it's not everywhere
   },
-  "flowers_plus.grow_seaweed"
+  flowers_plus.grow_seaweed
 )
 -- spawn ABM registrations
 
@@ -442,7 +455,7 @@ plantslib:spawn_on_surfaces({
 -- crafting recipes!
 
 minetest.register_craftitem(":flowers:flower_pot", {
-	description = "Flower Pot",
+	description = S("Flower Pot"),
 	inventory_image = "flowers_flowerpot.png",
 })
 
@@ -466,4 +479,4 @@ minetest.register_alias("flowers:potted_cotton_plant", "flowers:potted_dandelion
 minetest.register_alias("flowers:cotton", "farming:string")
 minetest.register_alias("flowers:cotton_wad", "farming:string")
 
-print("[Flowers] Loaded.")
+print(S("[Flowers] Loaded."))
