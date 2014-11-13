@@ -605,6 +605,7 @@ minetest.register_node("default:sign_wall", {
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
+	is_ground_content = false,
 	walkable = false,
 	selection_box = {
 		type = "wallmounted",
@@ -612,25 +613,29 @@ minetest.register_node("default:sign_wall", {
 		--wall_bottom = <default>
 		--wall_side = <default>
 	},
-	groups = {choppy=2,dig_immediate=2},
+	groups = {choppy=2,dig_immediate=2,attached_node=1},
+	legacy_wallmounted = true,
 	sounds = default.node_sound_defaults(),
 	on_construct = function(pos)
 		--local n = minetest.get_node(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("formspec", "hack:sign_text_input")
+		meta:set_string("formspec", "field[text;;${text}]")
 		meta:set_string("infotext", "\"\"")
 	end,
 	on_receive_fields = function(pos, formname, fields, sender)
 		--print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
+		if minetest.is_protected(pos, sender:get_player_name()) then
+			minetest.record_protection_violation(pos, sender:get_player_name())
+			return
+		end
 		local meta = minetest.get_meta(pos)
-		fields.text = fields.text or ""
-		print((sender:get_player_name() or "").." wrote \""..fields.text..
+		if not fields.text then return end
+		minetest.log("action", (sender:get_player_name() or "").." wrote \""..fields.text..
 				"\" to sign at "..minetest.pos_to_string(pos))
 		meta:set_string("text", fields.text)
-		meta:set_string("infotext", "\""..fields.text.."\"")
+		meta:set_string("infotext", '"'..fields.text..'"')
 	end,
 })
-
 minetest.register_node("default:dry_shrub", {
 	description = "Dry Shrub",
 	drawtype = "plantlike",
