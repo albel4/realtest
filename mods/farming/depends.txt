@@ -1,5 +1,4 @@
 default
 trees
-bushes_classic
 plants_lib
 instruments
