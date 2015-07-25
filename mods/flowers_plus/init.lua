@@ -1,11 +1,4 @@
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if (minetest.get_modpath("intllib")) then
-  dofile(minetest.get_modpath("intllib").."/intllib.lua")
-  S = intllib.Getter(minetest.get_current_modname())
-else
-  S = function ( s ) return s end
-end
+local S = plantslib.intllib
 
 -- This file supplies a few additional plants and some related crafts
 -- for the plantlife modpack.  Last revision:  2013-04-24
@@ -19,6 +12,8 @@ local lilies_max_count = 320
 local lilies_rarity = 33
 local seaweed_max_count = 320
 local seaweed_rarity = 33
+local sunflowers_max_count = 10
+local sunflowers_rarity = 25
 
 -- register the various rotations of waterlilies
 
@@ -225,53 +220,35 @@ for i in ipairs(algae_list) do
 	})
 end
 
--- register all potted plant nodes, crafts, and most backward-compat aliases
--- Description, base node name, item to craft flowerpot with
-
-local flowers_list = {
-	{ "Rose",				"rose", 			"flowers:rose" },
-	{ "Tulip",				"tulip", 			"flowers:tulip" },
-	{ "Yellow Dandelion",	"dandelion_yellow",	"flowers:dandelion_yellow" },
-	{ "White Dandelion",	"dandelion_white",	"flowers:dandelion_white" },
-	{ "Blue Geranium",		"geranium",			"flowers:geranium" },
-	{ "Viola",				"viola",			"flowers:viola" },
-	{ "Cactus",				"cactus",			"default:cactus" },
-	{ "Bonsai",				"bonsai",			"default:sapling" }
+local box = {
+	type="fixed",
+	fixed = { { -0.2, -0.5, -0.2, 0.2, 0.5, 0.2 } },
 }
 
-for i in ipairs(flowers_list) do
-	local flowerdesc	= flowers_list[i][1]
-	local flower		= flowers_list[i][2]
-	local craftwith		= flowers_list[i][3]
-	
-	minetest.register_node(":flowers:potted_"..flower, {
-		description = S("Potted "..flowerdesc),
-		drawtype = "plantlike",
-		tiles = { "flowers_potted_"..flower..".png" },
-		inventory_image = "flowers_potted_"..flower..".png",
-		wield_image = "flowers_potted_"..flower..".png",
-		sunlight_propagates = true,
-		paramtype = "light",
-		walkable = false,
-		groups = { snappy = 3,flammable=2 },
-		sounds = default.node_sound_leaves_defaults(),
-		selection_box = {
-			type = "fixed",
-			fixed = { -0.25, -0.5, -0.25, 0.25, 0.5, 0.25 },
-		},	
-	})
+minetest.register_node(":flowers:sunflower", {
+	description = "Sunflower",
+	drawtype = "mesh",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	inventory_image = "flowers_sunflower_inv.png",
+	mesh = "flowers_sunflower.obj",
+	tiles = { "flowers_sunflower.png" },
+	walkable = false,
+	buildable_to = true,
+	is_ground_content = true,
+	groups = { dig_immediate=3, flora=1, flammable=3 },
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = box,
+	collision_box = box,
+})
 
-	minetest.register_craft( {
-		type = "shapeless",
-		output = "flowers:potted_"..flower,
-		recipe = {
-			craftwith,
-			"flowers:flower_pot"
-		}
-	})
-
-	minetest.register_alias("flowers:flower_"..flower.."_pot", "flowers:potted_"..flower)
-end
+minetest.override_item("flowers:sunflower", {drop = {
+	max_items = 1,
+	items = {
+		{items = {"farming:seed_wheat"}, rarity = 8},
+		{items = {"flowers:sunflower"}},
+	}
+}})
 
 local extra_aliases = {
 	"waterlily",
@@ -387,6 +364,20 @@ plantslib:register_generate_plant({
   },
   flowers_plus.grow_seaweed
 )
+
+plantslib:register_generate_plant({
+	surface = {"default:dirt_with_grass"},
+	avoid_nodes = { "flowers:sunflower" },
+	max_count = sunflowers_max_count,
+	rarity = sunflowers_rarity,
+	min_elevation = 0,
+	plantlife_limit = -0.9,
+	temp_max = 0.53,
+	random_facedir = {0,3},
+  },
+  "flowers:sunflower"
+)
+
 -- spawn ABM registrations
 
 plantslib:spawn_on_surfaces({
@@ -452,19 +443,20 @@ plantslib:spawn_on_surfaces({
 	facedir = 1
 })
 
--- crafting recipes!
-
-minetest.register_craftitem(":flowers:flower_pot", {
-	description = S("Flower Pot"),
-	inventory_image = "flowers_flowerpot.png",
-})
-
-minetest.register_craft( {
-	output = "flowers:flower_pot",
-	recipe = {
-	        { "default:clay_brick", "", "default:clay_brick" },
-	        { "", "default:clay_brick", "" }
-	},
+plantslib:spawn_on_surfaces({
+	spawn_delay = SPAWN_DELAY*2,
+	spawn_plants = {"flowers:sunflower"},
+	spawn_chance = SPAWN_CHANCE*2,
+	spawn_surfaces = {"default:dirt_with_grass"},
+	avoid_nodes = {"group:flower", "flowers:sunflower"},
+	seed_diff = flowers_seed_diff,
+	light_min = 11,
+	light_max = 14,
+	min_elevation = 0,
+	plantlife_limit = -0.9,
+	temp_max = 0.53,
+	random_facedir = {0,3},
+	avoid_radius = 5
 })
 
 -- Cotton plants are now provided by the default "farming" mod.
@@ -478,5 +470,6 @@ minetest.register_alias("flowers:flower_cotton_pot", "flowers:potted_dandelion_w
 minetest.register_alias("flowers:potted_cotton_plant", "flowers:potted_dandelion_white")
 minetest.register_alias("flowers:cotton", "farming:string")
 minetest.register_alias("flowers:cotton_wad", "farming:string")
+minetest.register_alias("sunflower:sunflower", "flowers:sunflower")
 
 print(S("[Flowers] Loaded."))
