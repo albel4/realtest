@@ -11,6 +11,27 @@ local decor_minerals = {
 	{"serpentine", "Serpentine"}
 }
 
+local pyr_cbox = {
+	type = "fixed",
+	fixed = {
+		{-0.5, -0.5, -0.5, 0.5, -0.3, 0.5},
+		{-0.4, -0.3, -0.4, 0.4, -0.1, 0.4},
+		{-0.3, -0.1, -0.3, 0.3, 0.1, 0.3},
+		{-0.2, 0.1, -0.2, 0.2, 0.3, 0.2},
+		{-0.1, 0.3, -0.1, 0.1, 0.5, 0.1},
+	},
+}
+
+local bowl_cbox = {
+	type = "fixed",
+	fixed = { -0.5, -0.5, -0.5, 0.5, 0, 0.5 }
+}
+
+local casket_cbox = {
+	type = "fixed",
+	fixed = { -6/16, -8/16, -5/16, 6/16, 0, 5/16 }
+}
+
 for _, mineral in ipairs(decor_minerals) do
 	minetest.register_node("decorations:"..mineral[1].."_block", {
 		description = mineral[2].." Block",
@@ -23,18 +44,11 @@ for _, mineral in ipairs(decor_minerals) do
 	
 	minetest.register_node("decorations:"..mineral[1].."_pyramid", {
 		description = mineral[2].." Pyramid",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "decorations_pyramid.obj",
+		selection_box = pyr_cbox,
+		collision_box = pyr_cbox,
 		paramtype = "light",
-		node_box = {
-				type = "fixed",
-				fixed = {
-					{-0.5, -0.5, -0.5, 0.5, -0.3, 0.5},
-					{-0.4, -0.3, -0.4, 0.4, -0.1, 0.4},
-					{-0.3, -0.1, -0.3, 0.3, 0.1, 0.3},
-					{-0.2, 0.1, -0.2, 0.2, 0.3, 0.2},
-					{-0.1, 0.3, -0.1, 0.1, 0.5, 0.1},
-				},
-			},
 		tiles = {"decorations_"..mineral[1]..".png"},
 		particle_image = {"minerals_"..mineral[1]..".png"},
 		groups = {cracky = 3},
@@ -45,26 +59,13 @@ for _, mineral in ipairs(decor_minerals) do
 		local tree = realtest.registered_trees[tree_name]
 		minetest.register_node("decorations:"..mineral[1].."_table_"..i, {
 			description = mineral[2].." Table",
-			drawtype = "nodebox",
+			drawtype = "mesh",
+			mesh = "decorations_table.obj",
 			paramtype = "light",
-			node_box = {
-					type = "fixed",
-					fixed = {
-						{-0.5, 0.3075, -0.5, 0.5, 0.5, 0.5},
-						{-0.4375, -0.5, -0.4375, -0.25, 0.3125, -0.25},
-						{-0.4375, -0.5, 0.25, -0.25, 0.3125, 0.4375},
-						{0.25, -0.5, -0.4375, 0.4375, 0.3125, -0.25},
-						{0.25, -0.5, 0.25, 0.4375, 0.3125, 0.4375},
-					},
-				},
-			selection_box = {
-					type = "fixed",
-					fixed = {
-						{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-					},
-				},
-			tiles = {"decorations_"..mineral[1]..".png", tree.textures.planks.."^decorations_"..mineral[1].."_table_bottom.png",
-				tree.textures.planks.."^decorations_"..mineral[1].."_table_side.png"},
+			tiles = {
+				"decorations_"..mineral[1]..".png",
+				tree.textures.planks
+			},
 			groups = {cracky=3, oddly_breakable_by_hand = 2},
 			sounds = default.node_sound_stone_defaults(),
 		})
@@ -80,25 +81,16 @@ for _, mineral in ipairs(decor_minerals) do
 	
 	minetest.register_node("decorations:"..mineral[1].."_casket", {
 		description = mineral[2].." Casket",
-		drawtype = "nodebox",
-		tiles = {"decorations_"..mineral[1].."_casket_top.png", "decorations_"..mineral[1].."_casket_top.png", "decorations_"..mineral[1].."_casket_side.png",
-			"decorations_"..mineral[1].."_casket_side.png", "decorations_"..mineral[1].."_casket_side.png", "decorations_"..mineral[1].."_casket_front.png"},
+		drawtype = "mesh",
+		mesh = "decorations_casket.obj",
+		tiles = {
+			"decorations_"..mineral[1]..".png",
+			"decorations_"..mineral[1].."_casket_front.png"
+		},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		node_box = {
-				type = "fixed",
-				fixed = {
-					{-0.4, -0.5, -0.3, 0.4, 0, 0.3},
-					{-0.3, 0, -0.2, 0.3, 0.1, 0.2},
-				},
-			},
-		selection_box = {
-				type = "fixed",
-				fixed = {
-					{-0.4, -0.5, -0.3, 0.4, 0, 0.3},
-					{-0.3, 0, -0.2, 0.3, 0.1, 0.2},
-				},
-			},
+		selection_box = casket_cbox,
+		collision_box = casket_cbox,
 		groups = {snappy=2,oddly_breakable_by_hand=2},
 		sounds = default.node_sound_wood_defaults(),
 		on_construct = function(pos)
@@ -234,26 +226,9 @@ for _, mineral in ipairs(decor_minerals) do
 	
 	minetest.register_node("decorations:"..mineral[1].."_cylinder", {
 		description = mineral[2].." Cylinder",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "decorations_cylinder.obj",
 		paramtype = "light",
-		node_box = {
-				type = "fixed",
-				fixed = {
-					{-0.5, -0.5, -0.2, 0.5, 0.5, 0.2},
-					{-0.4, -0.5, -0.3, 0.4, 0.5, 0.3},
-					{-0.3, -0.5, -0.4, 0.3, 0.5, 0.4},
-					{-0.2, -0.5, -0.5, 0.2, 0.5, 0.5},
-				},
-			},
-		selection_box = {
-				type = "fixed",
-				fixed = {
-					{-0.5, -0.5, -0.2, 0.5, 0.5, 0.2},
-					{-0.4, -0.5, -0.3, 0.4, 0.5, 0.3},
-					{-0.3, -0.5, -0.4, 0.3, 0.5, 0.4},
-					{-0.2, -0.5, -0.5, 0.2, 0.5, 0.5},
-				},
-			},
 		tiles = {"decorations_"..mineral[1]..".png"},
 		particle_image = {"minerals_"..mineral[1]..".png"},
 		groups = {cracky=3},
@@ -262,20 +237,9 @@ for _, mineral in ipairs(decor_minerals) do
 	
 	minetest.register_node("decorations:"..mineral[1].."_vase", {
 		description = mineral[2].." Vase",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "decorations_vase.obj",
 		paramtype = "light",
-		node_box = {
-				type = "fixed",
-				fixed = {
-					{-0.5, 0, -0.5, -0.4, 0.5, 0.5},
-					{-0.5, 0, 0.4, 0.5, 0.5, 0.5},
-					{-0.5, 0, -0.5, 0.5, 0.5, -0.4},
-					{0.4, 0, -0.5, 0.5, 0.5, 0.5},
-					{-0.4, -0.1, -0.4, 0.4, 0, 0.4},
-					{-0.2, -0.4, -0.2, 0.2, -0.1, 0.2},
-					{-0.4, -0.5, -0.4, 0.4, -0.4, 0.4},
-				},
-			},
 		tiles = {"decorations_"..mineral[1]..".png"},
 		groups = {cracky=3, oddly_breakable_by_hand = 2},
 		sounds = default.node_sound_stone_defaults(),
@@ -283,18 +247,11 @@ for _, mineral in ipairs(decor_minerals) do
 	
 	minetest.register_node("decorations:"..mineral[1].."_bowl", {
 		description = mineral[2].." Bowl",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "decorations_bowl.obj",
+		selection_box = bowl_cbox,
+		collision_box = bowl_cbox,
 		paramtype = "light",
-		node_box = {
-				type = "fixed",
-				fixed = {
-					{-0.5, -0.35, -0.5, -0.4, 0, 0.5},
-					{-0.5, -0.35, 0.4, 0.5, 0, 0.5},
-					{-0.5, -0.35, -0.5, 0.5, 0, -0.4},
-					{0.4,  -0.35, -0.5, 0.5, 0, 0.5},
-					{-0.4, -0.5, -0.4, 0.4, -0.35, 0.4},
-				},
-			},
 		tiles = {"decorations_"..mineral[1]..".png"},
 		groups = {cracky=3, oddly_breakable_by_hand = 2},
 		sounds = default.node_sound_stone_defaults(),
@@ -302,21 +259,15 @@ for _, mineral in ipairs(decor_minerals) do
 	
 	minetest.register_node("decorations:"..mineral[1].."_bowl_with_coals", {
 		description = mineral[2].." Bowl With Coals",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "decorations_bowl_with_coals.obj",
+		selection_box = bowl_cbox,
+		collision_box = bowl_cbox,
 		paramtype = "light",
 		light_source = 14,
-		node_box = {
-				type = "fixed",
-				fixed = {
-					{-0.5, -0.35, -0.5, -0.4, 0, 0.5},
-					{-0.5, -0.35, 0.4, 0.5, 0, 0.5},
-					{-0.5, -0.35, -0.5, 0.5, 0, -0.4},
-					{0.4,  -0.35, -0.5, 0.5, 0, 0.5},
-					{-0.4, -0.5, -0.4, 0.4, -0.1, 0.4},
-				},
-			},
 		tiles = {
-			{name="decorations_"..mineral[1].."_coals.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},"decorations_"..mineral[1]..".png"
+			{name="decorations_coals.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},
+			"decorations_"..mineral[1]..".png"
 		},
 		groups = {cracky=3, oddly_breakable_by_hand = 2},
 		sounds = default.node_sound_stone_defaults(),
