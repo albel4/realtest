@@ -152,17 +152,9 @@ function realtest.register_tree(name, TreeDef)
 		sounds = default.node_sound_wood_defaults(),
 		drop = tree.name.."_plank 4",
 		drop_on_dropping = tree.name.."_log",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "trunk_round.obj",
 		paramtype = "light",
-	    node_box = {
-			type = "fixed",
-			fixed = {
-				{-8/16,-8/16,-4/16,8/16,8/16,4/16},
-				{-4/16,-8/16,-8/16,4/16,8/16,8/16},
-				{-7/16,-8/16,-6/16,7/16,8/16,6/16},
-				{-6/16,-8/16,-7/16,6/16,8/16,7/16},
-			},
-	    },
 		on_dig = function(pos, node, digger)
 			minetest.debug("node_dig")
 
@@ -318,17 +310,9 @@ function realtest.register_tree(name, TreeDef)
 		groups = {tree=1,snappy=1,choppy=2,flammable=2,dropping_node=1,drop_on_dig=1},
 		sounds = default.node_sound_wood_defaults(),
 		drop = tree.name.."_log",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "trunk_round.obj",
 		paramtype = "light",
-	    node_box = {
-			type = "fixed",
-			fixed = {
-				{-8/16,-8/16,-4/16,8/16,8/16,4/16},
-				{-4/16,-8/16,-8/16,4/16,8/16,8/16},
-				{-7/16,-8/16,-6/16,7/16,8/16,6/16},
-				{-6/16,-8/16,-7/16,6/16,8/16,7/16},
-			},
-	    },
 	})
 	
 	minetest.register_node(tree.name.."_trunk_top", {
@@ -336,7 +320,8 @@ function realtest.register_tree(name, TreeDef)
 		groups = {tree=1,snappy=1,choppy=2,flammable=2,dropping_node=1,drop_on_dig=1},
 		sounds = default.node_sound_wood_defaults(),
 		drop = tree.name.."_log",
-		drawtype = "nodebox",
+		drawtype = "mesh",
+		mesh = "trunk_round.obj",
 		paramtype = "light",
 		after_dig_node = function(pos, oldnode, oldmetadata, digger)
 			for i = 1,#tree.leaves do
@@ -346,15 +331,6 @@ function realtest.register_tree(name, TreeDef)
 				end
 			end
 		end,
-	    node_box = {
-			type = "fixed",
-			fixed = {
-				{-8/16,-8/16,-4/16,8/16,8/16,4/16},
-				{-4/16,-8/16,-8/16,4/16,8/16,8/16},
-				{-7/16,-8/16,-6/16,7/16,8/16,6/16},
-				{-6/16,-8/16,-7/16,6/16,8/16,7/16},
-			},
-	    },
 	})
 
 	minetest.register_node(tree.name.."_ladder", {
