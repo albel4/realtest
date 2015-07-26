@@ -372,50 +372,45 @@ plantslib:spawn_on_surfaces({
 	light_min = 1,
 })
 
+local anthill_cbox = {
+	type = "fixed",
+	fixed = { -0.5, -0.5, -0.5, 0.5, -0.125, 0.5}
+}
+
 minetest.register_node("farming:ant_hill",{
 	description = "Ant Hill",
-	drawtype = "nodebox",
+	drawtype = "mesh",
+	mesh = "farming_anthill.obj",
+	selection_box = anthill_cbox,
+	collision_box = anthill_cbox,
 	sunlight_propagates = true,
 	tiles = {"farming_anthill.png"},
 	groups = {oddly_breakable_by_hand=3,not_in_creative_inventory=1},
 	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-8/16, -8/16, -8/16, 8/16, -7/16, 8/16},
-			{-7/16, -7/16, -7/16, 7/16, -6/16, 7/16},
-			{-6/16, -6/16, -6/16, 6/16, -5/16, 6/16},
-			{-5/16, -5/16, -5/16, 5/16, -4/16, 5/16},
-			{-4/16, -4/16, -4/16, 4/16, -3/16, 4/16},
-			{-3/16, -3/16, -3/16, 3/16, -2/16, 3/16},
-			{-2/16, -2/16, -2/16, 2/16, -1/16, 2/16},
-			{-1/16, -1/16, -1/16, 1/16, 0/16, 1/16},
-		},
-	},
-		drop = {
-			max_items = 2,
-			items = {
-				{
-					items = {"farming:seed_soy"},
-					rarity = 3,
-				},
-				{
-					items = {"farming:seed_spelt"},
-					rarity = 3,
-				},
-				{
-					items = {"farming:seed_flax"},
-					rarity = 6,
-				},
-				{
-					items = {"farming:seed_soy"},
-					rarity = 6,
-				},
-				{
-					items = {"default:dirt"},
-					rarity = 3,
-				},
-			}
+	drop = {
+		max_items = 2,
+		items = {
+			{
+				items = {"farming:seed_soy"},
+				rarity = 3,
+			},
+			{
+				items = {"farming:seed_spelt"},
+				rarity = 3,
+			},
+			{
+				items = {"farming:seed_flax"},
+				rarity = 6,
+			},
+			{
+				items = {"farming:seed_soy"},
+				rarity = 6,
+			},
+			{
+				items = {"default:dirt"},
+				rarity = 3,
+			},
 		}
+	}
 })
 
