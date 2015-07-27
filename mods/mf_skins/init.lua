@@ -50,10 +50,9 @@ minetest.register_chatcommand("skin", {
     params = "name gender",
     description = "Set a player's default skin to either male (m) or female (f).",
     func = function(name, param)
-		if minetest.get_player_privs(name).basic_privs then
-			-- this line borrowed from worldedit
-			local _,_, username, gender = param:find("^([^%s]+)%s+(.+)$")
-
+		-- this line borrowed from worldedit
+		local _,_, username, gender = param:find("^([^%s]+)%s+(.+)$")
+		if minetest.get_player_privs(name).basic_privs  or name==username then
 			if minetest.auth_table[username] then
 				if gender ~= "f" and gender ~= "m" and gender ~= "nyan" then gender = "m" end
 
