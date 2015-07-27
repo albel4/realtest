@@ -57,8 +57,20 @@ minetest.register_chatcommand("skin", {
 				if gender ~= "f" and gender ~= "m" and gender ~= "nyan" then gender = "m" end
 
 				mf_skins_table["skin_"..username] = gender
-				minetest.chat_send_player(name, "Set skin for "..username.." to "..gender..". The change will take effect next time they join the game.")
+				minetest.chat_send_player(name, "Set skin for "..username.." to "..gender..".")
 				save_skins()
+				local skin_gender = { "player_male.png" }
+				if gender == "f" then
+					skin_gender = { "player_female.png" }
+				elseif gender == "nyan" then
+					skin_gender = { "player_nyan.png" }
+				end
+				local player = minetest.get_player_by_name(username)
+				player:set_properties({
+					visual = "mesh",
+					visual_size = {x=1, y=1},
+					textures = skin_gender
+				})
 			else
 				minetest.chat_send_player(name, "That player does not exist.")
 			end
