@@ -140,7 +140,7 @@ function realtest.register_tree(name, TreeDef)
 	minetest.register_craftitem(tree.name.."_plank", {
 		description = tree.description.." Plank",
 		inventory_image = tree.textures.plank,
-		group = {plank=1},
+		groups = {plank=1},
 	})
 	
 	minetest.register_node(tree.name.."_log", {
@@ -155,6 +155,7 @@ function realtest.register_tree(name, TreeDef)
 		drawtype = "mesh",
 		mesh = "trunk_round.obj",
 		paramtype = "light",
+		paramtype2 = "facedir",
 		on_dig = function(pos, node, digger)
 			minetest.debug("node_dig")
 
@@ -311,6 +312,7 @@ function realtest.register_tree(name, TreeDef)
 		sounds = default.node_sound_wood_defaults(),
 		drop = tree.name.."_log",
 		drawtype = "mesh",
+		paramtype2 = "facedir",
 		mesh = "trunk_round.obj",
 		paramtype = "light",
 	})

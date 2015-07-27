@@ -139,6 +139,7 @@ function realtest.register_slab(name, recipeitem, groups, images, description, s
 		groups = groups,
 		tiles = images,
 		paramtype = "light",
+		paramtype2 = "facedir",
 		node_box = {
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
