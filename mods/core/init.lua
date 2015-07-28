@@ -1,7 +1,7 @@
 realtest = {}
 
 dofile(minetest.get_modpath("core").."/default_config.lua")
-local user_conf = minetest.get_modpath("core").."/../config.lua"
+local user_conf = minetest.get_modpath("core").."/config.lua"
 local f = io.open(user_conf)
 if f then
 	dofile(user_conf)
