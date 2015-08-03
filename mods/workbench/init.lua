@@ -17,6 +17,12 @@
 -- <http://www.gnu.org/licenses/>
 if not minetest.setting_getbool("creative_mode") then
   minetest.register_on_joinplayer(function(player)
+
+	  -- make the craft guide available
+	  if( minetest.get_modpath('unified_inventory')) then
+		return;
+	  end
+
 	  player:get_inventory():set_width("craft", 2)
 	  player:get_inventory():set_size("craft", 2*2)
 	  player:set_inventory_formspec("size[8,7.5]"
