@@ -161,12 +161,13 @@ local function moveTowards(object, player, pickupRadius, attractRadius)
 	object:setacceleration(vector.multiply(direct,A))
 end
 
-if minetest.setting_get("enable_item_pickup") == "true" then
+-- enabled by default, as nil ~= false
+if minetest.setting_getbool("enable_item_pickup") ~= false then
 	local tickets = 0 -- XXX: oy vey
 	moveDelay = 0
 	minetest.register_globalstep(function(dtime)
 		-- it's much more efficient to just restart... no way to unregister_globalstep right?
-		if not minetest.setting_get("enable_item_pickup") then return end
+		if minetest.setting_getbool("enable_item_pickup") == false then return end
 		moveDelay = moveDelay + dtime
 		local pickupRadius = tonumber(minetest.setting_get("pickup_radius"))
 		local attractRadius = tonumber(minetest.setting_get("attract_radius"))
