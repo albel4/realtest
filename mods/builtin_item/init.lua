@@ -9,11 +9,11 @@ minetest.register_entity(":__builtin:item", {
 		spritediv = {x=1, y=1},
 		initial_sprite_basepos = {x=0, y=0},
 		is_visible = false,
-		timer = 0,
 	},
 	
 	itemstring = '',
 	physical_state = true,
+	timer = 0,
 
 	set_item = function(self, itemstring)
 		self.itemstring = itemstring
@@ -62,11 +62,12 @@ minetest.register_entity(":__builtin:item", {
 			if data and type(data) == "table" then
 				self.itemstring = data.itemstring
 				self.always_collect = data.always_collect
-				self.timer = data.timer
-				if not self.timer then
+				if data.timer then
+					self.timer = data.timer
+				else
 					self.timer = 0
 				end
-				self.timer = self.timer+dtime_s
+				self.timer = self.timer + dtime_s
 			end
 		else
 			self.itemstring = staticdata
