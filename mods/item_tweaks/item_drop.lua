@@ -189,7 +189,7 @@ if minetest.setting_get("enable_item_pickup") == "true" then
 					local inv = player:get_inventory()
 
 					for _, object in ipairs(minetest.get_objects_inside_radius(playerPosition, 3)) do
-						if isGood(object) and (object:get_luaentity().dropped_by ~= player:get_player_name() or object:get_luaentity().age > 3) and
+						if isGood(object) and (object:get_luaentity().dropped_by ~= player:get_player_name() or object:get_luaentity().timer > 3) and
 							inv and
 							inv:room_for_item("main", ItemStack(object:get_luaentity().itemstring))
 							then
