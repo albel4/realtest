@@ -5,13 +5,13 @@ function hatches.register_hatch(name, desc, is_wooden)
 	local on_hatch_clicked = function(pos, node, puncher, itemstack)
 		if node.name == "hatches:"..name.."_hatch_opened_top" then
 			minetest.add_node(pos, {name = "hatches:"..name.."_hatch_closed", param2 = node.param2})
-		elseif (node.name == "hatches:"..name.."_hatch_opened_bottom") and 
-			(minetest.get_node({x = pos.x, y = pos.y  + 1, z = pos.z}).name == "air") then		
+		elseif (node.name == "hatches:"..name.."_hatch_opened_bottom") and
+			(minetest.get_node({x = pos.x, y = pos.y  + 1, z = pos.z}).name == "air") then
 			minetest.add_node({x = pos.x, y = pos.y + 1, z = pos.z}, {name = "hatches:"..name.."_hatch_closed", param2 = node.param2})
 			minetest.remove_node(pos)
 		elseif node.name == "hatches:"..name.."_hatch_closed" then
 			if (minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z}).name == "air") and (puncher:getpos().y + 1 >= pos.y) then
-					minetest.add_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "hatches:"..name.."_hatch_opened_bottom", 
+					minetest.add_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "hatches:"..name.."_hatch_opened_bottom",
 						param2 = node.param2})
 					minetest.remove_node(pos)
 			else
@@ -19,8 +19,8 @@ function hatches.register_hatch(name, desc, is_wooden)
 			end
 		end
 	end
-	
-	local texture 
+
+	local texture
 	if is_wooden then
 		texture = "trees_"..name.."_planks.png"
 	else
@@ -29,7 +29,7 @@ function hatches.register_hatch(name, desc, is_wooden)
 
 	minetest.register_node("hatches:"..name.."_hatch_opened_top", {
 		drawtype = "nodebox",
-		tile_images = {texture},
+		tiles = {texture},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = true,
@@ -60,7 +60,7 @@ function hatches.register_hatch(name, desc, is_wooden)
 	minetest.register_node("hatches:"..name.."_hatch_closed", {
 		description = desc.." Hatch",
 		drawtype = "nodebox",
-		tile_images = {texture},
+		tiles = {texture},
 		inventory_image = "hatches_"..name.."_hatch.png",
 		wield_image = "hatches_"..name.."_hatch.png",
 		paramtype = "light",
@@ -90,7 +90,7 @@ function hatches.register_hatch(name, desc, is_wooden)
 
 	minetest.register_node("hatches:"..name.."_hatch_opened_bottom", {
 		drawtype = "nodebox",
-		tile_images = {texture},
+		tiles = {texture},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = true,

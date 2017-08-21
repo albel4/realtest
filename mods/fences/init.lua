@@ -56,7 +56,7 @@ for j, tree_name in ipairs(realtest.registered_trees_list) do
 
 		minetest.register_node("fences:"..tree.name:remove_modname_prefix().."_fence_"..i, {
 			drawtype = "nodebox",
-			tile_images = {tree.textures.planks},
+			tiles = {tree.textures.planks},
 			paramtype = "light",
 			groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,drop_on_dig=1,fence=1,material=j},
 			sunlight_propagates = true,
@@ -76,7 +76,7 @@ for j, tree_name in ipairs(realtest.registered_trees_list) do
 	minetest.register_node("fences:"..tree.name:remove_modname_prefix().."_fence", {
 		description = tree.description.." Fence",
 		drawtype = "nodebox",
-		tile_images = {tree.textures.planks},
+		tiles = {tree.textures.planks},
 		paramtype = "light",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,drop_on_dig=1,fence=1,material=j},
 		sunlight_propagates = true,

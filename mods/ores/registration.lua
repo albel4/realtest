@@ -18,9 +18,9 @@ function realtest.register_ore(name, OreDef)
                 clust_scarcity = 1/(OreDef.chunks_per_volume or 1/3/3/3/2),
                 clust_size = OreDef.chunk_size or 3,
                 clust_num_ores = OreDef.ore_per_chunk or 10,
-                height_min = OreDef.height_min or -30912,
-                height_max = OreDef.height_max or 30912,
-                noise_threshhold = OreDef.noise_min or 1.2,
+                y_min = OreDef.y_min or -30912,
+                y_max = OreDef.y_max or 30912,
+                noise_threshold = OreDef.noise_min or 1.2,
                 noise_params = {offset=0, scale=1, spread={x=100, y=100, z=100}, octaves=3, persist=0.70, seed = OreDef.delta_seed or d_seed},
                 generate = true
         }
@@ -35,7 +35,7 @@ function realtest.register_ore(name, OreDef)
         for i, wherein in ipairs(ore.wherein) do
                 local wherein_ = wherein:gsub(":","_")
                 local wherein_textures = {}
-                if minetest.registered_nodes[wherein].tiles or minetest.registered_nodes[wherein].tile_images then
+                if minetest.registered_nodes[wherein].tiles or minetest.registered_nodes[wherein].tiles then
                         for _, texture in ipairs(minetest.registered_nodes[wherein].tiles) do
                                 table.insert(wherein_textures, texture.."^"..name_..".png")
                         end
@@ -147,7 +147,7 @@ ores.desc_list = {
 }
 
 for _, ore in ipairs(ores.list) do
-	realtest.register_ore("ores:"..ore, {description = ores.desc_list[_]}) 
+	realtest.register_ore("ores:"..ore, {description = ores.desc_list[_]})
 end
 
 realtest.register_ore("ores:native_copper", {
@@ -162,37 +162,37 @@ realtest.register_ore("ores:native_gold", {
 
 realtest.register_ore("ores:lignite", {
 	description = "Lignite",
-	height_max = -500,
-	height_min = -3000,
+	y_max = -500,
+	y_min = -3000,
 	ore_per_chunk = 15,
 	chunks_per_volume = 1/3/3/3,
 })
 
 realtest.register_ore("ores:bituminous_coal", {
 	description = "Bituminous Coal",
-	height_max = -3000,
-	height_min = -6000,
+	y_max = -3000,
+	y_min = -6000,
 	ore_per_chunk = 15,
 	chunks_per_volume = 1/3/3/3,
 })
 
 realtest.register_ore("ores:anthracite", {
 	description = "Anthracite",
-	height_max = -6000,
-	height_min = -8000,
+	y_max = -6000,
+	y_min = -8000,
 	ore_per_chunk = 15,
 	chunks_per_volume = 1/3/3/3,
 })
 
 realtest.register_ore("ores:graphite", {
 	description = "Graphite",
-	height_max = -8000,
+	y_max = -8000,
 	ore_per_chunk = 15,
 })
 
 minetest.register_node("ores:sulfur", {
 	description = "Sulfur Ore",
-	tile_images = {"default_stone.png^ores_sulfur.png"},
+	tiles = {"default_stone.png^ores_sulfur.png"},
 	particle_image = {"minerals_sulfur.png"},
 	paramtype = "light",
 	groups = {cracky=3,drop_on_dig=1,dig_immediate=2},
@@ -212,7 +212,7 @@ minetest.register_node("ores:sulfur", {
 
 minetest.register_node("ores:peat", {
 	description = "Peat",
-	tile_images = {"ores_peat.png"},
+	tiles = {"ores_peat.png"},
 	particle_image = {"ores_peat.png"},
 	groups = {crumbly=3,drop_on_dig=1,falling_node=1},
 	sounds = default.node_sound_dirt_defaults(),

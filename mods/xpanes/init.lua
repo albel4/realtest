@@ -71,7 +71,7 @@ for i = 1, 15 do
 	end
 	minetest.register_node("xpanes:pane_"..i, {
 		drawtype = "nodebox",
-		tile_images = {"xpanes_white.png", "xpanes_white.png", texture},
+		tiles = {"xpanes_white.png", "xpanes_white.png", texture},
 		paramtype = "light",
 		groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3,drop_on_dig=1},
 		drop = "xpanes:pane",
@@ -89,7 +89,7 @@ end
 
 minetest.register_node("xpanes:pane", {
 	description = "Glass Pane",
-	tile_images = {"xpanes_space.png"},
+	tiles = {"xpanes_space.png"},
 	inventory_image = "xpanes_pane.png",
 	wield_image = "xpanes_pane.png",
 	node_placement_prediction = "",
