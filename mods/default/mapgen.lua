@@ -8,6 +8,7 @@ minetest.register_alias("mapgen_air", "air")
 minetest.register_alias("mapgen_stone", "default:stone")
 minetest.register_alias("mapgen_apple", "default:apple")
 minetest.register_alias("mapgen_water_source", "default:water_source")
+minetest.register_alias("mapgen_river_water_source", "default:water_source")
 minetest.register_alias("mapgen_dirt", "default:dirt")
 minetest.register_alias("mapgen_sand", "default:sand")
 minetest.register_alias("mapgen_gravel", "default:gravel")
@@ -160,4 +161,3 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 	end
 end)
-

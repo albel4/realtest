@@ -94,6 +94,14 @@ for i, metal in ipairs(metals.list) do
 		level = metals.levels[i],
 		material = metal,
 	})
+	-- receipe for coin production
+	realtest.register_anvil_recipe({
+		item1 = "metals:gold_sheet",
+		output = "money:coin 15",
+		level = metals.levels[i],
+		instrument = "chisel",
+		material = "gold",
+	})
 end
 -- general receipes (for flux production; used for welding)
 realtest.register_anvil_recipe({
@@ -105,13 +113,13 @@ realtest.register_anvil_recipe({
 	output = "minerals:flux 4"
 })
 -- receipe for coin production
-realtest.register_anvil_recipe({
-	item1 = "metals:gold_sheet",
-	output = "money:coin 15",
-	level = metals.levels[i],
-	instrument = "chisel",
-	material = "gold",
-})
+-- realtest.register_anvil_recipe({
+-- 	item1 = "metals:gold_sheet",
+-- 	output = "money:coin 15",
+-- 	level = metals.levels[i],
+-- 	instrument = "chisel",
+-- 	material = "gold",
+-- })
 --Pig iron --> Wrought iron
 realtest.register_anvil_recipe({
 	item1 = "metals:pig_iron_ingot",
@@ -120,8 +128,8 @@ realtest.register_anvil_recipe({
 	material = "wrought_iron",
 })
 --Instruments
-local anvil_instruments = 
-	{{"axe", "_ingot"}, 
+local anvil_instruments =
+	{{"axe", "_ingot"},
 	 {"pick", "_ingot"},
 	 {"shovel", "_ingot"},
 	 {"spear", "_ingot"},
@@ -268,7 +276,7 @@ for _, anvil in ipairs(anvils) do
 			end
 			local meta = minetest.env:get_meta(pos)
 			local inv = meta:get_inventory()
-	
+
 			local src1, src2 = inv:get_stack("src1", 1), inv:get_stack("src2", 1)
 			local instrument, flux = inv:get_stack("hammer", 1), inv:get_stack("flux", 1)
 			local output = inv:get_stack("output", 1)
@@ -321,7 +329,7 @@ for _, anvil in ipairs(anvils) do
 							end
 							return
 						end
-					end 
+					end
 				end
 			end
 			if fields["buttonForge"] then
@@ -381,7 +389,7 @@ realtest.show_craft_guide_anvil = function( player, formname, fields)
 	if( plan.type and plan.type=="weld" ) then
 		how_to = "Weld";
 	end
-		
+
 	local formspec =
 		"size[12,8]"..
 		"label[1.5,-0.2;"..how_to.." "..tostring(stack:get_count()).."x "..name.." this way (click on "..how_to.."):]"..
@@ -445,7 +453,7 @@ realtest.show_craft_guide_anvil = function( player, formname, fields)
 			end
 		end
 		local instrument_material = "copper"; -- fallback
-		if( found ) then 
+		if( found ) then
 			instrument_material = instruments.materials[ found ];
 		end
 		-- the instrument may need to be made out of a diffrent material
@@ -458,12 +466,12 @@ realtest.show_craft_guide_anvil = function( player, formname, fields)
 	if( plan.type and plan.type=="weld") then
 		formspec = formspec.."item_image[6.0,2.0;1,1;minerals:flux]";
 	end
-		
+
 
 	-- show a list of all receipes to select from
 	local i = 1;
 	for _, v in ipairs(realtest.registered_anvil_recipes) do
-		if( v and not( v.material ) or v.material == fields.material) then 
+		if( v and not( v.material ) or v.material == fields.material) then
 			formspec = formspec..
 				"item_image_button["..tostring((i-1)%8)..","..
 					      tostring(4+math.floor((i-1)/8))..";1,1;"..

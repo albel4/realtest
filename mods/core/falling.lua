@@ -43,7 +43,7 @@ function nodeupdate(pos)
 	for x = -1,1 do
 		for y = -1,1 do
 			for z = -1,1 do
-				pos2 = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
+				local pos2 = {x=pos.x+x, y=pos.y+y, z=pos.z+z}
 				nodeupdate_single(pos2)
 			end
 		end
@@ -99,6 +99,7 @@ realtest.register_on_updatenode(function(pos, node)
 				minetest.registered_nodes[node.name].on_falling(pos, node)
 			else
 				minetest.remove_node(pos)
+				--print(dump(node.name))
 				spawn_falling_node(pos, node.name)
 			end
 			nodeupdate(pos)

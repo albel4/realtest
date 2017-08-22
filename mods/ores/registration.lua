@@ -2,7 +2,7 @@ realtest.registered_ores = {}
 realtest.registered_ores_list = {}
 local d_seed = 0
 local function copytable(t)
-	t2 = {}
+	local t2 = {}
 	for k,i in pairs(t) do
 		t2[k] = i
 	end
