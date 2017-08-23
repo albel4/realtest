@@ -100,7 +100,7 @@ realtest.register_on_updatenode(function(pos, node)
 			else
 				minetest.remove_node(pos)
 				--print(dump(node.name))
-				spawn_falling_node(pos, node.name)
+				minetest.spawn_falling_node(pos, node.name)
 			end
 			nodeupdate(pos)
 		end
