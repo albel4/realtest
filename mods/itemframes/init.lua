@@ -212,9 +212,9 @@ function itemframes.register_pedestal(subname, recipeitem, groups, images, descr
 	minetest.register_craft({
 		output = 'itemframes:pedestal_' .. subname,
 		recipe = {
-			{recipeitem, recipeitem, recipeitem},
+			{'', '', ''},
 			{'', recipeitem, ''},
-			{recipeitem, recipeitem, recipeitem},
+			{'', recipeitem, ''},
 		}
 	})
 end
