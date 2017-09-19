@@ -447,6 +447,7 @@ realtest.show_craft_guide_anvil = function( player, formname, fields)
 	if( plan.instrument and plan.instrument ~= "" and minetest.registered_items[ "instruments:"..plan.instrument.."_copper"  ]) then
 		-- find a suitable instrument that can be used to work on this
 		local found = -1;
+		print(dump(plan))
 		for i,v in ipairs( instruments.levels ) do
 			if( found<1 and plan.level <= v ) then
 				found = i;
