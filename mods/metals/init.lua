@@ -188,7 +188,7 @@ for i=1, #metals.list do
 end
 
 --
--- Smelting
+-- Smelting /  выплавка
 --
 
 minetest.register_craftitem("metals:molding_sand_lump", {
