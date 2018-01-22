@@ -318,6 +318,50 @@ minetest.register_node(":default:dirt_with_grass", {
 --Rope
 --
 
+-- Code Rope  by Mirko K. (modified by Temperest, Wulfsdad, kilbith, Jat) (License: GPL).
+
+local function rope_place(itemstack, placer, pointed_thing)
+	if pointed_thing.type == "node" then
+		local pos = pointed_thing.above
+		local oldnode = minetest.get_node(pos)
+		local stackname = itemstack:get_name()
+		if minetest.is_protected(pos, placer:get_player_name()) then
+			return itemstack
+		end
+		while oldnode.name == "air" and not itemstack:is_empty() do
+			local newnode = {name = stackname, param1 = 0}
+			minetest.set_node(pos, newnode)
+			itemstack:take_item()
+			pos.y = pos.y - 1
+			oldnode = minetest.get_node(pos)
+		end
+	end
+	return itemstack
+end
+
+local function rope_remove(pos, oldnode, digger)
+	local num = 0
+	local below = {x=pos.x, y=pos.y, z=pos.z}
+	local digger_inv = digger:get_inventory()
+	for i = 1, 2 do
+		while minetest.get_node(below).name == oldnode.name do
+			minetest.remove_node(below)
+			if i ==1 then
+				below.y = below.y - 1
+			else
+				below.y = below.y + 1
+			end
+			num = num + 1
+		end
+		if i==1 then
+			below.y = below.y + num + 1
+		end
+	end
+	if num == 0 then return end
+	digger_inv:add_item("main", oldnode.name.." "..num)
+	return true
+end
+
 minetest.register_node("farming:rope",{
 	description = "Rope",
 	drawtype = "nodebox",
@@ -329,6 +373,15 @@ minetest.register_node("farming:rope",{
 	paramtype = "light",
 	climbable = true,
 	walkable = false,
+	on_place = rope_place,
+	on_punch = function(pos, node, puncher, pointed_thing)
+		local player_name = puncher:get_player_name()
+		if not minetest.is_protected(pos, player_name) or
+			minetest.get_player_privs(player_name).protection_bypass 
+		then
+			rope_remove(pos, node, puncher)
+		end
+	end,
 	node_box = {
 		type = "fixed",
 		fixed = {
