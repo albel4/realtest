@@ -7,7 +7,14 @@ smelter.smelter_formspec =
 	"list[current_name;fuel;3,1;1,1;]"..
 	"list[current_name;src;0,0;2,2;]"..
 	"list[current_name;dst;6,0;2,2;]"..
-	"list[current_player;main;0,3;8,4;]"
+	"list[current_player;main;0,3;8,4;]"..
+	"listring[current_name;dst]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src]"..
+	"listring[current_player;main]"..
+	"listring[current_name;fuel]"..
+	"listring[current_player;main]"
+	
 
 minetest.register_node("smelter:smelter", {
 	description = "Smelter",
@@ -144,7 +151,13 @@ minetest.register_abm({
 				"list[current_name;fuel;3,1;1,1;]"..
 				"list[current_name;src;0,0;2,2;]"..
 				"list[current_name;dst;6,0;2,2;]"..
-				"list[current_player;main;0,3;8,4;]")
+				"list[current_player;main;0,3;8,4;]"..
+				"listring[current_name;dst]"..
+				"listring[current_player;main]"..
+				"listring[current_name;src]"..
+				"listring[current_player;main]"..
+				"listring[current_name;fuel]"..
+				"listring[current_player;main]")
 			return
 		end
 

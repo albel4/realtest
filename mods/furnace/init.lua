@@ -31,7 +31,30 @@ furnace.formspec =
 	"list[current_name;dst5;4,2;1,1;]"..
 	"image[6.5,0.5;1,1;default_furnace_fire_bg.png]"..
 	"list[current_name;fuel;6.5,1.5;1,1;]"..
-	"list[current_player;main;0,4;8,4;]"
+	"list[current_player;main;0,4;8,4;]"..
+	"listring[current_name;dst1]"..
+	"listring[current_player;main]"..
+	"listring[current_name;fuel]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src1]"..
+	"listring[current_player;main]"..
+	"listring[current_name;dst2]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src2]"..
+	"listring[current_player;main]"..
+	"listring[current_name;dst3]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src3]"..
+	"listring[current_player;main]"..
+	"listring[current_name;dst4]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src4]"..
+	"listring[current_player;main]"..
+	"listring[current_name;dst5]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src5]"..
+	"listring[current_player;main]"
+
 	
 minetest.register_node("furnace:self", {
 	description = "Furnace",
@@ -250,7 +273,30 @@ minetest.register_abm({
 		            "image[6.5,0.5;1,1;furnace_fire_bg.png^[lowpart:"..
 		            (100-percent)..":furnace_fire_fg.png]"..
 					"list[current_name;fuel;6.5,1.5;1,1;]"..
-					"list[current_player;main;0,4;8,4;]")
+					"list[current_player;main;0,4;8,4;]"..
+					"listring[current_name;dst1]"..
+					"listring[current_player;main]"..
+					"listring[current_name;fuel]"..
+					"listring[current_player;main]"..
+					"listring[current_name;src1]"..
+					"listring[current_player;main]"..
+					"listring[current_name;dst2]"..
+					"listring[current_player;main]"..
+					"listring[current_name;src2]"..
+					"listring[current_player;main]"..
+					"listring[current_name;dst3]"..
+					"listring[current_player;main]"..
+					"listring[current_name;src3]"..
+					"listring[current_player;main]"..
+					"listring[current_name;dst4]"..
+					"listring[current_player;main]"..
+					"listring[current_name;src4]"..
+					"listring[current_player;main]"..
+					"listring[current_name;dst5]"..
+					"listring[current_player;main]"..
+					"listring[current_name;src5]"..
+					"listring[current_player;main]"
+					)
 				return
 			end
 
