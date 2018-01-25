@@ -6,7 +6,13 @@ function default.get_oven_active_formspec(pos, percent)
 		"list[current_name;fuel;3.5,1.5;1,1;]"..
 		"list[current_name;src;2,0.5;1,1;]"..
 		"list[current_name;dst;5,0.5;1,1;]"..
-		"list[current_player;main;0,3;8,4;]"
+		"list[current_player;main;0,3;8,4;]"..
+		"listring[current_name;dst]"..
+		"listring[current_player;main]"..
+		"listring[current_name;src]"..
+		"listring[current_player;main]"..
+		"listring[current_name;fuel]"..
+		"listring[current_player;main]"
 	return formspec
 end
 
@@ -16,7 +22,13 @@ default.oven_inactive_formspec =
 	"list[current_name;fuel;3.5,1.5;1,1;]"..
 	"list[current_name;src;2,0.5;1,1;]"..
 	"list[current_name;dst;5,0.5;1,1;]"..
-	"list[current_player;main;0,3;8,4;]"
+	"list[current_player;main;0,3;8,4;]"..
+	"listring[current_name;dst]"..
+	"listring[current_player;main]"..
+	"listring[current_name;src]"..
+	"listring[current_player;main]"..
+	"listring[current_name;fuel]"..
+	"listring[current_player;main]"
 
 minetest.register_node("oven:oven", {
 	description = "Oven",

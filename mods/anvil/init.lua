@@ -238,27 +238,39 @@ for _, anvil in ipairs(anvils) do
 		end,
 		on_construct = function(pos)
 			local meta = minetest.env:get_meta(pos)
-			meta:set_string("formspec", "size[8,7]"..
-					-- some (hopefully) helpful buttons
-					"button[2.0,1.75;1,0.5;guide;Guide]"..
-					"button_exit[5,1.75;1,0.5;quit;Exit]"..
-					"label[2.9,-0.2;Input 1:]"..
-					"label[4.1,-0.2;Input 2:]"..
-					"label[1.0,1.1;Instrument:]"..
-					"label[6.0,1.1;Flux:]"..
-					"label[3.5,2.35;Output]"..
-					-- the rest of the formspec
-					"button[0.5,0.25;1.35,1;buttonForge;Forge]"..
-					"button[1.6,0.25;0.9,1;buttonForge10;x10]"..
-					"list[current_name;src1;2.9,0.25;1,1;]"..
-					"image[3.69,0.22;0.54,1.5;anvil_arrow.png]"..
-					"list[current_name;src2;4.1,0.25;1,1;]"..
-					"button[5.5,0.25;1.35,1;buttonWeld;Weld]"..
-					"button[6.6,0.25;0.9,1;buttonWeld10;x10]"..
-					"list[current_name;hammer;1,1.5;1,1;]"..
-					"list[current_name;output;3.5,1.5;1,1;]"..
-					"list[current_name;flux;6,1.5;1,1;]"..
-					"list[current_player;main;0,3;8,4;]")
+			meta:set_string(
+				"formspec", "size[8,7]"..
+				-- some (hopefully) helpful buttons
+				"button[2.0,1.75;1,0.5;guide;Guide]"..
+				"button_exit[5,1.75;1,0.5;quit;Exit]"..
+				"label[2.9,-0.2;Input 1:]"..
+				"label[4.1,-0.2;Input 2:]"..
+				"label[1.0,1.1;Instrument:]"..
+				"label[6.0,1.1;Flux:]"..
+				"label[3.5,2.35;Output]"..
+				-- the rest of the formspec
+				"button[0.5,0.25;1.35,1;buttonForge;Forge]"..
+				"button[1.6,0.25;0.9,1;buttonForge10;x10]"..
+				"list[current_name;src1;2.9,0.25;1,1;]"..
+				"image[3.69,0.22;0.54,1.5;anvil_arrow.png]"..
+				"list[current_name;src2;4.1,0.25;1,1;]"..
+				"button[5.5,0.25;1.35,1;buttonWeld;Weld]"..
+				"button[6.6,0.25;0.9,1;buttonWeld10;x10]"..
+				"list[current_name;hammer;1,1.5;1,1;]"..
+				"list[current_name;output;3.5,1.5;1,1;]"..
+				"list[current_name;flux;6,1.5;1,1;]"..
+				"list[current_player;main;0,3;8,4;]"..
+				"listring[current_name;output]"..
+				"listring[current_player;main]"..
+				"listring[current_name;hammer]"..
+				"listring[current_player;main]"..
+				"listring[current_name;src1]"..
+				"listring[current_player;main]"..
+				"listring[current_name;src2]"..
+				"listring[current_player;main]"..
+				"listring[current_name;flux]"..
+				"listring[current_player;main]"
+			)
 			meta:set_string("infotext", anvil[2].." Anvil")
 			local inv = meta:get_inventory()
 			inv:set_size("src1", 1)

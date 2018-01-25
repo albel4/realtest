@@ -26,10 +26,15 @@ if not minetest.setting_getbool("creative_mode") then
 	  player:get_inventory():set_width("craft", 2)
 	  player:get_inventory():set_size("craft", 2*2)
 	  player:set_inventory_formspec("size[8,7.5]"
-		  .."list[current_player;main;0,3.5;8,4;]"
-		  .."list[current_player;craft;3,0.5;2,2;]"
-		  .."image[5,1;1,1;workbench_craftarrow.png]"
-		  .."list[current_player;craftpreview;6,1;1,1;]")
+		.."list[current_player;main;0,3.5;8,4;]"
+		.."list[current_player;craft;3,0.5;2,2;]"
+		.."image[5,1;1,1;workbench_craftarrow.png]"
+		.."list[current_player;craftpreview;6,1;1,1;]"
+		.."listring[current_player;craftpreview]"
+		.."listring[current_player;main]"
+		.."listring[current_player;craft]"
+		.."listring[current_player;main]"
+		)
   end)
 end
 
@@ -43,10 +48,14 @@ local update_craft_table = function(pos)
 end
 
 local CRAFTING_FORMSPEC = "size[9,9]"..
-"list[current_player;main;0,5;8,4;]"..
-"list[current_name;craft;2,1;3,3;]"..
-"image[5,2;1,1;workbench_craftarrow.png]"..
-"list[current_name;craftpreview;6,2;1,1;]"
+	"list[current_player;main;0,5;8,4;]"..
+	"list[current_name;craft;2,1;3,3;]"..
+	"image[5,2;1,1;workbench_craftarrow.png]"..
+	"list[current_name;craftpreview;6,2;1,1;]"..
+	"listring[current_name;craftpreview]"..
+	"listring[current_player;main]"..
+	"listring[current_name;craft]"..
+	"listring[current_player;main]"
 
 --Node Registry
 
