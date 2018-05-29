@@ -188,7 +188,7 @@ minetest.register_craft({
 })
 
 for _, anvil in ipairs(anvils) do
-	if anvil[1] ~= "stone" then
+	if anvil[1] ~= "stone" and anvil[1] ~= "desert_stone" then
 		minetest.register_craft({
 			output = "anvil:anvil_"..anvil[1],
 			recipe = {
