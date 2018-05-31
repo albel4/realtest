@@ -1,3 +1,4 @@
+-- Сосульки :) (сталактиты и сталагмиты)
 for i = 1,4 do
 	minetest.register_node("icicles:icicle_"..i, {
 		description = "Icicle "..i,
