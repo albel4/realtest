@@ -42,20 +42,20 @@ function realtest.register_tree(name, TreeDef)
 
 	realtest.registered_trees[name] = tree
 	table.insert(realtest.registered_trees_list, tree.name)
-	
+
 	minetest.register_node(tree.name.."_planks", {
 		description = tree.description.." Planks",
 		tiles = {tree.textures.planks},
 		groups = {planks=1,snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,drop_on_dig=1},
 		sounds = default.node_sound_wood_defaults(),
 	})
-	
+
 	minetest.register_craftitem(tree.name.."_stick", {
 		description = tree.description.." Stick",
 		inventory_image = tree.textures.stick,
 		groups = {stick=1},
 	})
-	
+
 	minetest.register_node(tree.name.."_sapling", {
 		description = tree.description.." Sapling",
 		drawtype = "plantlike",
@@ -69,7 +69,7 @@ function realtest.register_tree(name, TreeDef)
 		groups = {snappy=2,dig_immediate=3,flammable=2,dropping_node=1},
 		sounds = default.node_sound_defaults()
 	})
-	
+
 	minetest.register_node(tree.name.."_writing_table", {
 		description = tree.description.." Writing Table",
 		drawtype = "nodebox",
@@ -138,13 +138,13 @@ function realtest.register_tree(name, TreeDef)
 			},
 		},
 	})
-	
+
 	minetest.register_craftitem(tree.name.."_plank", {
 		description = tree.description.." Plank",
 		inventory_image = tree.textures.plank,
 		groups = {plank=1},
 	})
-	
+
 	minetest.register_node(tree.name.."_log", {
 		description = tree.description.." Log",
 		tiles = tree.textures.trunk,
@@ -189,7 +189,7 @@ function realtest.register_tree(name, TreeDef)
 			local dp = minetest.get_dig_params(def.groups, tp)
 			wielded:add_wear(dp.wear)
 			digger:set_wielded_item(wielded)
-			
+
 			-- Handle drops
 			minetest.handle_node_drops(pos, drops, digger)
 
@@ -200,7 +200,7 @@ function realtest.register_tree(name, TreeDef)
 
 			-- Remove node and update
 			minetest.remove_node(pos)
-			
+
 			-- Run callback
 			if def.after_dig_node then
 				-- Copy pos and node because callback can modify them
@@ -219,7 +219,7 @@ function realtest.register_tree(name, TreeDef)
 			end
 		end,
 	})
-	
+
 	minetest.register_node(tree.name.."_leaves", {
 		description = tree.description.." Leaves",
 		drawtype = "plantlike",
@@ -248,7 +248,7 @@ function realtest.register_tree(name, TreeDef)
 		falling_node_walkable = false,
 		climbable = true,
 	})
-	
+
 	if tree.gen_autumn_leaves then
 		minetest.register_node(tree.name.."_leaves_autumn", {
 			description = tree.description.." Leaves",
@@ -279,7 +279,7 @@ function realtest.register_tree(name, TreeDef)
 			climbable = true,
 		})
 	end
-	
+
 	if tree.gen_winter_leaves then
 		minetest.register_node(tree.name.."_leaves_winter", {
 			description = tree.description.." Leaves",
@@ -306,7 +306,7 @@ function realtest.register_tree(name, TreeDef)
 			climbable = true,
 		})
 	end
-	
+
 	minetest.register_node(tree.name.."_trunk", {
 		description = tree.description.." Trunk",
 		tiles = tree.textures.trunk,
@@ -317,8 +317,11 @@ function realtest.register_tree(name, TreeDef)
 		paramtype2 = "facedir",
 		mesh = "trunk_round.obj",
 		paramtype = "light",
+		on_dig = function(pos, node, digger)
+			realtest.dig_tree(pos, node, tree.name.."_trunk", digger, 20, 2, tree.name.."_log")
+		end,
 	})
-	
+
 	minetest.register_node(tree.name.."_trunk_top", {
 		tiles = tree.textures.trunk,
 		groups = {tree=1,snappy=1,choppy=2,flammable=2,dropping_node=1,drop_on_dig=1},
@@ -393,7 +396,7 @@ function realtest.register_tree(name, TreeDef)
 		groups = {snappy=1,choppy=2,oddly_breakable_by_hand=3,flammable=2},
 		sounds = default.node_sound_wood_defaults(),
 	})
-	
+
 	minetest.register_node(tree.name.."_chest", {
 		description =  tree.description.." Chest",
 		tiles = tree.textures.chest,
@@ -419,14 +422,14 @@ function realtest.register_tree(name, TreeDef)
 			return inv:is_empty("main")
 		end,
 	})
-	
+
 	local function has_locked_chest_privilege(meta, player)
 		if player:get_player_name() ~= meta:get_string("owner") then
 			return false
 		end
 		return true
 	end
-	
+
 	minetest.register_node(tree.name.."_chest_locked", {
 		description = tree.description.." Locked Chest",
 		tiles = tree.textures.locked_chest,
@@ -517,7 +520,7 @@ function realtest.register_tree(name, TreeDef)
 			end
 		end,
 	})
-	
+
 	minetest.register_craft({
 		output = tree.name.."_ladder",
 		recipe = {
@@ -526,7 +529,7 @@ function realtest.register_tree(name, TreeDef)
 			{tree.name.."_stick", "", tree.name.."_stick"},
 		}
 	})
-	
+
 	minetest.register_craft({
 		output = tree.name.."_chest 2",
 		recipe = {
@@ -535,13 +538,13 @@ function realtest.register_tree(name, TreeDef)
 			{tree.name.."_plank", tree.name.."_plank", tree.name.."_plank"},
 		},
 	})
-	
+
 	minetest.register_craft({
 		type = "shapeless",
 		output = tree.name.."_chest_locked",
 		recipe = {"group:lock", tree.name.."_chest"}
 	})
-	
+
 	realtest.register_stair(tree.name.."_planks",nil,nil,nil,tree.description.." Stair")
 	realtest.register_slab(tree.name.."_planks",nil,nil,nil,tree.description.." Slab")
 	minetest.register_craft({
@@ -572,7 +575,7 @@ function realtest.register_tree(name, TreeDef)
 		output = tree.name.."_plank 2",
 		recipe = {{tree.name.."_planks_slab"}}
 	})
-	
+
 	minetest.register_craft({
 		output = "default:sign_wall",
 		recipe = {
@@ -581,7 +584,7 @@ function realtest.register_tree(name, TreeDef)
 			{"", "group:stick", ""},
 		}
 	})
-	
+
 	minetest.register_craft({
 		output = tree.name.."_planks",
 		recipe = {
@@ -589,19 +592,19 @@ function realtest.register_tree(name, TreeDef)
 			{tree.name.."_plank",tree.name.."_plank"}
 		}
 	})
-	
+
 	minetest.register_craft({
 		output = tree.name.."_plank 4",
 		recipe = {{tree.name.."_planks"}}
 	})
-	
+
 	minetest.register_craft({
 		output = tree.name.."_writing_table",
 		recipe = {
 			{"fences:"..tree.name:remove_modname_prefix().."_fence",tree.name.."_planks_slab", "decorations:bookshelf_"..tree.name:remove_modname_prefix()},
 		}
 	})
-	
+
 	minetest.register_craft({
 		output = tree.name.."_chair 2",
 		recipe = {
@@ -610,33 +613,33 @@ function realtest.register_tree(name, TreeDef)
 			{"fences:"..tree.name:remove_modname_prefix().."_fence","fences:"..tree.name:remove_modname_prefix().."_fence"},
 		}
 	})
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = "default:chest",
 		burntime = 40,
 	})
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = "default:chest_locked",
 		burntime = 40,
 	})
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = tree.name.."_stair",
 		burntime = 3.5,
 	})
 	realtest.add_bonfire_fuel(tree.name.."_stair")
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = tree.name.."_slab",
 		burntime = 3.5,
 	})
 	realtest.add_bonfire_fuel(tree.name.."_slab")
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = tree.name.."_plank",
@@ -657,34 +660,34 @@ function realtest.register_tree(name, TreeDef)
 		burntime = 7,
 	})
 	realtest.add_bonfire_fuel(tree.name.."_log")
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = tree.name.."_stick",
 		burntime = 1,
 	})
 	realtest.add_bonfire_fuel(tree.name.."_stick")
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = tree.name.."_sapling",
 		burntime = 5,
 	})
 	realtest.add_bonfire_fuel(tree.name.."_sapling")
-	
+
 	minetest.register_craft({
 		type="cooking",
 		output="minerals:charcoal",
 		recipe=tree.name.."_log",
 		cooktime = 10,
 	})
-	
+
 	minetest.register_craft({
 		type = "cooking",
 		output = "default:torch 2",
 		recipe = tree.name.."_stick"
 	})
-	
+
 	minetest.register_abm({
 		nodenames = {tree.name.."_sapling"},
 		neighbors = tree.grounds,

@@ -1,5 +1,6 @@
 trees = {}
 
+dofile(minetest.get_modpath("trees").."/functions.lua")
 dofile(minetest.get_modpath("trees").."/leavesgen.lua")
 
 function trees.make_tree(pos, tree)
