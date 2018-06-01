@@ -34,13 +34,15 @@ if falling_trees == true then
 						if minetest.get_node(pos1).name == name then
 							minetest.spawn_item(pos1, drop)
 							minetest.remove_node(pos1)
+						elseif minetest.get_node(pos1).name == name.."_top" then
+							minetest.dig_node(pos1)
 						end
 					end
 				end
 				end
 				end
 				return
-			elseif node.name == name then
+			elseif node.name == name or node.name == name.."_top" then
 				minetest.set_node({x = pos.x, y = pos.y-1, z = pos.z}, {name = name})
 			end
 		end
