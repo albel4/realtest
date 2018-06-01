@@ -11,6 +11,10 @@ LIGHT_MAX = 14
 -- Definitions made by this mod that other mods can use too
 default = {}
 
+-- Aliases
+minetest.register_alias("default:sign_wall", "default:sign_wall_wood")
+minetest.register_alias("craftsbooks:crafts_book", "craftguide:book")
+
 -- Load other files
 dofile(minetest.get_modpath("default").."/mapgen.lua")
 
@@ -92,6 +96,23 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craft({
+	output = 'default:sign_wall_wood 3',
+	recipe = {
+		{'group:wood', 'group:wood', 'group:wood'},
+		{'group:wood', 'group:wood', 'group:wood'},
+		{'', 'group:stick', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'default:sign_wall_steel 1',
+	recipe = {
+		{'metals:steel_sheet'},
+		{'group:stick'},
+	}
+})
+
 --
 -- Crafting (tool repair)
 --
@@ -129,6 +150,7 @@ minetest.register_craft({
 	recipe = "default:desert_stone_macadam",
 	cooktime = 5,
 })
+
 --
 -- Fuels
 --
@@ -157,15 +179,65 @@ minetest.register_craft({
 	burntime = 3,
 })
 
+-- minetest.register_craft({
+-- 	type = "fuel",
+-- 	recipe = "default:sign_wall",
+-- 	burntime = 20,
+-- })
+
 minetest.register_craft({
 	type = "fuel",
-	recipe = "default:sign_wall",
+	recipe = "default:sign_wall_wood",
 	burntime = 20,
 })
 
 --
 -- Node definitions
 --
+
+local function register_sign(material, desc, def)
+	minetest.register_node("default:sign_wall_" .. material, {
+		description = desc .. " Sign",
+		drawtype = "nodebox",
+		tiles = {"default_sign_wall_" .. material .. ".png"},
+		inventory_image = "default_sign_" .. material .. ".png",
+		wield_image = "default_sign_" .. material .. ".png",
+		paramtype = "light",
+		paramtype2 = "wallmounted",
+		sunlight_propagates = true,
+		is_ground_content = false,
+		walkable = false,
+		node_box = {
+			type = "wallmounted",
+			wall_top    = {-0.4375, 0.4375, -0.3125, 0.4375, 0.5, 0.3125},
+			wall_bottom = {-0.4375, -0.5, -0.3125, 0.4375, -0.4375, 0.3125},
+			wall_side   = {-0.5, -0.3125, -0.4375, -0.4375, 0.3125, 0.4375},
+		},
+		groups = def.groups,
+		legacy_wallmounted = true,
+		sounds = def.sounds,
+
+		on_construct = function(pos)
+			--local n = minetest.get_node(pos)
+			local meta = minetest.get_meta(pos)
+			meta:set_string("formspec", "field[text;;${text}]")
+		end,
+		on_receive_fields = function(pos, formname, fields, sender)
+			--print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
+			local player_name = sender:get_player_name()
+			if minetest.is_protected(pos, player_name) then
+				minetest.record_protection_violation(pos, player_name)
+				return
+			end
+			local meta = minetest.get_meta(pos)
+			if not fields.text then return end
+			minetest.log("action", (player_name or "") .. " wrote \"" ..
+				fields.text .. "\" to sign at " .. minetest.pos_to_string(pos))
+			meta:set_string("text", fields.text)
+			meta:set_string("infotext", '"' .. fields.text .. '"')
+		end,
+	})
+end
 
 -- Default node sounds
 
@@ -238,6 +310,34 @@ function default.node_sound_glass_defaults(table)
 	return table
 end
 
+function default.node_sound_gravel_defaults(table)
+	table = table or {}
+	table.footstep = table.footstep or
+			{name = "default_gravel_footstep", gain = 0.4}
+	table.dug = table.dug or
+			{name = "default_gravel_footstep", gain = 1.0}
+	table.place = table.place or
+			{name = "default_place_node", gain = 1.0}
+	default.node_sound_defaults(table)
+	return table
+end
+
+function default.node_sound_metal_defaults(table)
+	table = table or {}
+	table.footstep = table.footstep or
+			{name = "default_metal_footstep", gain = 0.4}
+	table.dig = table.dig or
+			{name = "default_dig_metal", gain = 0.5}
+	table.dug = table.dug or
+			{name = "default_dug_metal", gain = 0.5}
+	table.place = table.place or
+			{name = "default_place_node_metal", gain = 0.5}
+	default.node_sound_defaults(table)
+	return table
+end
+
+-- Register nodes
+
 minetest.register_node("default:sand", {
 	description = "Sand",
 	tiles = {"default_sand.png"},
@@ -274,9 +374,7 @@ minetest.register_node("default:gravel", {
 	particle_image = {"default_gravel.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1,drop_on_dig=1},
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_gravel_footstep", gain=0.45},
-	}),
+	sounds = default.node_sound_gravel_defaults(),
 })
 
 minetest.register_node("default:sandstone", {
@@ -323,6 +421,18 @@ minetest.register_node("default:cactus", {
 	},
 	sounds = default.node_sound_wood_defaults(),
 })
+
+register_sign("wood", "Wooden", {
+	sounds = default.node_sound_wood_defaults(),
+	groups = {choppy = 2, attached_node = 1, flammable = 2, oddly_breakable_by_hand = 3}
+})
+
+register_sign("steel", "Steel", {
+	sounds = default.node_sound_metal_defaults(),
+	groups = {cracky = 2, attached_node = 1}
+})
+
+-- Regisrer ABM
 
 minetest.register_abm({
 	nodenames = {"default:cactus"},
@@ -596,47 +706,48 @@ minetest.register_node("default:torch", {
 	sounds = default.node_sound_defaults(),
 })
 
-minetest.register_node("default:sign_wall", {
-	description = "Sign",
-	drawtype = "signlike",
-	tiles = {"default_sign_wall.png"},
-	inventory_image = "default_sign_wall.png",
-	wield_image = "default_sign_wall.png",
-	paramtype = "light",
-	paramtype2 = "wallmounted",
-	sunlight_propagates = true,
-	is_ground_content = false,
-	walkable = false,
-	selection_box = {
-		type = "wallmounted",
-		--wall_top = <default>
-		--wall_bottom = <default>
-		--wall_side = <default>
-	},
-	groups = {choppy=2,dig_immediate=2,attached_node=1},
-	legacy_wallmounted = true,
-	sounds = default.node_sound_defaults(),
-	on_construct = function(pos)
-		--local n = minetest.get_node(pos)
-		local meta = minetest.get_meta(pos)
-		meta:set_string("formspec", "field[text;;${text}]")
-		meta:set_string("infotext", "\"\"")
-	end,
-	on_receive_fields = function(pos, formname, fields, sender)
-		--print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
-		local meta = minetest.get_meta(pos)
-		meta:set_string("formspec", "field[text;;${text}]")
-		if minetest.is_protected(pos, sender:get_player_name()) then
-			minetest.record_protection_violation(pos, sender:get_player_name())
-			return
-		end
-		if not fields.text then return end
-		minetest.log("action", (sender:get_player_name() or "").." wrote \""..fields.text..
-				"\" to sign at "..minetest.pos_to_string(pos))
-		meta:set_string("text", fields.text)
-		meta:set_string("infotext", '"'..fields.text..'"')
-	end,
-})
+-- minetest.register_node("default:sign_wall", {
+-- 	description = "Sign",
+-- 	drawtype = "signlike",
+-- 	tiles = {"default_sign_wall.png"},
+-- 	inventory_image = "default_sign_wall.png",
+-- 	wield_image = "default_sign_wall.png",
+-- 	paramtype = "light",
+-- 	paramtype2 = "wallmounted",
+-- 	sunlight_propagates = true,
+-- 	is_ground_content = false,
+-- 	walkable = false,
+-- 	selection_box = {
+-- 		type = "wallmounted",
+-- 		--wall_top = <default>
+-- 		--wall_bottom = <default>
+-- 		--wall_side = <default>
+-- 	},
+-- 	groups = {choppy=2,dig_immediate=2,attached_node=1},
+-- 	legacy_wallmounted = true,
+-- 	sounds = default.node_sound_defaults(),
+-- 	on_construct = function(pos)
+-- 		--local n = minetest.get_node(pos)
+-- 		local meta = minetest.get_meta(pos)
+-- 		meta:set_string("formspec", "field[text;;${text}]")
+-- 		meta:set_string("infotext", "\"\"")
+-- 	end,
+-- 	on_receive_fields = function(pos, formname, fields, sender)
+-- 		--print("Sign at "..minetest.pos_to_string(pos).." got "..dump(fields))
+-- 		local meta = minetest.get_meta(pos)
+-- 		meta:set_string("formspec", "field[text;;${text}]")
+-- 		if minetest.is_protected(pos, sender:get_player_name()) then
+-- 			minetest.record_protection_violation(pos, sender:get_player_name())
+-- 			return
+-- 		end
+-- 		if not fields.text then return end
+-- 		minetest.log("action", (sender:get_player_name() or "").." wrote \""..fields.text..
+-- 				"\" to sign at "..minetest.pos_to_string(pos))
+-- 		meta:set_string("text", fields.text)
+-- 		meta:set_string("infotext", '"'..fields.text..'"')
+-- 	end,
+-- })
+
 minetest.register_node("default:dry_shrub", {
 	description = "Dry Shrub",
 	drawtype = "plantlike",
