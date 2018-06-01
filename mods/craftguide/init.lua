@@ -7,7 +7,7 @@ local reg_items = mt.registered_items
 craftguide.path = minetest.get_modpath("craftguide")
 
 -- Intllib
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+local S = dofile(craftguide.path .. "/intllib.lua")
 craftguide.intllib = S
 
 -- Lua 5.3 removed `table.maxn`, use this alternative in case of breakage:
