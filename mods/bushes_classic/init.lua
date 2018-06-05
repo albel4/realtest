@@ -4,6 +4,7 @@
 -- License:  WTFPL
 
 local S = plantslib.intllib
+local SL = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 bushes_classic = {}
 
@@ -55,4 +56,4 @@ plantslib:spawn_on_surfaces({
 
 minetest.register_alias("bushes:basket_pies", "bushes:basket_strawberry")
 
-print(S("[Bushes] Loaded."))
+print(SL("[Bushes] Loaded."))

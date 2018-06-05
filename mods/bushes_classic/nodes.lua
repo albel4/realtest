@@ -1,5 +1,5 @@
 local S = plantslib.intllib
-
+local SL = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 plantlife_bushes = {}
 
 -- TODO: add support for nodebreakers? those dig like mese picks
@@ -11,7 +11,7 @@ plantlife_bushes.after_dig_node = function(pos, oldnode, oldmetadata, digger)
 	-- find out which bush type we are dealing with
 	local bush_name   = ""
 	local can_harvest = false
-	
+
 	if oldnode.name == "bushes:fruitless_bush" then
 		-- this bush has not grown fruits yet (but will eventually)
 		bush_name = oldmetadata.fields.bush_type
@@ -149,7 +149,7 @@ for i, bush_name in ipairs(bushes_classic.bushes) do
 	local desc = bushes_classic.bushes_descriptions[i]
 
 	minetest.register_node(":bushes:basket_"..bush_name, {
-		description = S("Basket with "..desc.." Pies"),
+		description = SL("Basket with "..desc.." Pies"),
 		drawtype = "mesh",
 		mesh = "bushes_basket_full.obj",
 		tiles = {
@@ -177,7 +177,7 @@ for i, bush_name in ipairs(bushes_classic.bushes) do
 	end
 
 	minetest.register_node(":bushes:" .. bush_name .. "_bush", {
-		description = S(desc.." Bush"),
+		description = SL(desc.." Bush"),
 		drawtype = "mesh",
 		mesh = "bushes_bush.obj",
 		tiles = {"bushes_bush_"..bush_name..".png"},
@@ -202,7 +202,7 @@ for i, bush_name in ipairs(bushes_classic.bushes) do
 end
 
 minetest.register_node(":bushes:basket_empty", {
-    description = S("Basket"),
+    description = SL("Basket"),
 	drawtype = "mesh",
 	mesh = "bushes_basket_empty.obj",
 	tiles = { "bushes_basket.png" },
@@ -210,5 +210,3 @@ minetest.register_node(":bushes:basket_empty", {
 	paramtype2 = "facedir",
     groups = { dig_immediate = 3 },
 })
-
-

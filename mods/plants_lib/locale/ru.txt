@@ -1,0 +1,5 @@
+# Template
+
+someone = кто то
+Sorry, %s owns that spot. = Извините, %s владеет этим местом.
+[Plantlife Library] Loaded = [Plantlife Library] Загружен

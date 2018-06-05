@@ -1,0 +1,43 @@
+# RU
+
+Strawberry = Клубника
+Blackberry = Ежевика
+Blueberry = Черника
+Raspberry = Малина
+Gooseberry = Крыжовник
+Mixed Berry = Ягодный микс
+Basket with Strawberry Pies = Корзина с клубничными пирогами
+Basket with Blackberry Pies = Корзина с ежевичными пирогами
+Basket with Blueberry Pies = Корзина с черничными пирогами
+Basket with Raspberry Pies = Корзина с малиновыми пирогами
+Basket with Gooseberry Pies = Корзина с пирогами с крыжовником
+Basket with Mixed Berry Pies = Корзина с ягодными пирогами
+currently fruitless = без ягод
+Strawberry Bush = Куст клубники
+Blackberry Bush = Куст ежевики
+Blueberry Bush = Куст черники
+Raspberry Bush = Куст малины
+Gooseberry Bush = Куст крыжовника
+Mixed Berry Bush = Ягодный куст
+Basket = Корзина
+Sugar = Сахар
+Raw Strawberry pie = Сырой клубничный пирог
+Raw Blackberry pie = Сырой ежевичный пирог
+Raw Blueberry pie = Сырой черничный пирог
+Raw Raspberry pie = Сырой малиновый пирог
+Raw Gooseberry pie = Сырой пирог с крыжовником
+Raw Mixed Berry pie = Сырой ягодный пирог
+Cooked Strawberry pie = Испеченный клубничный пирог
+Cooked Blackberry pie = Испеченный ежевичный пирог
+Cooked Blueberry pie = Испеченный черничный пирог
+Cooked Raspberry pie = Испеченный малиновый пирог
+Cooked Gooseberry pie = Испеченный пирог с крыжовником
+Cooked Mixed Berry pie = Испеченный ягодный пирог
+Slice of Strawberry pie = Кусочек клубничного пирога
+Slice of Blackberry pie = Кусочек ежевичного пирога
+Slice of Blueberry pie = Кусочек черничного пирога
+Slice of Raspberry pie = Кусочек малинового пирогв
+Slice of Gooseberry pie = Кусочек пирога с крыжовником
+Slice of Mixed Berry pie = Кусочек ягодного пирога
+
+[Bushes] Loaded. = [Кустарники] Загружен.

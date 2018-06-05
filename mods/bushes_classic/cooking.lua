@@ -1,5 +1,5 @@
 local S = plantslib.intllib
-
+local SL = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 -- Basket
 
 minetest.register_craft({
@@ -13,7 +13,7 @@ minetest.register_craft({
 -- Sugar
 
 minetest.register_craftitem(":bushes:sugar", {
-    description = S("Sugar"),
+    description = SL("Sugar"),
     inventory_image = "bushes_sugar.png",
     on_use = minetest.item_eat(1),
 	groups = {food_sugar=1}
@@ -30,7 +30,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	local desc = bushes_classic.bushes_descriptions[i]
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_raw", {
-		description = S("Raw "..desc.." pie"),
+		description = SL("Raw "..desc.." pie"),
 		inventory_image = "bushes_"..berry.."_pie_raw.png",
 		on_use = minetest.item_eat(4),
 	})
@@ -42,7 +42,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 			-- the item from that mod, but redefine it so it has the right
 			-- groups and does't look so ugly!
 			minetest.register_craftitem(":farming_plus:strawberry_item", {
-				description = S("Strawberry"),
+				description = SL("Strawberry"),
 				inventory_image = "bushes_"..berry..".png",
 				on_use = minetest.item_eat(2),
 				groups = {berry=1, strawberry=1}
@@ -68,7 +68,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	-- Cooked pie
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_cooked", {
-		description = S("Cooked "..desc.." pie"),
+		description = SL("Cooked "..desc.." pie"),
 		inventory_image = "bushes_"..berry.."_pie_cooked.png",
 		on_use = minetest.item_eat(6),
 	})
@@ -83,7 +83,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	-- slice of pie
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_slice", {
-		description = S("Slice of "..desc.." pie"),
+		description = SL("Slice of "..desc.." pie"),
 		inventory_image = "bushes_"..berry.."_pie_slice.png",
 		on_use = minetest.item_eat(1),
 	})
@@ -114,5 +114,3 @@ minetest.register_craft({
 	{ "group:berry", "group:berry", "group:berry" },
 	},
 })
-
-

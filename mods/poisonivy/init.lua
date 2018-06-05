@@ -1,6 +1,6 @@
 -- This file supplies poison ivy for the plantlife modpack
 -- Last revision:  2013-01-24
-
+local SL = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 local S = plantslib.intllib
 
 local SPAWN_DELAY = 1000
@@ -21,7 +21,7 @@ local walls_list = {
 	"default:stone_with_iron"
 },
 minetest.register_node('poisonivy:seedling', {
-	description = S("Poison ivy (seedling)"),
+	description = SL("Poison ivy (seedling)"),
 	drawtype = 'plantlike',
 	waving = 1,
 	tiles = { 'poisonivy_seedling.png' },
@@ -36,7 +36,7 @@ minetest.register_node('poisonivy:seedling', {
 })
 
 minetest.register_node('poisonivy:sproutling', {
-	description = S("Poison ivy (sproutling)"),
+	description = SL("Poison ivy (sproutling)"),
 	drawtype = 'plantlike',
 	waving = 1,
 	tiles = { 'poisonivy_sproutling.png' },
@@ -51,7 +51,7 @@ minetest.register_node('poisonivy:sproutling', {
 })
 
 minetest.register_node('poisonivy:climbing', {
-	description = S("Poison ivy (climbing plant)"),
+	description = SL("Poison ivy (climbing plant)"),
 	drawtype = 'signlike',
 	tiles = { 'poisonivy_climbing.png' },
 	inventory_image = 'poisonivy_climbing.png',
@@ -100,4 +100,4 @@ plantslib:grow_plants({
 	ground_nodes = {"default:dirt_with_grass"}
 })
 
-print(S("[Poison Ivy] Loaded."))
+print(SL("[Poison Ivy] Loaded."))

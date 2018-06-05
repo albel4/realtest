@@ -1,0 +1,14 @@
+# Template
+
+Waterlily = Водяная лилия
+Seaweed = Водоросли
+Potted Rose = горшечная роза
+Potted Tulip = горшечный тюльпан
+Potted Yellow Dandelion = горшечный желтый одуванчик
+Potted White Dandelion = горшечный белоснежный одуванчик
+Potted Blue Geranium = горшечная голубая герань
+Potted Viola = горшечная фиалка
+Flower Pot = цветочный горшок
+Sunflower = Подсолнух
+
+[Flowers] Loaded. = [Flowers] Загружен

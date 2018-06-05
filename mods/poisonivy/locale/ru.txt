@@ -1,0 +1,7 @@
+# Template
+
+Poison ivy (seedling) = Ядовитый плющ (саженец)
+Poison ivy (sproutling) = Ядовитый плющ (росток)
+Poison ivy (climbing plant) = Ядовитый плющ (вьющееся растение)
+
+[Poison Ivy] Loaded. = [Ядовитый плющ] Загружен.

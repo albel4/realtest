@@ -6,6 +6,8 @@
 -- Splizard's snow mod.
 --
 
+--local SL = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+
 -- Various settings - most of these probably won't need to be changed
 
 plantslib = {}
@@ -125,7 +127,7 @@ end
 
 function plantslib:register_generate_plant(biomedef, nodes_or_function_or_model)
 
-	-- if calling code passes an undefined node for a surface or 
+	-- if calling code passes an undefined node for a surface or
 	-- as a node to be spawned, don't register an action for it.
 
 	if type(nodes_or_function_or_model) == "string"
@@ -140,7 +142,7 @@ function plantslib:register_generate_plant(biomedef, nodes_or_function_or_model)
 		plantslib:dbg("Warning: Registered function call using deprecated string method: "..dump(nodes_or_function_or_model))
 	end
 
-	if biomedef.check_air == false then 
+	if biomedef.check_air == false then
 		plantslib:dbg("Register no-air-check mapgen hook: "..dump(nodes_or_function_or_model))
 		plantslib.actionslist_no_aircheck[#plantslib.actionslist_no_aircheck + 1] = { biomedef, nodes_or_function_or_model }
 		local s = biomedef.surface
@@ -216,7 +218,7 @@ function plantslib:populate_surfaces(biome, nodes_or_function_or_model, snodes, 
 			else
 				if string.find(biome_surfaces_string, "group:") then
 					for j = 1, #biome.surface do
-						if string.find(biome.surface[j], "^group:") 
+						if string.find(biome.surface[j], "^group:")
 						  and minetest.get_item_group(dest_node.name, biome.surface[j]) then
 							surface_ok = true
 							break
@@ -495,13 +497,13 @@ function plantslib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 		chance = biome.spawn_chance,
 		neighbors = biome.neighbors,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
+			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }
 			local n_top = minetest.get_node(p_top)
 			local perlin_fertile_area = minetest.get_perlin(biome.seed_diff, perlin_octaves, perlin_persistence, perlin_scale)
 			local noise1 = perlin_fertile_area:get2d({x=p_top.x, y=p_top.z})
 			local noise2 = plantslib.perlin_temperature:get2d({x=p_top.x, y=p_top.z})
 			local noise3 = plantslib.perlin_humidity:get2d({x=p_top.x+150, y=p_top.z+50})
-			if noise1 > biome.plantlife_limit 
+			if noise1 > biome.plantlife_limit
 			  and noise2 <= biome.temp_min
 			  and noise2 >= biome.temp_max
 			  and noise3 <= biome.humidity_min
@@ -544,7 +546,7 @@ function plantslib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 
 							elseif biome.spawn_on_side then
 								local onside = plantslib:find_open_side(pos)
-								if onside then 
+								if onside then
 									minetest.set_node(onside.newpos, { name = plant_to_spawn, param2 = onside.facedir })
 								end
 							elseif biome.spawn_on_bottom then
@@ -650,7 +652,7 @@ function plantslib:find_adjacent_wall(pos, verticals, randomflag)
 	local verts = dump(verticals)
 	if randomflag then
 		local walltab = {}
-		
+
 		if string.find(verts, minetest.get_node({ x=pos.x-1, y=pos.y, z=pos.z   }).name) then walltab[#walltab + 1] = 3 end
 		if string.find(verts, minetest.get_node({ x=pos.x+1, y=pos.y, z=pos.z   }).name) then walltab[#walltab + 1] = 2 end
 		if string.find(verts, minetest.get_node({ x=pos.x  , y=pos.y, z=pos.z-1 }).name) then walltab[#walltab + 1] = 5 end
@@ -732,4 +734,3 @@ minetest.after(0, function()
 	print("[Plants Lib] Registered a total of "..(#plantslib.surfaceslist_aircheck)+(#plantslib.surfaceslist_no_aircheck).." surface types to be evaluated, spread")
 	print("[Plants Lib] across "..#plantslib.actionslist_aircheck.." actions with air-checking and "..#plantslib.actionslist_no_aircheck.." actions without.")
 end)
-
